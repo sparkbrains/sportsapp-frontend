@@ -1,0 +1,87 @@
+@media screen and (max-width: 959px){
+    .MuiGrid-root.coachmg.MuiGrid-container.MuiGrid-spacing-xs-3 {
+        display: flex !important;
+    }
+}
+@media screen and (max-width: 714px){
+    .coachmg .makeStyles-searchIcon-16 {
+        padding-left: 108px;
+    }
+    .coachmg .makeStyles-searchIcon-21 {
+        padding-left: 108px;
+    }
+        .coachmg .makeStyles-searchIcon-26{
+            padding-left: 108px;
+        }
+}
+@media screen and (max-width: 654px){
+.coachmg .makeStyles-searchIcon-16 {
+    padding-left: 86px;
+}
+.coachmg .makeStyles-searchIcon-21{
+    padding-left: 86px;
+}
+.coachmg .makeStyles-searchIcon-26 {
+    padding-left: 86px;
+}
+}
+
+@media screen and (max-width: 645px){
+.coachmg .makeStyles-searchIcon-16 {
+    padding-left: 80px;
+}
+.coachmg .makeStyles-searchIcon-21 {
+    padding-left: 80px;
+}
+.coachmg .makeStyles-searchIcon-26 {
+    padding-left: 80px;
+}
+}
+@media screen and (max-width: 546px){
+    .coachmg .makeStyles-searchIcon-16 {
+        padding-left: 85px;
+    }
+    .coachmg .makeStyles-searchIcon-21 {
+        padding-left: 85px;
+    }
+    .coachmg .makeStyles-searchIcon-26 {
+        padding-left: 85px;
+    }
+}
+@media screen and (max-width: 515px){
+    .MuiGrid-root.coachmg.MuiGrid-container.MuiGrid-spacing-xs-3 {
+        display: grid !important;
+    }
+    .coachmg .makeStyles-search-15 {
+        width: 353px !important;
+    }
+    .coachmg .makeStyles-search-20 {
+        width: 353px !important;
+    }
+    .coachmg .makeStyles-search-25 {
+        width: 353px !important;
+    }
+}
+
+
+.coachmg .makeStyles-search-15 {
+    width: 180px;
+    height: 38px ;
+}
+.coachmg .makeStyles-search-20 {
+    width: 180px;
+    height: 38px ;
+}
+.coachmg .makeStyles-search-25 {
+    width: 180px;
+    height: 38px ;
+}
+.coachmgbtn {
+    width: 120px;
+}
+   
+ 
+
+
+
+

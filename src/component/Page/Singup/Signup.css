@@ -1,0 +1,113 @@
+.InputLabel{
+    margin-top: 13px;
+    color: rgba(12,11,69,255);
+    display: flex;
+}
+.bgimg1 {
+  /* background-image: url(${background}); */
+  background-image: url("/public/img123.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+}
+
+.Sign{
+    color: rgba(12,11,69,255);
+  font-size: large;
+  font-weight: 900;
+}
+.p{
+    margin-top: 8px;
+    color: rgba(12,11,69,255);
+}
+.Input{
+   
+    color: rgba(12,11,69,255);
+    padding: 5px;
+}
+.icon{
+    color: rgba(12,11,69,255);
+    margin-right: 5px;
+    font-size: 20px !important;
+}
+.swal-button {
+  background-color: rgb(12, 11, 69) !important;
+  color: #fff;
+}
+.Sig{
+    color: white;
+  font-size: 60px;
+  font-weight: 900;
+  align-items: center;
+}
+.form {
+  width: 508px;
+  margin-left: auto;
+  margin-right: auto;
+}
+h2.signupheading {
+  margin-bottom: 0px;
+}
+@media screen and (max-width: 959px){
+.bgimg1 {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
+    background: linear-gradient( to bottom, rgb(18,26,69) 0%, rgb(18,26,69) 41%, #fff 41%, #fff 100% );
+}
+.display{
+  margin-top: 186px !important;
+}
+h2.signupheading {
+  margin-top: 213px;
+}
+}
+
+/* .image{
+    background-image: url("/src/img/img1.jpeg");
+    background-repeat: no-repeat;
+    height: auto;
+    width: 100%;
+  } */
+  @media screen and (max-width: 375px) { 
+  .form {
+    width: 388px;
+    margin-left: auto;
+    margin-right: auto;
+}
+  }
+  @media screen and (max-width: 992px) {
+    .image {
+      width: 100%;
+     
+    }
+  }
+  @media screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (-webkit-min-device-pixel-ratio: 1) { 
+    .image {
+        width: 100%;
+      }
+}
+@media only screen and (device-width: 768px) {
+  .image {
+    width: 100%;
+   
+  }
+  
+}
+
+
+
+@media screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (min-resolution: 192dpi) { 
+    .image {
+        width: 100%;
+       
+      }
+}

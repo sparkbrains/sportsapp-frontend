@@ -1,0 +1,141 @@
+.WidgetLg{
+    flex: 2;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 15px -10px  rgba(0,0,0,0.75);
+   padding: 20px;
+}
+.WidgetLgTitle{
+    font-size: 22px;
+    font-weight: 600;
+}
+.WidgetLgimg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.WidgetLgButton{
+    padding: 5px 7px;
+    border: none;
+    border-radius: 10px;
+}
+.WidgetLgButton.Approved{
+    background-color: darkgrey;
+    color: rgb(10, 10, 10);
+}
+.WidgetLgButton.Declined{
+    background-color: darkgrey;
+    color: rgb(192, 100, 13);
+}
+.WidgetLgButton.Panding{
+    background-color: darkgrey;
+    color: rgb(40, 167, 40);
+}
+.WidgetLgTable{
+    width: 100%;
+    border-radius: 20px;
+}
+.WidgetLgTh{
+   text-align: left; 
+}
+.WidgetLgUser{
+    display: flex;
+    align-items: center;
+}
+
+.usermg .makeStyles-search-15 {
+    width: 180px;
+    height: 38px;
+}
+.usermg .makeStyles-search-25 {
+    width: 180px;
+    height: 38px;
+}
+.usermg .makeStyles-search-30 {
+    width: 180px;
+    height: 38px;
+}
+.usermgbtn {
+    width: 105px;
+}
+.Buttonss button{
+        background-color: #12152c !important;
+        padding: 10px,8px !important;
+        color: #fff;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    margin: 0;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: 1.75rem !important;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+    padding: 22px 27px !important;
+    color:#12152c !important;
+}
+@media screen and (max-width: 686px){
+.usermg .makeStyles-searchIcon-16 {
+    padding-left: 128px;
+}
+.usermg .makeStyles-searchIcon-26 {
+    padding-left: 128px;
+}
+.usermg .makeStyles-searchIcon-31 {
+    padding-left: 128px;
+}
+}
+@media screen and (max-width: 638px){
+.usermg .makeStyles-searchIcon-16 {
+    padding-left: 117px;
+}
+.usermg .makeStyles-searchIcon-26 {
+    padding-left: 117px;
+}
+.usermg .makeStyles-searchIcon-31 {
+    padding-left: 117px;
+}
+}
+@media screen and (max-width: 628px){
+.usermg .makeStyles-searchIcon-16 {
+    padding-left: 84px;
+}
+.usermg .makeStyles-searchIcon-26 {
+    padding-left: 84px;
+}
+.usermg .makeStyles-searchIcon-31 {
+    padding-left: 84px;
+}
+}
+.MuiGrid-root.butt.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6 {
+    justify-content: end;
+}
+@media screen and (max-width: 959px){
+.MuiGrid-root.usermg.MuiGrid-container.MuiGrid-spacing-xs-3 {
+    display: flex !important;
+}
+}
+@media screen and (max-width: 515px){
+    .MuiGrid-root.usermg.MuiGrid-container.MuiGrid-spacing-xs-3 {
+        display: grid !important;  
+}
+
+}
+@media screen and (max-width: 596px){
+.butt {
+    padding-top: 0px !important;
+}
+}
+@media screen and (max-width: 596px){
+.usermg .makeStyles-search-15 {
+    width: 109px;
+}
+.usermg .makeStyles-search-25 {
+    width: 109px;
+}
+}
+@media screen and (max-width: 600px){
+    .MuiGrid-root.butt.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6 {
+        justify-content: start !important;
+    }
+    
+}

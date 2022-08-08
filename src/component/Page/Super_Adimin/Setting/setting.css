@@ -1,0 +1,21 @@
+.sliderbox span {
+    height: 12px;
+    border-radius: 18px;
+}
+.sliderbox .MuiSlider-thumb {
+    width: 20px;
+    height: 19px !important;
+}
+.sliderbox .PrivateValueLabel-label-20 {
+    color: #a2b5c9;
+    transform: rotate(45deg);
+}
+.sliderbox .PrivateValueLabel-circle-19 {
+    background-color: transparent !important;
+}
+.sliderbox .PrivateValueLabel-offset-18 {
+    top: 36px;
+}
+.sliderbox span.MuiSlider-mark {
+    display: none;
+}

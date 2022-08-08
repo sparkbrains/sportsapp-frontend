@@ -1,0 +1,5 @@
+@media screen and (max-width: 959px){
+    .MuiGrid-root.sportc.MuiGrid-container.MuiGrid-spacing-xs-3 {
+    display: flex !important;
+}
+}

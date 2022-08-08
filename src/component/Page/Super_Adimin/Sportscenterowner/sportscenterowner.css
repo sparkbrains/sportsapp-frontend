@@ -1,0 +1,95 @@
+.topheading{
+    margin-left:15px;
+}
+.MuiGrid-root.owners.MuiGrid-container.MuiGrid-spacing-xs-3 {
+    display: flex;
+}
+
+.owners .makeStyles-search-15 {
+    width: 180px;
+    height: 38px ;
+}
+.owners .makeStyles-search-20 {
+    width: 180px;
+    height: 38px ;
+}
+
+@media screen and (max-width: 515px){
+.topheading {
+    margin-left: 3px;
+}
+.owners .makeStyles-search-15 {
+    width: 405px !important;
+}
+.owners .makeStyles-search-20{
+    width: 405px !important;
+}
+.owners .makeStyles-searchIcon-16 {
+    padding-left: 93px;
+}
+.owners .makeStyles-searchIcon-21 {
+    padding-left: 93px;
+}
+
+.owners button.MuiButtonBase-root {
+    width: 120px !important;
+}
+}
+
+@media screen and (max-width: 738px){
+.owners .makeStyles-searchIcon-16 {
+    padding-left: 128px;
+}
+.owners .makeStyles-searchIcon-21 {
+    padding-left: 128px;
+}
+}
+@media screen and (max-width: 695px){
+.owners .makeStyles-searchIcon-16 {
+    padding-left: 90px;
+}
+.owners .makeStyles-searchIcon-21 {
+    padding-left: 90px;
+}
+}
+@media screen and (max-width: 625px){
+.owners .makeStyles-searchIcon-16 {
+    padding-left: 77px;
+}
+
+.owners .makeStyles-searchIcon-21{
+    padding-left: 77px;
+}
+}
+@media screen and (max-width: 541px){
+.owners .makeStyles-searchIcon-16 {
+    padding-left: 70px;
+}
+.owners .makeStyles-searchIcon-21 {
+    padding-left: 70px;
+}
+}
+@media screen and (max-width: 959px){
+    .owners.MuiGrid-container.MuiGrid-spacing-xs-3 {
+            display: flex !important;
+        }
+    }
+@media screen and (max-width: 921px){
+    .owners button.MuiButtonBase-root {
+        width: 120px !important;
+    }
+    }
+    @media screen and (max-width: 515px){
+    .owners.MuiGrid-container.MuiGrid-spacing-xs-3 {
+            display: grid !important;
+        }
+        .buttons {
+            padding-top: 0px !important;
+        }
+       .owners .makeStyles-searchIcon-16 {
+            padding-left: 100px;
+       }
+.owners .makeStyles-searchIcon-21 {
+    padding-left: 100px;
+}
+}   
