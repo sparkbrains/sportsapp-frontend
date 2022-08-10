@@ -84,6 +84,7 @@ export default function SignInSide() {
         swal("Category Created Successfully.", "", "success", {
           button: "ok",
         });
+        history.push("/superadmin/categorymanagement")
       })
       .catch((error) => {
         if (error.response) {
@@ -100,7 +101,7 @@ export default function SignInSide() {
           button: "ok",
         });
       });
-      history.push("/superadmin/categorymanagement")
+     
      
   };
   const formik = useFormik({

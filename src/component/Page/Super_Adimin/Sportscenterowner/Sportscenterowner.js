@@ -308,7 +308,6 @@ export default function BasicTable() {
                   })}
               </TableBody>
               <Dialog
-                style={{ opacity: "0.6" }}
                 open={open}
                 onClose={handleClose}
               >

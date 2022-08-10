@@ -24,7 +24,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 670,
@@ -55,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "end",
-    top:"0px",
+    top: "0px",
   },
   inputRoot: {
     color: "inherit",
@@ -88,61 +87,57 @@ export default function WidgetLg() {
   const [searchTerm, setsearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [message, setMessage] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [setid, SetsetId] = useState();
+  const [open, setOpen] = useState(false);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
     setOpen(true);
+    SetsetId(id);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-
-  console.log(data,"data");
+  console.log(data, "data");
 
   useEffect(() => {
     loadUsers();
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get(baseURL+"sports/categories/"
-    );
+    const result = await axios.get(baseURL + "sports/categories/");
     setData(result.data.reverse());
   };
   const deleteUser = async (id) => {
-    await axios.delete(baseURL+
-      `sports/categories/${id}/`
-    )
-    .then((res) => {
-      setMessage(res.data.message);
-      setOpen(false);
-      console.log(res, "ssssssankul");
-      swal("Category Deleted Successfully.", "", "success", {
-        button: "ok",
-      });
-    })
-    // .catch((err) => { });
-    .catch((error) => {
-      if (error.response) {
-        setMessage(error.response.data.message);
+    await axios
+      .delete(baseURL + `sports/categories/${setid}/`)
+      .then((res) => {
+        setMessage(res.data.message);
+        setOpen(false);
+        console.log(res, "ssssssankul");
+        swal("Category Deleted Successfully.", "", "success", {
+          button: "ok",
+        });
+      })
+      // .catch((err) => { });
+      .catch((error) => {
+        if (error.response) {
+          setMessage(error.response.data.message);
+          console.log(error.response.data.gender, "hellp1234567890");
+          console.log(error.response.status);
+          console.log(error.response.gender, "hellp");
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
 
-        // Request made and server responded
-        console.log(error.response.data.gender, "hellp1234567890");
-        console.log(error.response.status);
-        console.log(error.response.gender, "hellp");
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
-
-      swal("Something went wrong!", "Oops...", "error", {
-        button: "ok",
+        swal("Something went wrong!", "Oops...", "error", {
+          button: "ok",
+        });
       });
-    });
     loadUsers();
   };
   return (
@@ -153,7 +148,12 @@ export default function WidgetLg() {
             item
             xs={12}
             sm={7}
-            style={{ padding: "0px", marginTop: "30px", marginBottom: "20px",  padding: "12px 0px", }}
+            style={{
+              padding: "0px",
+              marginTop: "30px",
+              marginBottom: "20px",
+              padding: "12px 0px",
+            }}
           >
             <h3> Categories</h3>
           </Grid>
@@ -165,7 +165,6 @@ export default function WidgetLg() {
             style={{
               padding: "45px 0px",
               display: "flex",
-            
             }}
           >
             <div
@@ -191,7 +190,8 @@ export default function WidgetLg() {
               to="/superadmin/addcategory"
               style={{ textDecoration: "none" }}
             >
-              <Button className="categorybtn"
+              <Button
+                className="categorybtn"
                 variant="contained"
                 type="submit"
                 style={{
@@ -199,8 +199,8 @@ export default function WidgetLg() {
                   textTransform: "capitalize",
                   backgroundColor: "#232b58",
                   color: "white",
-                  height:"38px",
-                  padding:"2px 6px",
+                  height: "38px",
+                  padding: "2px 6px",
                 }}
               >
                 <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
@@ -210,9 +210,9 @@ export default function WidgetLg() {
           </Grid>
         </Grid>
       </Container>
-      <div className="WidgetLg" style={{marginBottom:"85px" }}>
+      <div className="WidgetLg" style={{ marginBottom: "85px" }}>
         <paper elevation={3}>
-          <TableContainer >
+          <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
@@ -279,29 +279,28 @@ export default function WidgetLg() {
                             }}
                           >
                             <Delete
-                            onClick={handleClickOpen}
-                              // onClick={() => deleteUser(admin.id)}
+                              //onClick={handleClickOpen}
+                               onClick={() => handleClickOpen(admin.id)}
                               style={{ color: "red", margin: "7px" }}
                             />
                           </IconButton>
-                          <Dialog style={{opacity: "1"}} open={open} onClose={handleClose}>
-                            <DialogTitle>Delete Category.</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Are you sure you want to delete this Category?.
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions className="Buttonss">
-                              <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={() => deleteUser(admin.id)}>OK</Button>
-                            </DialogActions>
-                          </Dialog>
                         </TableCell>
                       </TableRow>
                     );
                   })}
               </TableBody>
-              {/* </table> */}
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Delete Category.</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this Category?.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions className="Buttonss">
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={() => deleteUser()}>OK</Button>
+                </DialogActions>
+              </Dialog>
             </Table>
           </TableContainer>
         </paper>

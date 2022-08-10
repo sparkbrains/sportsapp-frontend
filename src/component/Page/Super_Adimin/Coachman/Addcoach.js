@@ -56,7 +56,7 @@ const AddCoach = () => {
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
-
+  const [error, seterror] = useState();
   const [name, setname] = useState();
   const handlenameChange = (e) => {
     setname(e.target.value);
@@ -104,26 +104,20 @@ const AddCoach = () => {
             password: password,
           },
 
-          // name:name,
-          // email:email,
-          // sportcenter:sportcenter,
-          // contact:contact,
-          // location:location,
-          // specialisation:specialisation,
-          // password:password
         },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        // setMessage(res.data.message);
         console.log(res, "ssssssankul");
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
+        history.push("/superadmin/coachmanagement");
       })
       // .catch((err) => { });
       .catch((error) => {
         if (error.response) {
+          seterror(error?.response?.data?.error);
           console.log(error.response.data.gender, "hellp1234567890");
           console.log(error.response.status);
           console.log(error.response.gender, "hellp");
@@ -139,7 +133,7 @@ const AddCoach = () => {
           button: "ok",
         });
       });
-    history.push("/superadmin/coachmanagement");
+    
   };
 
   const formik = useFormik({
@@ -147,7 +141,6 @@ const AddCoach = () => {
       name: "",
       email: "",
       contact: "",
-      // sportcenter: "",
       location: "",
       password: "",
     },
@@ -238,6 +231,7 @@ const AddCoach = () => {
                     type="email"
                     variant="outlined"
                   />
+                   <p style={{ color: "red", margin: "0px" }}>{error}</p>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel

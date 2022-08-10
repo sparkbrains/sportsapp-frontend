@@ -83,17 +83,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WidgetLg() {
   const [data, setData] = useState([]);
-  console.log(data,"data");
+  console.log(data, "data");
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
   const [message, setMessage] = useState(null);
   const [open, setOpen] = React.useState(false);
-  const [setid ,SetsetId] =useState()
+  const [setid, SetsetId] = useState();
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const handleClickOpen = (id) => {
     setOpen(true);
-    SetsetId(id)
+    SetsetId(id);
   };
 
   const handleClose = () => {
@@ -103,11 +103,10 @@ export default function WidgetLg() {
   useEffect(() => {
     loadUsers();
   }, []);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const deleteUser = async () => {
     await axios
-      .delete(baseURL+`sports/coach/?id=${setid}`,
-      )
+      .delete(baseURL + `sports/coach/?id=${setid}`)
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
@@ -140,8 +139,7 @@ export default function WidgetLg() {
   };
 
   const loadUsers = async () => {
-    const result = await axios.get(baseURL+"sports/coach/"
-    );
+    const result = await axios.get(baseURL + "sports/coach/");
     setData(result.data.reverse());
   };
   return (
@@ -241,13 +239,14 @@ export default function WidgetLg() {
                     }
                   })
                   .map((admin, i) => {
-                    
                     return (
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="left">{admin?.user?.name}</TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
-                        <TableCell align="left">{admin?.sports_center?.center_name}</TableCell>
+                        <TableCell align="left">
+                          {admin?.sports_center?.center_name}
+                        </TableCell>
                         <TableCell align="left">{admin?.user?.email}</TableCell>
                         <TableCell align="center">
                           <Link to={`/superadmin/editcoach/${admin.id}`}>
@@ -267,7 +266,6 @@ export default function WidgetLg() {
                             </IconButton>
                           </Link>
                           <Button
-                            //onClick={handleClickOpen}
                             onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",
@@ -279,24 +277,23 @@ export default function WidgetLg() {
                           >
                             <Delete style={{ color: "red", margin: "7px" }} />
                           </Button>
-                         
                         </TableCell>
                       </TableRow>
                     );
                   })}
               </TableBody>
-              <Dialog style={{opacity: "0.6"}} open={open} onClose={handleClose}>
-                            <DialogTitle>Delete Coach.</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Are you sure you want to delete this Coach?.
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions className="Buttonss">
-                              <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={() => deleteUser()}>OK</Button>
-                            </DialogActions>
-                          </Dialog>
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Delete Coach.</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this Coach?.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions className="Buttonss">
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={() => deleteUser()}>OK</Button>
+                </DialogActions>
+              </Dialog>
             </Table>
           </TableContainer>
         </paper>

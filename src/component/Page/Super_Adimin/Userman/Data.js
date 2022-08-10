@@ -271,7 +271,6 @@ export default function WidgetLg() {
                             </Button>
                           </Link>
                           <Button
-                            //onClick={handleClickOpen}
                             onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",

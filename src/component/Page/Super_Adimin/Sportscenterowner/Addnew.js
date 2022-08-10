@@ -47,20 +47,10 @@ const validationSchema = yup.object({
 });
 
  const Addnew = () => {
-//   let history = useHistory();
-//   const [addnew, setAddnew] = useState({
-//     ownername: "",
-//     email: "",
-//     // opentimings: "",
-//     // closetimings: "",
-//     phoneno: "",
-//     sportcenter: "",
-//     location:"",
 
-// });
 let history = useHistory();
   const [document, setdocument] = useState();
-  const [logo, setlogo] = useState();
+  const [error, seterror] = useState();
   const [closetimings, setclosetimings] = useState();
   const [opentimings, setopentimings] = useState();
 
@@ -104,7 +94,6 @@ let history = useHistory();
 
   const token = localStorage.getItem('token');
   const onSubmit = async (e) => {
-    // e.preventDefault();
     const res = await axios.post(baseURL+"sports/owner/",
     { 
       "user":{
@@ -121,13 +110,6 @@ let history = useHistory();
       location:location,
       "speciallsation": "strength",
       sports_center:sports_center
-        // ownername:ownername,
-        // email:email,
-        // sportcenter:sportcenter,
-        // phoneno:phoneno,
-        // location:location,
-        // opentimings:opentimings,
-        // closetimings:closetimings,
       },
       { "headers": {"Authorization" : `Bearer ${token}`} }
       
@@ -136,15 +118,17 @@ let history = useHistory();
         // setMessage(res.data.message);
         console.log(res, "ssssssankul");
         swal("Owner Created Successfully.", "", "success", {
-          button: "ok",
+          button: "OK",
         });
+        history.push("/superadmin/");
       })
-      // .catch((err) => { });
+    
       .catch((error) => {
         if (error.response) {
          
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
+          seterror(error?.response?.data?.error)
+          console.log(error.response.data.error, "hellp1234567890");
           console.log(error.response.status);
           console.log(error.response.gender, "hellp");
         } else if (error.request) {
@@ -153,13 +137,11 @@ let history = useHistory();
         } else {
           console.log("Error", error.message);
         }
-        //{message && <div>{message}</div>}
-
         swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
+          button: "OK",
         });
       });
-    history.push("/superadmin/");
+    
   };
 
   const formik = useFormik({
@@ -169,8 +151,6 @@ let history = useHistory();
       phone_no: "",
       sportcenter: "",
       location: "",
-      // opentimings: "",
-      // closetimings: "",
     },
     validateOnBlur: true,
     onSubmit,
@@ -182,8 +162,7 @@ let history = useHistory();
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(logo);
-    // document.title = "Add New";
+    //document.title = "Add New";
   });
   return (
     <div style={{ marginBottom: "50px" }}>
@@ -254,7 +233,9 @@ let history = useHistory();
                     type="email"
                     variant="outlined"
                   />
+                  <p style={{color:"red",margin:"0px"}}>{error}</p> 
                 </Grid>
+                
                 <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
@@ -537,6 +518,7 @@ let history = useHistory();
                     onChange={DropzoneAreaChange}
                     dropzoneText={"Upload Supporting Documents"}
                   /> */}
+                 
                 </Grid>
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
