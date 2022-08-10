@@ -36,7 +36,7 @@ const validationSchema = yup.object({
     .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
     .required("name is required"),
   email: yup.string().email("Email is invalid").required("Email is required"),
-  phone: yup
+  phone_no: yup
     .string()
     .min(10, "Phone number must be at least 10 number.")
     .max(15, "phone number must be at least 12 number.")
@@ -66,9 +66,9 @@ export default function AddUser() {
   const handlepasswordonChange = (e) => {
     setPassword(e.target.value);
   };
-  const [phone, setphone] = useState();
+  const [phone_no, setphone_no] = useState();
   const handlephonenoChange = (e) => {
-    setphone(e.target.value);
+    setphone_no(e.target.value);
   };
   const [location, setlocation] = useState();
   const handlelocationChange = (e) => {
@@ -89,7 +89,7 @@ export default function AddUser() {
         },
         "profile":{
           role:"user",
-          phone:phone
+          phone_no:phone_no
 
         },
         gender:gender,
@@ -148,7 +148,7 @@ export default function AddUser() {
     initialValues: {
       name: "",
       email: "",
-      phone: "",
+      phone_no: "",
       location: "",
       password:"",
     },
@@ -347,15 +347,15 @@ export default function AddUser() {
                       </InputLabel>
                       <TextField
                       inputProps={{ maxLength: 13 }}
-                        error={Boolean(formik.touched.phone && formik.errors.phone)}
+                        error={Boolean(formik.touched.phone_no && formik.errors.phone_no)}
                         margin="normal"
                         required
                         fullWidth
-                        helperText={formik.touched.phone && formik.errors.phone}
+                        helperText={formik.touched.phone_no && formik.errors.phone_no}
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         onKeyUp={handlephonenoChange}
-                        name="phone"
+                        name="phone_no"
                         autoComplete="number"
                         variant="outlined"
                       />

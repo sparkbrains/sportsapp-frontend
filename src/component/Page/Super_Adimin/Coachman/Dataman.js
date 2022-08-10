@@ -83,15 +83,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WidgetLg() {
   const [data, setData] = useState([]);
-  console.log(data[0]?.user?.name,"data");
+  console.log(data,"data");
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
   const [message, setMessage] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [setid ,SetsetId] =useState()
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
     setOpen(true);
+    SetsetId(id)
   };
 
   const handleClose = () => {
@@ -102,13 +104,9 @@ export default function WidgetLg() {
     loadUsers();
   }, []);
   const token = localStorage.getItem('token');
-  const deleteUser = async (id) => {
+  const deleteUser = async () => {
     await axios
-      .delete(baseURL+`sports/coach/${id}/`,{
-
-        headers: { Authorization: `Bearer ${token}` },
-      }
-
+      .delete(baseURL+`sports/coach/?id=${setid}`,
       )
       .then((res) => {
         setMessage(res.data.message);
@@ -173,7 +171,6 @@ export default function WidgetLg() {
             }}
           >
             <div
-            
               className={classes.search}
               style={{ border: "1px solid black" }}
             >
@@ -193,7 +190,6 @@ export default function WidgetLg() {
               />
             </div>
 
-          
             <Link to="/superadmin/addcoach" style={{ textDecoration: "none" }}>
               <Button
                 className="coachmgbtn"
@@ -245,14 +241,14 @@ export default function WidgetLg() {
                     }
                   })
                   .map((admin, i) => {
-                    console.log(admin._id, "hello");
+                    
                     return (
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="left">{data[i]?.user?.name}</TableCell>
+                        <TableCell align="left">{admin?.user?.name}</TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
-                        <TableCell align="left">{admin.sportcenter}</TableCell>
-                        <TableCell align="left">{data[i]?.user?.email}</TableCell>
+                        <TableCell align="left">{admin?.sports_center?.center_name}</TableCell>
+                        <TableCell align="left">{admin?.user?.email}</TableCell>
                         <TableCell align="center">
                           <Link to={`/superadmin/editcoach/${admin.id}`}>
                             <IconButton
@@ -271,8 +267,8 @@ export default function WidgetLg() {
                             </IconButton>
                           </Link>
                           <Button
-                            onClick={handleClickOpen}
-                            // onClick={() => deleteUser(admin.id)}
+                            //onClick={handleClickOpen}
+                            onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",
                               boxShadow: "none",
@@ -283,7 +279,13 @@ export default function WidgetLg() {
                           >
                             <Delete style={{ color: "red", margin: "7px" }} />
                           </Button>
-                          <Dialog style={{opacity: "0.6"}} open={open} onClose={handleClose}>
+                         
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+              <Dialog style={{opacity: "0.6"}} open={open} onClose={handleClose}>
                             <DialogTitle>Delete Coach.</DialogTitle>
                             <DialogContent>
                               <DialogContentText>
@@ -292,14 +294,9 @@ export default function WidgetLg() {
                             </DialogContent>
                             <DialogActions className="Buttonss">
                               <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={() => deleteUser(admin.id)}>OK</Button>
+                              <Button onClick={() => deleteUser()}>OK</Button>
                             </DialogActions>
                           </Dialog>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
             </Table>
           </TableContainer>
         </paper>

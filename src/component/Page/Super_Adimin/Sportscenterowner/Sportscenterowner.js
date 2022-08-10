@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "end",
-    top:"0px",
+    top: "0px",
   },
   inputRoot: {
     color: "inherit",
@@ -72,13 +72,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
       },
     },
-
-    // sectionMobile: {
-    //   display: "flex",
-    //   [theme.breakpoints.up("md")]: {
-    //     display: "none",
-    //   },
-    // },
   },
 }));
 
@@ -86,67 +79,70 @@ export default function BasicTable() {
   const [data, setData] = useState([]);
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
+  const [setid ,SetsetId] =useState()
   const [message, setMessage] = useState(null);
   const [open, setOpen] = React.useState(false);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
     setOpen(true);
+    SetsetId(id)
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+  
   useEffect(() => {
     document.title = "SC Owner Management";
     loadUsers();
   }, []);
 
-  const deleteUser = async (id) => {
-    await axios.delete(baseURL+`sports/owner/${id}/`
-    )
-    .then((res) => {
-      setMessage(res.data.message);
-      setOpen(false);
-      console.log(res, "ssssssankul");
-      swal("Owner Deleted Successfully.", "", "success", {
-        button: "ok",
-      });
-    })
-    // .catch((err) => { });
-    .catch((error) => {
-      if (error.response) {
-        setMessage(error.response.data.message);
+  const deleteUser = async () => {
+    console.log(setid, "id===");
+    await axios
+      .delete(baseURL + `sports/owner/?id=${setid}`)
+      .then((res) => {
+        setMessage(res.data.message);
+        setOpen(false);
+        console.log(res, "ssssssankul");
+        swal("Owner Deleted Successfully.", "", "success", {
+          button: "ok",
+        });
+      })
+      // .catch((err) => { });
+      .catch((error) => {
+        if (error.response) {
+          setMessage(error.response.data.message);
 
-        // Request made and server responded
-        console.log(error.response.data.gender, "hellp1234567890");
-        console.log(error.response.status);
-        console.log(error.response.gender, "hellp");
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
+          // Request made and server responded
+          console.log(error.response.data.gender, "hellp1234567890");
+          console.log(error.response.status);
+          console.log(error.response.gender, "hellp");
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
 
-      swal("Something went wrong!", "Oops...", "error", {
-        button: "ok",
+        swal("Something went wrong!", "Oops...", "error", {
+          button: "ok",
+        });
       });
-    });
     loadUsers();
   };
 
   const loadUsers = async () => {
-    const result = await axios.get(baseURL+"sports/owner/"
-    );
+    const result = await axios.get(baseURL + "sports/owner/");
     setData(result.data.reverse());
-    console.log(data,"ankul1234");
+    console.log(data, "ankul1234");
   };
 
   const downloadTxtFile = () => {
     const element = document.createElement("a");
     const file = new Blob([document.getElementById("input").value], {
-      type: "text/plain;charset=utf-8}"
+      type: "text/plain;charset=utf-8}",
     });
     element.href = "./Files/one.csv";
     element.download = "one.csv";
@@ -162,13 +158,18 @@ export default function BasicTable() {
             xs={6}
             style={{ padding: "0px", marginTop: "30px", marginBottom: "20px" }}
           >
-            <h3 className="topheading
-            "> Sports Center Owners</h3>
+            <h3
+              className="topheading
+            "
+            >
+              {" "}
+              Sports Center Owners
+            </h3>
           </Grid>
-          <Grid className="buttons"
+          <Grid
+            className="buttons"
             item
             xs={6}
-            // className="butt"
             style={{
               padding: "45px 14px",
               display: "flex",
@@ -179,7 +180,6 @@ export default function BasicTable() {
               className={classes.search}
               style={{ border: "1px solid black " }}
             >
-              
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -195,19 +195,7 @@ export default function BasicTable() {
                 <SearchIcon />
               </div>
             </div>
-            {/* <Button variant="contained"
-                            className="size"
-                            style={{
-                                float: "right",
-                                marginRight: "25px",
-                                backgroundColor: "white",
-                                color: "black",
-                                textTransform: "capitalize",
-                                fontWeight: "100"
-                            }}>
-                            <DetailsOutlined />
-                            Filter
-                        </Button> */}
+         
             <Link to="/superadmin/addnew" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
@@ -216,8 +204,8 @@ export default function BasicTable() {
                   textTransform: "capitalize",
                   backgroundColor: "#232b58",
                   color: "white",
-                  height:"38px",
-                  padding:"2px 6px",
+                  height: "38px",
+                  padding: "2px 6px",
                 }}
               >
                 <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
@@ -228,7 +216,7 @@ export default function BasicTable() {
         </Grid>
       </Container>
       <Container>
-        <div className="WidgetLg" style={{marginBottom:"85px" }}>
+        <div className="WidgetLg" style={{ marginBottom: "85px" }}>
           <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
@@ -256,13 +244,20 @@ export default function BasicTable() {
                     }
                   })
                   .map((admin, i) => {
+
                     return (
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="left">{admin.ownername}</TableCell>
+                        <TableCell align="left">
+                          {data[i]?.user?.name}
+                        </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
-                        <TableCell align="left">{admin.sportcenter}</TableCell>
-                        <TableCell align="left">{admin.phoneno}</TableCell>
+                        <TableCell align="left">
+                          {admin.sports_center}
+                        </TableCell>
+                        <TableCell align="left">
+                          {data[i]?.profile?.phone_no}
+                        </TableCell>
                         <TableCell align="center">
                           <Link to={`/superadmin/editnew/${admin.id}`}>
                             <IconButton
@@ -270,8 +265,8 @@ export default function BasicTable() {
                               type="submit"
                               style={{
                                 padding: "0",
-                                boxShadow: "none",
-                                border: "none",
+                                boxShadow:"none",
+                                border:"none",
                                 background: "none",
                                 minWidth: "0px",
                               }}
@@ -282,8 +277,8 @@ export default function BasicTable() {
                             </IconButton>
                           </Link>
                           <IconButton
-                          onClick={handleClickOpen}
-                            // onClick={() => deleteUser(admin.id)}
+//onClick={handleClickOpen}
+                            onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",
                               boxShadow: "none",
@@ -294,21 +289,9 @@ export default function BasicTable() {
                           >
                             <Delete style={{ color: "red", margin: "8px" }} />
                           </IconButton>
-                          <Dialog style={{opacity: "0.6"}} open={open} onClose={handleClose}>
-                            <DialogTitle>Delete Owner</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Are you sure you want to delete this Owner?.
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions className="Buttonss">
-                              <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={() => deleteUser(admin.id)}>OK</Button>
-                            </DialogActions>
-                          </Dialog>
 
                           <IconButton
-                          onClick={downloadTxtFile}
+                            onClick={downloadTxtFile}
                             style={{
                               padding: "0",
                               boxShadow: "none",
@@ -324,6 +307,22 @@ export default function BasicTable() {
                     );
                   })}
               </TableBody>
+              <Dialog
+                style={{ opacity: "0.6" }}
+                open={open}
+                onClose={handleClose}
+              >
+                <DialogTitle>Delete Owner</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this Owner?.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions className="Buttonss">
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={() => deleteUser()}>OK</Button>
+                </DialogActions>
+              </Dialog>
             </Table>
           </TableContainer>
         </div>

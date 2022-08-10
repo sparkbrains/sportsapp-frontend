@@ -35,7 +35,7 @@ const validationSchema = yup.object({
     .required("Owner name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   email: yup.string().email("Email is invalid.").required("Email is required."),
-  phone: yup
+  phone_no: yup
     .string()
     .required("Phone number is required.")
     .min(10, "Please enter your 10 digit Mobile Number.")
@@ -43,12 +43,7 @@ const validationSchema = yup.object({
     .matches(phoneRegExp, "Phone number is only number type."),
   location: yup.string().required("Location is required."),
 
-  // sports_center: yup
-  //   .string()
-  //   .required("Sport Center  is required.")
-  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // opentimings: yup.string().required("Open timings  is required."),
-  // closetimings: yup.string().required("Close timings  is required."),
+ 
 });
 
  const Addnew = () => {
@@ -82,7 +77,7 @@ let history = useHistory();
     setemail(e.target.value);
   };
 
-  const [phone, setphoneno] = useState();
+  const [phone_no, setphoneno] = useState();
   const handleContactChange = (e) => {
     setphoneno(e.target.value);
   };
@@ -119,7 +114,7 @@ let history = useHistory();
       },
       "profile":{
         "role":"owner",
-         phone:phone,
+        phone_no:phone_no,
       },
       opentimings:opentimings,
       closetimings:closetimings,
@@ -171,7 +166,7 @@ let history = useHistory();
     initialValues: {
       name: "",
       email: "",
-      phone: "",
+      phone_no: "",
       sportcenter: "",
       location: "",
       // opentimings: "",
@@ -275,16 +270,16 @@ let history = useHistory();
                   <TextField
                     inputProps={{ maxLength: 13 }}
                     error={Boolean(
-                      formik.touched.phone && formik.errors.phone
+                      formik.touched.phone_no && formik.errors.phone_no
                     )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phone && formik.errors.phone}
+                    helperText={formik.touched.phone_no && formik.errors.phone_no}
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
-                    name="phone"
+                    name="phone_no"
                     autoComplete="number"
                     variant="outlined"
                   />

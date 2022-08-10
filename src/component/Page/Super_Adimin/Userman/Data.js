@@ -84,16 +84,18 @@ const useStyles = makeStyles((theme) => ({
 export default function WidgetLg() {
   const [data, setData] = useState([]);
 
-   console.log(data,"data")
-  
+  console.log(data, "data");
+
   //console.log(data[0].user.name,"data1")
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
   const [message, setMessage] = useState(null);
   const [open, setOpen] = useState(false);
+  const [setid ,SetsetId] =useState()
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
     setOpen(true);
+    SetsetId(id)
   };
 
   const handleClose = () => {
@@ -104,48 +106,45 @@ export default function WidgetLg() {
     loadUsers();
   }, []);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const deleteUser = async (id) => {
-    await axios.delete(baseURL+`sports/user/${id}/`,
-    
-      { "headers": {"Authorization" : `Bearer ${token}`} },
-    
-    )
-    .then((res) => {
-      setMessage(res.data.message);
-      setOpen(false);
-      console.log(res, "ssssssankul");
-      swal("User Deleted Successfully", "", "success", {
-        button: "ok",
-      });
-    })
-    // .catch((err) => { });
-    .catch((error) => {
-      if (error.response) {
-        setMessage(error.response.data.message);
+    await axios
+      .delete(
+        baseURL + `sports/user/?id=${setid}`,
+      )
+      .then((res) => {
+        setMessage(res.data.message);
+        setOpen(false);
+        console.log(res, "ssssssankul");
+        swal("User Deleted Successfully", "", "success", {
+          button: "ok",
+        });
+      })
+      // .catch((err) => { });
+      .catch((error) => {
+        if (error.response) {
+          setMessage(error.response.data.message);
 
-        // Request made and server responded
-        console.log(error.response.data.gender, "hellp1234567890");
-        console.log(error.response.status);
-        console.log(error.response.gender, "hellp");
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
+          // Request made and server responded
+          console.log(error.response.data.gender, "hellp1234567890");
+          console.log(error.response.status);
+          console.log(error.response.gender, "hellp");
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
 
-      swal("Something went wrong!", "Oops...", "error", {
-        button: "ok",
+        swal("Something went wrong!", "Oops...", "error", {
+          button: "ok",
+        });
       });
-    });
     loadUsers();
-
   };
 
   const loadUsers = async () => {
-    const result = await axios.get(baseURL+"sports/user/"
-    );
+    const result = await axios.get(baseURL + "sports/user/");
     setData(result.data.reverse());
   };
 
@@ -165,7 +164,7 @@ export default function WidgetLg() {
           >
             <h3> User Management</h3>
           </Grid>
-          <Grid 
+          <Grid
             item
             xs={12}
             sm={6}
@@ -191,9 +190,10 @@ export default function WidgetLg() {
                 <SearchIcon />
               </div>
             </div>
-      
+
             <Link to="/superadmin/adduser" style={{ textDecoration: "none" }}>
-              <Button className="usermgbtn"
+              <Button
+                className="usermgbtn"
                 variant="contained"
                 type="submit"
                 style={{
@@ -213,7 +213,7 @@ export default function WidgetLg() {
         </Grid>
       </Container>
 
-      <div className="WidgetLg" style={{marginBottom:"85px" }}>
+      <div className="WidgetLg" style={{ marginBottom: "85px" }}>
         <paper elevation={3}>
           <TableContainer>
             <Table aria-label="customized table">
@@ -242,10 +242,16 @@ export default function WidgetLg() {
                     return (
                       <TableRow key={i}>
                         <TableCell align="right">{i + 1}</TableCell>
-                        <TableCell align="left">{data[i]?.user?.name}</TableCell>
+                        <TableCell align="left">
+                          {data[i]?.user?.name}
+                        </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
-                        <TableCell align="left">{data[i]?.user?.email}</TableCell>
-                        <TableCell align="left">{admin.phone}</TableCell>
+                        <TableCell align="left">
+                          {data[i]?.user?.email}
+                        </TableCell>
+                        <TableCell align="left">
+                          {data[i]?.profile?.phone_no}
+                        </TableCell>
                         <TableCell align="right">
                           <Link to={`/superadmin/edituser/${admin.id}`}>
                             <Button
@@ -265,8 +271,8 @@ export default function WidgetLg() {
                             </Button>
                           </Link>
                           <Button
-                           onClick={handleClickOpen}
-                            // onClick={() => deleteUser(admin.id)}
+                            //onClick={handleClickOpen}
+                            onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",
                               boxShadow: "none",
@@ -277,24 +283,24 @@ export default function WidgetLg() {
                           >
                             <Delete style={{ color: "red", margin: "7px" }} />
                           </Button>
-                          <Dialog open={open} onClose={handleClose}>
-                            <DialogTitle>Delete User</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Are you sure you want to delete this user?.
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions className="Buttonss">
-                              <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={() => deleteUser(admin.id)}>OK</Button>
-                            </DialogActions>
-                          </Dialog>
                         </TableCell>
                       </TableRow>
                     );
                   })}
               </TableBody>
             </Table>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Delete User</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete this user?.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions className="Buttonss">
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={() => deleteUser()}>OK</Button>
+              </DialogActions>
+            </Dialog>
           </TableContainer>
         </paper>
       </div>

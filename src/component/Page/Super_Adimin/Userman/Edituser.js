@@ -37,7 +37,7 @@ const validationSchema = yup.object({
     .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
     .required("Firstname is required"),
   email: yup.string().email("Email is invalid").required("Email is required"),
-  phoneno: yup
+  phone_no: yup
     .string()
     .min(10, "Phone number not less that 10 character.")
     .max(15, "Phone number not more than 15 character.")
@@ -60,7 +60,7 @@ const EditUser = () => {
         lastname: "",
         gender: "",
         email: "",
-        phoneno: "",
+        phone_no: "",
         location: "",
     });
 
@@ -77,7 +77,7 @@ const EditUser = () => {
     }, [])
     const onSubmit = async () => {
         // e.preventDefault();
-        await axios.put(baseURL+`sports/user/${id}/`,
+        await axios.patch(baseURL+`sports/user/?id=${id}`,
          admin,gender
          )
         .then((res) => {
@@ -111,11 +111,15 @@ const EditUser = () => {
 
    
     const loadAdmin = async () => {
-        const result = await axios.get(baseURL+`sports/user/${id}/`);
-        setAdmin(result.data);
-        console.log(admin,"adminAnkul");
-
-   
+        const result = await axios.get(baseURL+`sports/user/?id=${id}`);
+        setAdmin({
+        name:result.data?.user?.name,
+        gender:result.data?.gender,
+        email:result.data?.user?.email,
+        phone_no:result.data?.profile?.phone_no,
+        location:result.data?.location
+        });
+       
     }
 
     const [gender, setgender] = useState();
@@ -150,7 +154,7 @@ const EditUser = () => {
         initialValues: {
           firstname: "",
           email: "",
-          phoneno: "",
+          phone_no: "",
           lastname: "",
           location: "",
         },
@@ -188,10 +192,9 @@ const EditUser = () => {
                                                 onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
                                                 onClick={formik.handleChange}
-                                                // onKeyUp={e => onInputChange(e)}
                                                 autoComplete="firstname"
                                                 variant="outlined"
-                                                value={admin.name}
+                                                value={admin?.name}
                                             />
                                         </Grid>
 
@@ -285,7 +288,7 @@ variant="outlined"
                                                 type="email"
                                                 // value={values.email}
                                                 variant="outlined"
-                                                value={admin.email}
+                                                value={admin?.email}
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
@@ -298,20 +301,19 @@ variant="outlined"
                                                 Phone No:
                                             </InputLabel>
                                             <TextField
-                                                error={Boolean(formik.touched.phoneno && formik.errors.phoneno)}
+                                                error={Boolean(formik.touched.phone_no && formik.errors.phone_no)}
                                                 margin="normal"
                                                 required
-                                                id="phoneno"
+                                                id="phone_no"
                                                 fullWidth
-                                                helperText={formik.touched.phoneno && formik.errors.phoneno}
+                                                helperText={formik.touched.phone_no && formik.errors.phone_no}
                                                 onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
                                                 onClick={formik.handleChange}
-                                                // onKeyUp={e => onInputChange(e)}
-                                                name="phoneno"
+                                                name="phone_no"
                                                 autoComplete="number"
                                                 variant="outlined"
-                                                value={admin.phoneno}
+                                                value={admin?.phone_no}
                                             />
                                         </Grid>
                                         

@@ -30,13 +30,13 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = yup.object({
-  ownername: yup
+  name: yup
     .string()
     .max(25, "Must be 25 characters or less.")
     .required("Owner name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   email: yup.string().email("Email is invalid.").required("Email is required."),
-  phoneno: yup
+  phone_no: yup
     .string()
     .required("Phone number is required.")
     .min(10, "Please enter your 10 digit Mobile Number.")
@@ -44,10 +44,10 @@ const validationSchema = yup.object({
     .matches(phoneRegExp, "Phone number is only number type."),
   location: yup.string().required("Location is required."),
 
-  sportcenter: yup
-    .string()
-    .required("Sport Center  is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  // sportcenter: yup
+  //   .string()
+  //   .required("Sport Center  is required.")
+  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   //   opentimings: yup.string().required("Open timings  is required."),
   //   closetimings: yup.string().required("Close timings  is required."),
 });
@@ -70,15 +70,16 @@ const Editnew = () => {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const [editnew, setEditnew] = useState({
-    ownername: "",
+    
+    name: "",
     email: "",
     opentimings: "",
     closetimings: "",
-    phoneno: "",
+    phone_no: "",
     sportcenter: "",
     location: "",
   });
-  console.log(editnew.opentimings, "editnew111112222");
+  console.log(editnew, "editnew111112222");
   const onInputChange = (e) => {
     setEditnew({ ...editnew, [e.target.name]: e.target.value });
   };
@@ -90,7 +91,7 @@ const Editnew = () => {
   const onSubmit = async (e) => {
     // e.preventDefault();
     await axios
-      .put(baseURL+`sports/owner/${id}/`,
+      .patch(baseURL+`sports/owner/?id=${id}`,
         editnew,
         closetimings,
         opentimings
@@ -127,9 +128,18 @@ const Editnew = () => {
   };
 
   const loadUser = async () => {
-    const result = await axios.get(baseURL+`sports/owner/${id}/`
+    const result = await axios.get(baseURL+`sports/owner/?id=${id}`
     );
-    setEditnew(result.data);
+    setEditnew(
+      {name:result.data?.user?.name,
+        email:result.data?.user?.email,
+        opentimings:result.data?.opentimings,
+        opentimings:result.data?.closetimings,
+        phone_no:result.data?.profile?.phone_no,
+        sports_center:result.data?.sports_center,
+        location:result.data?.location
+      },
+  );
 
     console.log(editnew, "helloeditnew");
   };
@@ -147,10 +157,10 @@ const Editnew = () => {
 
   const formik = useFormik({
     initialValues: {
-      ownername: "",
+      name: "",
       email: "",
-      phoneno: "",
-      sportcenter: "",
+      phone_no: "",
+      // sportcenter: "",
       location: "",
       //   opentimings: "",
       //   closetimings: "",
@@ -184,21 +194,21 @@ const Editnew = () => {
                   </InputLabel>
                   <TextField
                     error={Boolean(
-                      formik.touched.ownername && formik.errors.ownername
+                      formik.touched.name && formik.errors.name
                     )}
                     margin="normal"
                     required
                     fullWidth
                     helperText={
-                      formik.touched.ownername && formik.errors.ownername
+                      formik.touched.name && formik.errors.name
                     }
-                    name="ownername"
+                    name="name"
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
-                    autoComplete="ownername"
+                    autoComplete="name"
                     variant="outlined"
-                    value={editnew.ownername}
+                    value={editnew?.name}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -222,8 +232,7 @@ const Editnew = () => {
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
-                    // type="email"
-                    value={editnew.email}
+                    value={editnew?.email}
                     variant="outlined"
                   />
                 </Grid>
@@ -241,19 +250,19 @@ const Editnew = () => {
                   </InputLabel>
                   <TextField
                     error={Boolean(
-                      formik.touched.phoneno && formik.errors.phoneno
+                      formik.touched.phone_no && formik.errors.phone_no
                     )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phoneno && formik.errors.phoneno}
+                    helperText={formik.touched.phone_no && formik.errors.phone_no}
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
-                    name="phoneno"
+                    name="phone_no"
                     autoComplete="number"
                     variant="outlined"
-                    value={editnew.phoneno}
+                    value={editnew?.phone_no}
                   />
                 </Grid>
               </Grid>
@@ -271,21 +280,21 @@ const Editnew = () => {
                     Sport Center:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.sportcenter && formik.errors.sportcenter
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.sportcenter && formik.errors.sportcenter
+                    // )}
                     margin="normal"
                     fullWidth
-                    helperText={
-                      formik.touched.sportcenter && formik.errors.sportcenter
-                    }
+                    // helperText={
+                    //   formik.touched.sportcenter && formik.errors.sportcenter
+                    // }
                     name="sportcenter"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     autoComplete="sportcenter"
                     variant="outlined"
-                    value={editnew.sportcenter}
+                    value={editnew.sports_center}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>

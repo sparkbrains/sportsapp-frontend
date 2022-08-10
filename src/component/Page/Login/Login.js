@@ -18,6 +18,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import "./Login.css";
 import swal from 'sweetalert2';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -81,6 +82,7 @@ export default function SignInSide() {
  
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   console.log(success,"log");
 
@@ -108,6 +110,7 @@ export default function SignInSide() {
     console.log(process.env,"hello123321");
     console.log(email)
     console.log(password)
+    setIsLoading(true);
    const res = await axios
       .post(baseURL+"users/login/", {
         email: (email),
@@ -117,6 +120,7 @@ export default function SignInSide() {
       )
 
       .then((res) => {
+        setIsLoading(false);
         console.log(res,"res1234");
         setMessage(res.data.message)
         console.log();
@@ -149,7 +153,7 @@ export default function SignInSide() {
       
 
       }).catch((error) => {
-        
+        setIsLoading(false);
         if (error.response) {
           setMessage(error.response.data.message,"hello")
           // Request made and server responded
@@ -273,6 +277,8 @@ export default function SignInSide() {
                               </Link>
                             </Grid>
                           </Grid>
+                          {isLoading === true ? <CircularProgress disableShrink />: ""}
+                          
                           {/* <h3>{detail.message}</h3> */}
                           <Grid container justify="center">
                             <Button
