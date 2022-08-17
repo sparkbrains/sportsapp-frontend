@@ -172,7 +172,7 @@ export default function WidgetLg() {
             style={{ padding: "47px 0px", display: "flex" }}
           >
             <div
-              className={classes.search}
+              className="search"
               style={{ border: "1px solid black" }}
             >
               <InputBase
@@ -186,7 +186,7 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-              <div className={classes.searchIcon}>
+              <div className="searchIcon">
                 <SearchIcon />
               </div>
             </div>
@@ -233,7 +233,7 @@ export default function WidgetLg() {
                     if (searchTerm === "") {
                       return val;
                     } else if (
-                      val.email.toLowerCase().includes(searchTerm.toLowerCase())
+                      val.location.toLowerCase().includes(searchTerm.toLowerCase())
                     ) {
                       return val;
                     }

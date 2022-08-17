@@ -232,8 +232,7 @@ export default function WidgetLg() {
                     } else if (
                       val.location
                         .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                      val.name.toLowerCase().includes(searchTerm.toLowerCase())
+                        .includes(searchTerm.toLowerCase()) 
                     ) {
                       return val;
                     }

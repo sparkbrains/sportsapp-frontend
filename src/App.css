@@ -1,0 +1,20 @@
+.WidgetLg {
+    margin-bottom: 85px;
+    background-color: white;
+}
+.search {
+    color: black;
+    position: relative;
+    margin-right: 16px;
+    border-radius: 25px;
+}
+.searchIcon {
+top: 0px;
+height: 100%;
+display: flex;
+padding: 0px 144px;
+position: absolute;
+align-items: center;
+pointer-events: none;
+justify-content: end;
+}

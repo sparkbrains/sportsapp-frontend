@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 const validationSchema = yup.object({
-  firstname: yup
-    .string()
-    .max(25, "Must be 25 characters or less")
-    .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
-    .required("Firstname is required"),
+//   firstname: yup
+//     .string()
+//     .max(25, "Must be 25 characters or less")
+//     .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
+//     .required("Firstname is required"),
   email: yup.string().email("Email is invalid").required("Email is required"),
   phone_no: yup
     .string()
@@ -152,7 +152,7 @@ const EditUser = () => {
 
     const formik = useFormik({
         initialValues: {
-          firstname: "",
+        //   firstname: "",
           email: "",
           phone_no: "",
           lastname: "",
@@ -182,16 +182,16 @@ const EditUser = () => {
                                                  Name:
                                             </InputLabel>
                                             <TextField
-                                                error={Boolean(formik.touched.name && formik.errors.name)}
+                                                // error={Boolean(formik.touched.name && formik.errors.name)}
                                                 margin="normal"
                                                 id="firstname"
                                                 required
                                                 fullWidth
-                                                helperText={formik.touched.name && formik.errors.name}
+                                                // helperText={formik.touched.name && formik.errors.name}
                                                 name="firstname"
-                                                onBlur={formik.handleBlur}
+                                                // onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
-                                                onClick={formik.handleChange}
+                                                // onClick={formik.handleChange}
                                                 autoComplete="firstname"
                                                 variant="outlined"
                                                 value={admin?.name}

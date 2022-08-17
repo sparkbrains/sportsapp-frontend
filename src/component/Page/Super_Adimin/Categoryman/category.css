@@ -118,14 +118,4 @@
 .MuiGrid-root.butt.category.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-5 {
     justify-content: end;
 }
-.category .makeStyles-search-15 {
-    width: 180px;
-    height: 38px;
-}
-.categorymg .makeStyles-search-30 {
-    width: 180px;
-    height: 38px;
-}
-.categorybtn {
-    width: 134px;
-}
+

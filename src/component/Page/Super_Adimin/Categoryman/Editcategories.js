@@ -27,17 +27,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  category: yup
-    .string()
-    .max(25, "Must be 25 characters or less.")
-    .required("Category is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  sportcenter: yup
-    .string()
-    .max(25, "Must be 25 characters or less.")
-    .required("Sportcenter is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  location: yup.string().required("Location is required."),
+  // category: yup
+  //   .string()
+  //   .max(25, "Must be 25 characters or less.")
+  //   .required("Category is required.")
+  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  // sportcenter: yup
+  //   .string()
+  //   .max(25, "Must be 25 characters or less.")
+  //   .required("Sportcenter is required.")
+  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  // location: yup.string().required("Location is required."),
 });
 
 const Editcategory = () => {
@@ -54,7 +54,7 @@ const Editcategory = () => {
   const [user, setUser] = useState({
     category: "",
     // item: "",
-    sportcenter: "",
+    sport_center: "",
     location: "",
   });
   console.log(user,"user");
@@ -114,9 +114,9 @@ const Editcategory = () => {
 
   const formik = useFormik({
     initialValues: {
-      category: "",
-      sportcenter: "",
-      location: "",
+      // category: "",
+      // sportcenter: "",
+      // location: "",
     },
     validateOnBlur: true,
     onSubmit,
@@ -159,22 +159,22 @@ const Editcategory = () => {
                     Category:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.category && formik.errors.category
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.category && formik.errors.category
+                    // )}
                     fullWidth
-                    helperText={
-                      formik.touched.category && formik.errors.category
-                    }
+                    // helperText={
+                    //   formik.touched.category && formik.errors.category
+                    // }
                     required
                     margin="normal"
                     category="category"
                     autoComplete="name"
                     name="category"
                     variant="outlined"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     value={user.category}
                   />
                 </Grid>
@@ -191,24 +191,24 @@ const Editcategory = () => {
                     Sport Center:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.sportcenter && formik.errors.sportcenter
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.sportcenter && formik.errors.sportcenter
+                    // )}
                     margin="normal"
                     required
                     fullWidth
-                    name="sportcenter"
+                    name="sport_center"
                     variant="outlined"
-                    helperText={
-                      formik.touched.sportcenter && formik.errors.sportcenter
-                    }
-                    sportcenter="sportcenter "
-                    onBlur={formik.handleBlur}
-                    onClick={formik.handleChange}
+                    // helperText={
+                    //   formik.touched.sportcenter && formik.errors.sportcenter
+                    // }
+                    sportcenter="sport_center "
+                    // onBlur={formik.handleBlur}
+                    // onClick={formik.handleChange}
                     onChange={(e) => onInputChange(e)}
-                    autoComplete="sportcenter "
+                    autoComplete="sport_center "
                     type="text"
-                    value={user.sportcenter}
+                    value={user.sports_center}
                   />
                 </Grid>
               </Grid>
@@ -226,21 +226,21 @@ const Editcategory = () => {
                     Location:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.location && formik.errors.location
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.location && formik.errors.location
+                    // )}
                     margin="normal"
                     required
                     fullWidth
                     name="location"
                     variant="outlined"
-                    helperText={
-                      formik.touched.location && formik.errors.location
-                    }
+                    // helperText={
+                    //   formik.touched.location && formik.errors.location
+                    // }
                     sportcenter="location"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     autoComplete="location "
                     value={user.location}
                   />
@@ -257,13 +257,13 @@ const Editcategory = () => {
                     Sport:
                   </InputLabel>
                   <Select
-                    error={Boolean(
-                      formik.touched.location && formik.errors.location
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.location && formik.errors.location
+                    // )}
                     fullWidth
-                    helperText={
-                      formik.touched.location && formik.errors.location
-                    }
+                    // helperText={
+                    //   formik.touched.location && formik.errors.location
+                    // }
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}

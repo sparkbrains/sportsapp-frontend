@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
       },
     },
+    sectionMobile: {
+      display: "flex",
+      [theme.breakpoints.up("md")]: {
+        display: "none",
+      },
+    },
   },
 }));
 
@@ -177,7 +183,7 @@ export default function BasicTable() {
             }}
           >
             <div
-              className={classes.search}
+              className="search"
               style={{ border: "1px solid black " }}
             >
               <InputBase
@@ -191,8 +197,8 @@ export default function BasicTable() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+              <div className="searchIcon">
+              <SearchIcon />
               </div>
             </div>
          
@@ -237,8 +243,9 @@ export default function BasicTable() {
                     } else if (
                       val.location
                         .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                      val.name.toLowerCase().includes(searchTerm.toLowerCase())
+                        .includes(searchTerm.toLowerCase()) 
+                      //   ||
+                      // val.name.toLowerCase().includes(searchTerm.toLowerCase())
                     ) {
                       return val;
                     }
@@ -277,7 +284,6 @@ export default function BasicTable() {
                             </IconButton>
                           </Link>
                           <IconButton
-//onClick={handleClickOpen}
                             onClick={() => handleClickOpen(admin.id)}
                             style={{
                               padding: "0",
@@ -290,7 +296,7 @@ export default function BasicTable() {
                             <Delete style={{ color: "red", margin: "8px" }} />
                           </IconButton>
 
-                          <IconButton
+                          {/* <IconButton
                             onClick={downloadTxtFile}
                             style={{
                               padding: "0",
@@ -301,7 +307,7 @@ export default function BasicTable() {
                             }}
                           >
                             <SaveAlt />
-                          </IconButton>
+                          </IconButton> */}
                         </TableCell>
                       </TableRow>
                     );

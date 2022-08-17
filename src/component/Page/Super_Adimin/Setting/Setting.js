@@ -34,9 +34,9 @@ function valuetext(value) {
 }
 
 export default function DiscreteSlider() {
-  const [getOwner, setgetOwner] = useState();
-  const [getCoach, setgetCoach] = useState();
-  const [EndUser, setEndUser] = useState();
+  const [getOwner, setgetOwner] = useState(50);
+  const [getCoach, setgetCoach] = useState(50);
+  const [EndUser, setEndUser] = useState(50);
   const [message, setMessage] = useState(null);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   console.log(EndUser, "EndUseraa");
@@ -165,8 +165,6 @@ export default function DiscreteSlider() {
                   <Button
                     variant="contained"
                     type="submit"
-                    // onSubmit={handleSubmit}
-                    // onSubmit={handleSubmit}
                     component="label"
                     style={{
                       backgroundColor: "#232b58",

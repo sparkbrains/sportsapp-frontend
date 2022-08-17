@@ -125,8 +125,8 @@ export default function Header() {
       onClose={handleMenuClose}
       style={{ marginTop: "35px" }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
       <a style={{ textDecoration: "none" }} href="/">
         <MenuItem href="/" onClick={handleMenuClose}>Log Out</MenuItem>
@@ -211,10 +211,10 @@ export default function Header() {
               color="inherit"
             >
               <Avatar
-                alt="Remy Sharp"
-                src="https://www.shaadidukaan.com/vogue/wp-content/uploads/2019/08/hug-kiss-images.jpg"
+                // alt="Remy Sharp"
+                // src="https://www.shaadidukaan.com/vogue/wp-content/uploads/2019/08/hug-kiss-images.jpg"
               />
-              <p style={{ marginLeft: "10px", fontSize: "15px" }}> Ankul Raj</p>
+              <p style={{ marginLeft: "10px", fontSize: "15px" }}>Super Admin</p>
               <KeyboardArrowDown />
             </IconButton>
           </div>

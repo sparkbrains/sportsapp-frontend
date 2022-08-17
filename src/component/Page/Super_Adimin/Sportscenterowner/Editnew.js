@@ -30,19 +30,19 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .max(25, "Must be 25 characters or less.")
-    .required("Owner name is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: yup.string().email("Email is invalid.").required("Email is required."),
-  phone_no: yup
-    .string()
-    .required("Phone number is required.")
-    .min(10, "Please enter your 10 digit Mobile Number.")
-    .max(12, "Please enter your 10 digit Mobile Number.")
-    .matches(phoneRegExp, "Phone number is only number type."),
-  location: yup.string().required("Location is required."),
+  // name: yup
+  //   .string()
+  //   .max(25, "Must be 25 characters or less.")
+  //   .required("Owner name is required.")
+  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  // email: yup.string().email("Email is invalid.").required("Email is required."),
+  // phone_no: yup
+  //   .string()
+  //   .required("Phone number is required.")
+  //   .min(10, "Please enter your 10 digit Mobile Number.")
+  //   .max(12, "Please enter your 10 digit Mobile Number.")
+  //   .matches(phoneRegExp, "Phone number is only number type."),
+  // location: yup.string().required("Location is required."),
 
   // sportcenter: yup
   //   .string()
@@ -134,7 +134,7 @@ const Editnew = () => {
       {name:result.data?.user?.name,
         email:result.data?.user?.email,
         opentimings:result.data?.opentimings,
-        opentimings:result.data?.closetimings,
+        closetimings:result.data?.closetimings,
         phone_no:result.data?.profile?.phone_no,
         sports_center:result.data?.sports_center,
         location:result.data?.location
@@ -157,11 +157,11 @@ const Editnew = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone_no: "",
+      // name: "",
+      // email: "",
+      // phone_no: "",
       // sportcenter: "",
-      location: "",
+      // location: "",
       //   opentimings: "",
       //   closetimings: "",
     },
@@ -193,19 +193,19 @@ const Editnew = () => {
                     Owner Name:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.name && formik.errors.name
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.name && formik.errors.name
+                    // )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={
-                      formik.touched.name && formik.errors.name
-                    }
+                    // helperText={
+                    //   formik.touched.name && formik.errors.name
+                    // }
                     name="name"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
                     value={editnew?.name}
@@ -224,14 +224,14 @@ const Editnew = () => {
                     Email:
                   </InputLabel>
                   <TextField
-                    error={Boolean(formik.touched.email && formik.errors.email)}
+                    // error={Boolean(formik.touched.email && formik.errors.email)}
                     fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
+                    // helperText={formik.touched.email && formik.errors.email}
                     margin="normal"
                     name="email"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     value={editnew?.email}
                     variant="outlined"
                   />
@@ -249,16 +249,16 @@ const Editnew = () => {
                     Phone No:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.phone_no && formik.errors.phone_no
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.phone_no && formik.errors.phone_no
+                    // )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phone_no && formik.errors.phone_no}
-                    onBlur={formik.handleBlur}
+                    // helperText={formik.touched.phone_no && formik.errors.phone_no}
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     name="phone_no"
                     autoComplete="number"
                     variant="outlined"
@@ -310,18 +310,18 @@ const Editnew = () => {
                     Location:
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.location && formik.errors.location
-                    )}
+                    // error={Boolean(
+                    //   formik.touched.location && formik.errors.location
+                    // )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={
-                      formik.touched.location && formik.errors.location
-                    }
-                    onBlur={formik.handleBlur}
+                    // helperText={
+                    //   formik.touched.location && formik.errors.location
+                    // }
+                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     name="location"
                     autoComplete=""
                     variant="outlined"

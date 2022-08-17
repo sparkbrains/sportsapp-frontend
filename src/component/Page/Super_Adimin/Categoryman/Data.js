@@ -168,12 +168,10 @@ export default function WidgetLg() {
             }}
           >
             <div
-              className={classes.search}
+              className="search"
               style={{ border: "1px solid black" }}
             >
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
+             
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -185,6 +183,9 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
+               <div className="searchIcon">
+                <SearchIcon />
+              </div>
             </div>
             <Link
               to="/superadmin/addcategory"
