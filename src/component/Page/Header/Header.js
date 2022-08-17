@@ -87,10 +87,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(history) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const logout = () => {
+    localStorage.clear();
+    history.push('/')
+  } 
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -129,8 +133,8 @@ export default function Header() {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
       <a style={{ textDecoration: "none" }} href="/">
-        <MenuItem href="/" onClick={handleMenuClose}>Log Out</MenuItem>
-        </a>
+      <MenuItem onClick={logout}>Log Out</MenuItem>
+        </a> 
   {/* /    </Link> */}
     </Menu>
   );
