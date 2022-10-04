@@ -104,7 +104,6 @@ export default function SignInSide() {
   };
   //const { REACT_APP_API_ENDPOINT } = process.env;
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-  console.log(baseURL,"hello ankul");
   const onSubmit = async (e) => {
 
     console.log(process.env,"hello123321");

@@ -52,9 +52,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 const countryNameRegex = /^[a-zA-Z]{1,40}( [a-zA-Z]{1,40})+$/;
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+
 
 const validationSchema = yup.object({
   name: yup
@@ -65,7 +67,7 @@ const validationSchema = yup.object({
   // .matches(countryNameRegex, "Only alphabets are required."),
   email: yup
     .string()
-    .email("Please enter a valid email address a@gmail.COM .")
+    .email("Please enter a valid email address a@gmail.COM .").matches(emailRegx, "Invalid Email ID...")
     .required("Email is a required field."),
   contactno: yup
     .string()
@@ -160,7 +162,6 @@ export default function SignInSide() {
        
       .then((res) => {
         setMessage(res.data.message);
-        console.log(res, "ssssssankul");
         swal("User Created Successfully", "", "success", {
           button: "ok",
         });
@@ -172,9 +173,7 @@ export default function SignInSide() {
           setMessage(error.response.data.message);
           setMes(error.response.data.gender);
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
           console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);

@@ -126,8 +126,8 @@ export default function SignInSide() {
       confirmPassword: "",
     },
     validateOnBlur: true,
-    onSubmit,
     validationSchema: validationSchema,
+    onSubmit,
   });
 
   return (

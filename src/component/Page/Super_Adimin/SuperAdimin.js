@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ButtonAppBar({match}) {
-  console.log(match,"ankul");
  
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
@@ -70,7 +69,7 @@ function ButtonAppBar({match}) {
           }}
         >
           <Toolbar>
-            <Grid container spacing={2} justify="center">
+            <Grid container spacing={2} justifyContent="center">
               <Grid item style={{ alignSelf: "center" }}>
                 <Link
                   className="id"

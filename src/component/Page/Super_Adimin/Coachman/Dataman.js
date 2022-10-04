@@ -22,6 +22,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Paper from '@mui/material/Paper';
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -110,7 +112,6 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        console.log(res, "ssssssankul");
         swal("Coach Deleted Successfully.", "", "success", {
           button: "ok",
         });
@@ -121,9 +122,7 @@ export default function WidgetLg() {
           setMessage(error.response.data.message);
 
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
+
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -210,7 +209,7 @@ export default function WidgetLg() {
         </Grid>
       </Container>
       <div className="WidgetLg" style={{ marginBottom: "85px" }}>
-        <paper elevation={3}>
+        <Paper elevation={3}>
           <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
@@ -218,7 +217,7 @@ export default function WidgetLg() {
                   <TableCell align="center"> S.No</TableCell>
                   <TableCell align="left"> Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
-                  <TableCell align="letf">Sport Center</TableCell>
+                  <TableCell align="left">Sport Center</TableCell>
                   <TableCell align="left">Email</TableCell>
                   <TableCell align="center"> Actions</TableCell>
                 </TableRow>
@@ -295,7 +294,7 @@ export default function WidgetLg() {
               </Dialog>
             </Table>
           </TableContainer>
-        </paper>
+        </Paper>
       </div>
     </>
   );

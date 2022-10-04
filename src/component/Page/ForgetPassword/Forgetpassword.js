@@ -78,7 +78,6 @@ export default function SignInSide() {
           setMessage(error.response.data.status);
           // setMes(error.response.data.gender)
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
           console.log(error.response.status);
           console.log(error.response.gender, "hellp");
         } else if (error.request) {

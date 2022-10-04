@@ -6,8 +6,10 @@ import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
 import { Button } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import { useEffect } from "react";
-import { MdFileUpload } from 'react-icons/md';
+import { MdFileUpload } from "react-icons/md";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -26,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
   name: yup
@@ -34,7 +38,7 @@ const validationSchema = yup.object({
     .max(25, "Must be 25 characters or less.")
     .required("Owner name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: yup.string().email("Email is invalid.").required("Email is required."),
+  email: yup.string().email("Email is invalid.").required("Email is required.").matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
     .required("Phone number is required.")
@@ -42,13 +46,11 @@ const validationSchema = yup.object({
     .max(15, "Please enter your 10 digit Mobile Number.")
     .matches(phoneRegExp, "Phone number is only number type."),
   location: yup.string().required("Location is required."),
-
- 
+  password: yup.string().required("Password is required."),
 });
 
- const Addnew = () => {
-
-let history = useHistory();
+const Addnew = () => {
+  let history = useHistory();
   const [document, setdocument] = useState();
   const [error, seterror] = useState();
   const [closetimings, setclosetimings] = useState();
@@ -84,64 +86,61 @@ let history = useHistory();
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
   };
- 
+
   const handlefirstnameChange = (e) => {
     setclosetimings(e.target.value);
   };
 
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
-
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    const res = await axios.post(baseURL+"sports/owner/",
-    { 
-      "user":{
-        email:email,
-        name:name,
-        password:password
-      },
-      "profile":{
-        "role":"owner",
-        phone_no:phone_no,
-      },
-      opentimings:opentimings,
-      closetimings:closetimings,
-      location:location,
-      "speciallsation": "strength",
-      sports_center:sports_center
-      },
-      { "headers": {"Authorization" : `Bearer ${token}`} }
-      
+    console.log(sports_center,"sports");
+    const res = await axios
+      .post(
+        baseURL + "sports/owner/",
+        {
+          profile: {
+            role: "owner",
+            phone_no: phone_no,
+          },
+          opentimings: opentimings,
+          closetimings: closetimings,
+          location: location,
+          speciallsation: "strength",
+          sport_center: {
+            center_name : sports_center
+          },
+          user: {
+            email: email,
+            name: name,
+            password: password,
+          },
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
         // setMessage(res.data.message);
-        console.log(res, "ssssssankul");
         swal("Owner Created Successfully.", "", "success", {
           button: "OK",
         });
         history.push("/superadmin/");
       })
-    
+
       .catch((error) => {
-        if (error.response) {
-         
-          // Request made and server responded
-          seterror(error?.response?.data?.error)
-          console.log(error.response.data.error, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
         swal("Something went wrong!", "Oops...", "error", {
           button: "OK",
         });
       });
-    
+  };
+
+  const [sports, setSports] = useState([]);
+  const handleSports = async (e) => {
+    const resp = await axios.get(
+      baseURL + "sports/sports-center/sports-center-owner/"
+    );
+    // setSportsCenter(resp.data);
+    setSports(resp.data);
   };
 
   const formik = useFormik({
@@ -157,7 +156,7 @@ let history = useHistory();
     validationSchema: validationSchema,
   });
   useEffect(() => {
-    //
+    handleSports();
   }, []);
   const classes = useStyles();
 
@@ -196,15 +195,13 @@ let history = useHistory();
                     margin="normal"
                     required
                     fullWidth
-                    helperText={
-                      formik.touched.name && formik.errors.name
-                    }
+                    helperText={formik.touched.name && formik.errors.name}
                     name="name"
                     onBlur={formik.handleBlur}
-                    onKeyUp={handlenameChange}
-                    onChange={formik.handleChange}
+                    onChange={handlenameChange}
                     autoComplete="name"
                     variant="outlined"
+                    label="Owner Name"
                     // value={values.name}
                   />
                 </Grid>
@@ -227,15 +224,14 @@ let history = useHistory();
                     helperText={formik.touched.email && formik.errors.email}
                     margin="normal"
                     name="email"
-                    onBlur={formik.handleBlur}
-                    onKeyUp={handleEmailChange}
-                    onChange={formik.handleChange}
+                    onChange={handleEmailChange}
                     type="email"
                     variant="outlined"
+                    label="Email"
                   />
-                  <p style={{color:"red",margin:"0px"}}>{error}</p> 
+                  <p style={{ color: "red", margin: "0px" }}>{error}</p>
                 </Grid>
-                
+
                 <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
@@ -256,13 +252,16 @@ let history = useHistory();
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phone_no && formik.errors.phone_no}
+                    helperText={
+                      formik.touched.phone_no && formik.errors.phone_no
+                    }
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
                     name="phone_no"
                     autoComplete="number"
                     variant="outlined"
+                    label="Phone No."
                   />
                 </Grid>
               </Grid>
@@ -280,22 +279,34 @@ let history = useHistory();
                     Sport Center:
                   </InputLabel>
                   <TextField
+                    style={{
+                      marginTop:"16px"
+                    }}
                     inputProps={{ maxLength: 50 }}
-                    // error={Boolean(
-                    //   formik.touched.sports_center && formik.errors.sports_center
-                    // )}
                     margin="normal"
                     fullWidth
-                    // helperText={
-                    //   formik.touched.sports_center && formik.errors.sports_center
-                    // }
-                    name="sports_center"
-                    // onBlur={formik.handleBlur}
-                    onKeyUp={handlesportcenterChange}
-                    onChange={formik.handleChange}
-                    autoComplete="sports_center"
+                    required
+                    // name="sports_center"
+                    onChange={handlesportcenterChange}
                     variant="outlined"
+                    value={sports_center}
+                    label="Sport Center"
                   />
+                    {/* <MenuItem disabled value="">
+                      <em>Select Sport Center</em>
+                    </MenuItem>
+                    {sports?.map((val) => {
+                      const { id, center_name } = val;
+                      return (
+                        <MenuItem
+                          value={id}
+                          key={id}
+                        >
+                          {center_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select> */}
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -326,6 +337,7 @@ let history = useHistory();
                     name="location"
                     autoComplete=""
                     variant="outlined"
+                    label="Location"
                   />
                 </Grid>
                 <Grid item sm={12} md={2}>
@@ -341,7 +353,7 @@ let history = useHistory();
                     Open Timings:
                   </InputLabel>
                   <TextField
-                  margin="normal"
+                    margin="normal"
                     type="time"
                     variant="outlined"
                     fullWidth
@@ -352,8 +364,8 @@ let history = useHistory();
                     max="18:00"
                     defaultValue="09:00"
                     required
+                    label="Opening-Time"
                   ></TextField>
-                 
                 </Grid>
 
                 <Grid item sm={12} md={2}>
@@ -381,11 +393,12 @@ let history = useHistory();
                     defaultValue="10:00"
                     max="23:59"
                     required
+                    label="Closing-Time"
                   ></TextField>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-              <Grid item sm={12} md={4}>
+                <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -414,8 +427,9 @@ let history = useHistory();
                     onChange={formik.handleChange}
                     name="password"
                     type="password"
-                    autoComplete="password"
+                    autoComplete=""
                     variant="outlined"
+                    label="Password"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -441,29 +455,7 @@ let history = useHistory();
                     }}
                   >
                     <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{marginTop:"5px"}}>Upload Sports Logo</p> 
-
-                    {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "white",
-                                                        borderRadius: "25px", width: "156px",padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                              
-                                                   dropzoneText={"Upload Sports Logo"}
-                                                </Button> */}
-
-                    {/* <DropzoneArea
-                      acceptedFiles={["image/*"]}
-                      filesLimit={3}
-                      maxFileSize={1048576} //1 MB
-                      showFileNames={true}
-                      onChange={onDropzoneAreaChange}
-                      dropzoneText={"Upload Sports Logo"}
-                    /> */}
+                    <p style={{ marginTop: "5px" }}>Upload Sports Logo</p>
                   </div>
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -480,45 +472,19 @@ let history = useHistory();
                     Supporting Documents:
                   </InputLabel>
                   <div
-                        style={{
-                          height: "100px",
-                          padding: "45px",
-                          border: "1px solid ",
-                          borderStyle: "dotted",
-                          textAlign: "center",
-                        }}
-                      >
-                        <MdFileUpload style={{ fontSize: "40px" }} />
-                        <p style={{ marginTop: "5px" }}>
-                          Upload Supporting Documents
-                        </p> 
-                        </div>
-                   
-
-                  {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "#fff",
-                                                        borderRadius: "25px", width: "156px", padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                                                    <input
-                                                        type="file"
-                                                        hidden
-                                                    />
-                                                </Button> */}
-                  {/* </div> */}
-                  {/* <DropzoneArea
-                    acceptedFiles={["image/*"]}
-                    filesLimit={3}
-                    maxFileSize={1048576} //1 MB
-                    showFileNames={true}
-                    onChange={DropzoneAreaChange}
-                    dropzoneText={"Upload Supporting Documents"}
-                  /> */}
-                 
+                    style={{
+                      height: "100px",
+                      padding: "45px",
+                      border: "1px solid ",
+                      borderStyle: "dotted",
+                      textAlign: "center",
+                    }}
+                  >
+                    <MdFileUpload style={{ fontSize: "40px" }} />
+                    <p style={{ marginTop: "5px" }}>
+                      Upload Supporting Documents
+                    </p>
+                  </div>
                 </Grid>
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -526,6 +492,7 @@ let history = useHistory();
                       variant="contained"
                       // disabled={isSubmitting}
                       type="submit"
+                      onClick={(e) => onSubmit(e)}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

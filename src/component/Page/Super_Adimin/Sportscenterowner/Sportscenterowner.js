@@ -23,37 +23,53 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import swal from "sweetalert";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 670,
   },
   search: {
-    position: "relative",
     variant: "outlined",
     borderRadius: "25px",
     color: "black",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+    width: "100%",
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "160px",
     },
   },
+
+  search_bar: {
+    textAlign: "left",
+    padding: "20px",
+    marginLeft: "20px",
+    zIndex: "0",
+  },
+
+  icon: {
+    // position:"absolute",
+    // left:"10%",
+    // top:"10%"
+  },
+
   searchIcon: {
     padding: theme.spacing(0, 18),
-    height: "100%",
-    position: "absolute",
+    margin: "auto",
+    // height: "50%",
+    // marginLeft:theme.spacing(10),
+    zIndex: "1",
+    // marginRight:"50px",
+    marginTop: theme.spacing(5),
     pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "end",
-    top: "0px",
   },
   inputRoot: {
     color: "inherit",
@@ -85,20 +101,20 @@ export default function BasicTable() {
   const [data, setData] = useState([]);
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
-  const [setid ,SetsetId] =useState()
+  const [setid, SetsetId] = useState();
   const [message, setMessage] = useState(null);
   const [open, setOpen] = React.useState(false);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const handleClickOpen = (id) => {
     setOpen(true);
-    SetsetId(id)
+    SetsetId(id);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   useEffect(() => {
     document.title = "SC Owner Management";
     loadUsers();
@@ -111,7 +127,6 @@ export default function BasicTable() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        console.log(res, "ssssssankul");
         swal("Owner Deleted Successfully.", "", "success", {
           button: "ok",
         });
@@ -122,9 +137,6 @@ export default function BasicTable() {
           setMessage(error.response.data.message);
 
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -142,7 +154,6 @@ export default function BasicTable() {
   const loadUsers = async () => {
     const result = await axios.get(baseURL + "sports/owner/");
     setData(result.data.reverse());
-    console.log(data, "ankul1234");
   };
 
   const downloadTxtFile = () => {
@@ -182,10 +193,7 @@ export default function BasicTable() {
               justifyContent: "end",
             }}
           >
-            <div
-              className="search"
-              style={{ border: "1px solid black " }}
-            >
+            <div className="search" style={{ border: "1px solid black " }}>
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -196,12 +204,15 @@ export default function BasicTable() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-              />
-              <div className="searchIcon">
-              <SearchIcon />
-              </div>
+                className="search_bar"
+              >
+                <SearchIcon />
+              </InputBase>
+
+              {/* <div className="searchIcon">
+              </div> */}
             </div>
-         
+
             <Link to="/superadmin/addnew" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
@@ -243,7 +254,7 @@ export default function BasicTable() {
                     } else if (
                       val.location
                         .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) 
+                        .includes(searchTerm.toLowerCase())
                       //   ||
                       // val.name.toLowerCase().includes(searchTerm.toLowerCase())
                     ) {
@@ -251,7 +262,6 @@ export default function BasicTable() {
                     }
                   })
                   .map((admin, i) => {
-
                     return (
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
@@ -260,7 +270,7 @@ export default function BasicTable() {
                         </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="left">
-                          {admin.sports_center}
+                          {admin.sports_center.center_name}
                         </TableCell>
                         <TableCell align="left">
                           {data[i]?.profile?.phone_no}
@@ -272,8 +282,8 @@ export default function BasicTable() {
                               type="submit"
                               style={{
                                 padding: "0",
-                                boxShadow:"none",
-                                border:"none",
+                                boxShadow: "none",
+                                border: "none",
                                 background: "none",
                                 minWidth: "0px",
                               }}
@@ -313,10 +323,7 @@ export default function BasicTable() {
                     );
                   })}
               </TableBody>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-              >
+              <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Delete Owner</DialogTitle>
                 <DialogContent>
                   <DialogContentText>

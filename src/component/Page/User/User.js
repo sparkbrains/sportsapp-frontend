@@ -44,7 +44,7 @@ export default function ButtonAppBar({ match }) {
           style={{ backgroundColor: "#F9FBFD", color: "black" }}
         >
           <Toolbar>
-            <Grid container spacing={2} justify="center">
+            <Grid container spacing={2} justifyContent="center">
               <Grid item style={{ alignSelf: "center" }}>
                 <Link
                   className="id"

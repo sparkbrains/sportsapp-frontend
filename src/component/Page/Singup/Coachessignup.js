@@ -45,35 +45,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 const countryNameRegex = /^[a-zA-Z]{1,40}( [a-zA-Z]{1,40})+$/;
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+
 
 const validationSchema = yup.object({
   name: yup
     .string()
-    .min(3, "Please enter your name")
-    .required("Full name is required.")
-    .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.'),
+    .min(3, "Please Enter Your Name...")
+    .required("Full Name Is Required...")
+    .matches(/^[A-Za-z ]*$/, 'Only Alphabets Are Required.'),
     // .matches(countryNameRegex, "Only alphabets are required."),
-  email: yup.string().email("Please enter a valid email address.").required(),
+  email: yup.string().email("Please Enter a Valid Email Address.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
-    .max(12, "Contact number must be at least 12 number.")
-    .required("Contact number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
+    .max(12, "Contact Number Must Be At Least 12 Number.")
+    .required("Contact Number Is Required.")
+    .matches(phoneRegExp, "Only Numbers Are Allowed."),
   password: yup
     .string()
-    .matches(PASSWORD_REGEX, "Please enter a strong password.")
+    .matches(PASSWORD_REGEX, "Please Enter A Strong Password.")
     .required(),
   confirmPassword: yup
     .string()
-    .required("Please confirm your password.")
+    .required("Please Confirm Your Password.")
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
       then: yup
         .string()
-        .oneOf([yup.ref("password")], "Password does not match."),
+        .oneOf([yup.ref("password")], "Password Does Not Match."),
     }),
 });
 
@@ -187,7 +189,7 @@ export default function SignInSide() {
                 gutterBottom
                 style={{ fontSize: "16px" }}
               >
-                Fill below fields to sign up
+                Fill Below Fields To Sign Up
               </Typography>
             </Grid>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>

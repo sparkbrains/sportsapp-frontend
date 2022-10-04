@@ -53,11 +53,10 @@ const Editcategory = () => {
   };
   const [user, setUser] = useState({
     category: "",
-    // item: "",
+    sport: "",
     sport_center: "",
     location: "",
   });
-  console.log(user,"user");
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -66,40 +65,25 @@ const Editcategory = () => {
   useEffect(() => {
     document.title = "Edit Category";
     loadUser();
+    handleSports();
   }, []);
 
   const onSubmit = async (e) => {
     // e.preventDefault();
-    await axios.put(baseURL+`sports/categories/${id}/`,
+    await axios.patch(baseURL+`sports/categories/${id}/`,
       user,
       sport
     )
     .then((res) => {
       setMessage(res.data.message);
-      console.log(res, "ssssssankul");
       swal("Category Edit Successfully.", "", "success", {
-        button: "ok",
+        button: "OK",
       });
     })
     // .catch((err) => { });
     .catch((error) => {
-      if (error.response) {
-        setMessage(error.response.data.message);
-        setMes(error.response.data.gender);
-        // Request made and server responded
-        console.log(error.response.data.gender, "hellp1234567890");
-        console.log(error.response.status);
-        console.log(error.response.gender, "hellp");
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
-      //{message && <div>{message}</div>}
-
       swal("Something went wrong!", "Oops...", "error", {
-        button: "ok",
+        button: "OK",
       });
     });
     history.push("/superadmin/categorymanagement");
@@ -109,7 +93,7 @@ const Editcategory = () => {
     const result = await axios.get(baseURL+`sports/categories/${id}/`
     );
     setUser(result.data);
-    console.log(result.data, "result maooo");
+    console.log(result.data,"tes======");
   };
 
   const formik = useFormik({
@@ -130,6 +114,16 @@ const Editcategory = () => {
     setUser((prev) => {
       return { ...prev , 'sport' : event.target.value}
     })
+  };
+
+  const [sports, setSports] = useState([]);
+  const handleSports = async (e) => {
+    const resp = await axios.get(
+      baseURL + "sports/categories/"
+    );
+    // setSportsCenter(resp.data);
+    setSports(resp.data);
+
   };
 
   const handleClose = () => {
@@ -190,26 +184,38 @@ const Editcategory = () => {
                   >
                     Sport Center:
                   </InputLabel>
-                  <TextField
-                    // error={Boolean(
-                    //   formik.touched.sportcenter && formik.errors.sportcenter
-                    // )}
+                  <Select
+                    style={{
+                      marginTop: "16px",
+                    }}
+                    error={Boolean(
+                      formik.touched.sportcenter && formik.errors.sportcenter
+                    )}
                     margin="normal"
                     required
                     fullWidth
                     name="sport_center"
                     variant="outlined"
-                    // helperText={
-                    //   formik.touched.sportcenter && formik.errors.sportcenter
-                    // }
+                    helperText={
+                      formik.touched.sportcenter && formik.errors.sportcenter
+                    }
                     sportcenter="sport_center "
-                    // onBlur={formik.handleBlur}
-                    // onClick={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    onClick={formik.handleChange}
                     onChange={(e) => onInputChange(e)}
                     autoComplete="sport_center "
                     type="text"
-                    value={user.sports_center}
-                  />
+                    value={user.sport_center}
+                  >
+                    {sports?.map((val) => {
+                      const { id, center_name } = val;
+                      return (
+                        <MenuItem value={id} key={id}>
+                          {center_name}
+                        </MenuItem>
+                      );
+                    })}
+                    </Select>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -257,13 +263,7 @@ const Editcategory = () => {
                     Sport:
                   </InputLabel>
                   <Select
-                    // error={Boolean(
-                    //   formik.touched.location && formik.errors.location
-                    // )}
                     fullWidth
-                    // helperText={
-                    //   formik.touched.location && formik.errors.location
-                    // }
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}

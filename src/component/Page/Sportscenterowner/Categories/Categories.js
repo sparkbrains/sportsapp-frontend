@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { Delete, Edit } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import { useEffect } from 'react'
+import Paper from '@mui/material/Paper';
 import {
     AddCircleOutlineOutlined,
 } from '@material-ui/icons';
@@ -131,7 +132,7 @@ export default function BasicTable() {
             </Container>
             <Container>
                 <div className="WidgetLg">
-                <paper elevation={3}>
+                <Paper elevation={3}>
                 <TableContainer >
 
                 <Table aria-label="customized table">
@@ -195,7 +196,7 @@ export default function BasicTable() {
                         </TableBody>
                     </Table>
                     </TableContainer>
-                    </paper>
+                    </Paper>
                 </div>
             </Container>
         </>

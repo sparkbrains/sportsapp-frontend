@@ -45,9 +45,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 const countryNameRegex = /^[a-zA-Z]{1,40}( [a-zA-Z]{1,40})+$/;
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
   name: yup
@@ -55,7 +56,7 @@ const validationSchema = yup.object({
     .min(3, "Please enter your name")
     .required("Full name is required.")
     .matches(countryNameRegex, "Only alphabets are required."),
-  email: yup.string().email("Please enter a valid email address.").required(),
+  email: yup.string().email("Please enter a valid email address.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
     .max(12, "Contact number must be at least 12 number.")
@@ -192,7 +193,7 @@ export default function SignInSide() {
                 gutterBottom
                 style={{ fontSize: "16px" }}
               >
-                Fill below fields to sign up
+                Fill Below Fields To Sign Up
               </Typography>
             </Grid>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>

@@ -36,7 +36,7 @@ function dietplan({match}) {
                         </Link>
                         <Link className="id" to="/user/dietplan/tursday" style={{ textDecoration: "none", color: "#122A4D" }}>
                             <Button variant="outlined" style={{ textTransform: "capitalize" }}>
-                                Tursday
+                                Tuesday
                             </Button>
                         </Link>
                         <Link className="id" to="/user/dietplan/wednesday" style={{ textDecoration: "none", color: "#122A4D" }}>
@@ -46,12 +46,12 @@ function dietplan({match}) {
                         </Link>
                         <Link className="id" to="/user/dietplan/thuesday" style={{ textDecoration: "none", color: "#122A4D" }}>
                             <Button variant="outlined" style={{ textTransform: "capitalize" }}>
-                                Thuesday
+                                Thursday
                             </Button>
                         </Link>
                         <Link className="id" to="/user/dietplan/" style={{ textDecoration: "none", color: "#122A4D" }}>
                             <Button variant="outlined" style={{ textTransform: "capitalize" }}>
-                                Firday
+                                Friday
                             </Button>
                         </Link>
                         <Link className="id" to="/user/dietplan/saturday" style={{ textDecoration: "none", color: "#122A4D" }}>
