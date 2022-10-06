@@ -30,6 +30,7 @@
     "react-swipeable-views": "^0.14.0",
     "react-time-picker-input": "^2.0.10",
     "react-top-loading-bar": "^2.1.0",
+    "serve": "^14.0.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^5.0.0",
