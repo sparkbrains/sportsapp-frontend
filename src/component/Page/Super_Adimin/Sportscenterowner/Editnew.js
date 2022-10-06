@@ -79,7 +79,6 @@ const Editnew = () => {
     sportcenter: "",
     location: "",
   });
-  console.log(editnew, "editnew111112222");
   const onInputChange = (e) => {
     setEditnew({ ...editnew, [e.target.name]: e.target.value });
   };
@@ -98,7 +97,6 @@ const Editnew = () => {
       )
       .then((res) => {
         setMessage(res.data.message);
-        console.log(res, "ssssssankul");
         swal("Owner Edit Successfully.", "", "success", {
           button: "ok",
         });
@@ -136,12 +134,11 @@ const Editnew = () => {
         opentimings:result.data?.opentimings,
         closetimings:result.data?.closetimings,
         phone_no:result.data?.profile?.phone_no,
-        sports_center:result.data?.sports_center,
+        sports_center:result.data?.sports_center.center_name,
         location:result.data?.location
       },
   );
 
-    console.log(editnew, "helloeditnew");
   };
   const onChange = (event, item) => {
     setEditnew((prev) => {
@@ -385,7 +382,7 @@ const Editnew = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                {/* <Grid item xs={12} sm={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -408,7 +405,7 @@ const Editnew = () => {
                     }}
                   >
                     <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{ marginTop: "5px" }}>Upload Sports Logo</p>
+                    <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */}
 
                     {/* <Button
                                                     variant="contained"
@@ -424,7 +421,7 @@ const Editnew = () => {
                                                         hidden
                                                     />
                                                 </Button> */}
-                  </div>
+                  {/* </div>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <InputLabel
@@ -451,7 +448,7 @@ const Editnew = () => {
                     <MdFileUpload style={{ fontSize: "40px" }} />
                     <p style={{ marginTop: "5px" }}>
                       Upload Supporting Documents
-                    </p>
+                    </p> */}
 
                     {/* <Button
                                                     variant="contained"
@@ -467,8 +464,8 @@ const Editnew = () => {
                                                         hidden
                                                     />
                                                 </Button> */}
-                  </div>
-                </Grid>
+                  {/* </div>
+                </Grid> */}
                 <Grid item xs={12} sm={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button

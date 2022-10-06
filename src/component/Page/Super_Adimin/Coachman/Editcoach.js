@@ -82,7 +82,6 @@ export default function CenteredGrid() {
       .patch(baseURL + `sports/coach/?id=${id}`, editcoach, specialisation)
       .then((res) => {
         setMessage(res.firstname);
-        console.log(res, "ssssssankul");
         swal("Coach Edit Successfully.", "", "success", {
           button: "ok",
         });

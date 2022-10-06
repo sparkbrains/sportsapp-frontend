@@ -22,6 +22,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import swal from "sweetalert";
+import Paper from "@mui/material/Paper";
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -84,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
 export default function WidgetLg() {
   const [data, setData] = useState([]);
 
-  console.log(data, "data");
 
   //console.log(data[0].user.name,"data1")
   const classes = useStyles();
@@ -115,7 +116,6 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        console.log(res, "ssssssankul");
         swal("User Deleted Successfully", "", "success", {
           button: "ok",
         });
@@ -214,7 +214,7 @@ export default function WidgetLg() {
       </Container>
 
       <div className="WidgetLg" style={{ marginBottom: "85px" }}>
-        <paper elevation={3}>
+        <Paper elevation={3}>
           <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
@@ -301,7 +301,7 @@ export default function WidgetLg() {
               </DialogActions>
             </Dialog>
           </TableContainer>
-        </paper>
+        </Paper>
       </div>
     </>
   );

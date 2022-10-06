@@ -84,7 +84,6 @@ export default function SignInSide() {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
-  console.log(success,"log");
 
   useEffect(() => {
     document.title = "Sign In"
@@ -104,10 +103,8 @@ export default function SignInSide() {
   };
   //const { REACT_APP_API_ENDPOINT } = process.env;
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-  console.log(baseURL,"hello ankul");
   const onSubmit = async (e) => {
 
-    console.log(process.env,"hello123321");
     console.log(email)
     console.log(password)
     setIsLoading(true);
@@ -121,7 +118,6 @@ export default function SignInSide() {
 
       .then((res) => {
         setIsLoading(false);
-        console.log(res,"res1234");
         setMessage(res.data.message)
         console.log();
          
@@ -202,7 +198,7 @@ export default function SignInSide() {
                   <Grid container spacing={2} className="firstsignin" style={{ margin: "0" }}>
                     <Grid item md={6} lg={6}>
                       <div className="sports-app"  >
-                        <p1 style={{ fontSize: "20px" }}>WELCOME TO</p1>
+                        <p style={{ fontSize: "20px" }}>WELCOME TO</p>
                         <Typography component="h1" variant="h5" className="Sig" >
                           Sports App
                           <hr style={{ width: "36%", textAlign: "left", marginLeft: "0" }} />
@@ -220,7 +216,7 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h4" className="Sign">
                           Sign in
                         </Typography>
-                        <p1 className="p">Sign In with your Email and Password</p1>
+                        <p className="p">Sign In with your Email and Password</p>
                         {/* <FromSuccess> {success ?success:""} </FromSuccess> */}
                         <form className={classes.form} method="POST" noValidate onSubmit={formik.handleSubmit}
                         // onChange={Submit}

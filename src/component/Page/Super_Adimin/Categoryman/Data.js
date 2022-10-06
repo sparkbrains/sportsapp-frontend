@@ -23,6 +23,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Paper from "@mui/material/Paper";
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -100,7 +102,6 @@ export default function WidgetLg() {
     setOpen(false);
   };
 
-  console.log(data, "data");
 
   useEffect(() => {
     loadUsers();
@@ -116,7 +117,6 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        console.log(res, "ssssssankul");
         swal("Category Deleted Successfully.", "", "success", {
           button: "ok",
         });
@@ -212,7 +212,7 @@ export default function WidgetLg() {
         </Grid>
       </Container>
       <div className="WidgetLg" style={{ marginBottom: "85px" }}>
-        <paper elevation={3}>
+        <Paper elevation={3}>
           <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
@@ -250,7 +250,7 @@ export default function WidgetLg() {
                         <TableCell align="left">{admin.category}</TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="left">
-                          {admin.sports_center}
+                          {admin.sports_center.center_name}
                         </TableCell>
                         <TableCell align="left">{admin.sport}</TableCell>
                         <TableCell align="center">
@@ -304,7 +304,7 @@ export default function WidgetLg() {
               </Dialog>
             </Table>
           </TableContainer>
-        </paper>
+        </Paper>
       </div>
     </>
   );

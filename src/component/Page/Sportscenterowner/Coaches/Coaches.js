@@ -17,6 +17,8 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
+import Paper from "@mui/material/Paper";
+
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -131,7 +133,7 @@ export default function BasicTable() {
             </Container>
             <Container>
                 <div className="WidgetLg">
-                <paper elevation={3}>
+                <Paper elevation={3}>
                 <TableContainer >
                 <Table aria-label="customized table">
                         <TableHead>
@@ -195,7 +197,7 @@ export default function BasicTable() {
                         </TableBody>
                     </Table>
                     </TableContainer>
-                    </paper>
+                    </Paper>
                 </div>
             </Container>
         </div>

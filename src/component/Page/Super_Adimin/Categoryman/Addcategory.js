@@ -80,7 +80,6 @@ export default function SignInSide() {
         
       )
       .then((res) => {
-        console.log(res, "ssssssankul");
         swal("Category Created Successfully.", "", "success", {
           button: "ok",
         });

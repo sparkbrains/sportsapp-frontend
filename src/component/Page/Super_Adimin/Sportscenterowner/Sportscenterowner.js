@@ -111,7 +111,6 @@ export default function BasicTable() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        console.log(res, "ssssssankul");
         swal("Owner Deleted Successfully.", "", "success", {
           button: "ok",
         });
@@ -122,9 +121,7 @@ export default function BasicTable() {
           setMessage(error.response.data.message);
 
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
           console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -142,7 +139,6 @@ export default function BasicTable() {
   const loadUsers = async () => {
     const result = await axios.get(baseURL + "sports/owner/");
     setData(result.data.reverse());
-    console.log(data, "ankul1234");
   };
 
   const downloadTxtFile = () => {
@@ -260,7 +256,7 @@ export default function BasicTable() {
                         </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="left">
-                          {admin.sports_center}
+                          {admin.sports_center.center_name}
                         </TableCell>
                         <TableCell align="left">
                           {data[i]?.profile?.phone_no}

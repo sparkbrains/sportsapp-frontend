@@ -76,7 +76,6 @@ const Editcategory = () => {
     )
     .then((res) => {
       setMessage(res.data.message);
-      console.log(res, "ssssssankul");
       swal("Category Edit Successfully.", "", "success", {
         button: "ok",
       });

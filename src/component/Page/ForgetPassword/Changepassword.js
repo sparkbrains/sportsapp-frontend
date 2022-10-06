@@ -145,7 +145,7 @@ export default function SignInSide() {
               >
                 <Grid item xs={12} md={6}>
                   <div className="display" style={{ color: "white" }}>
-                    <p1 style={{ fontSize: "20px" }}>WELCOME TO</p1>
+                    <p style={{ fontSize: "20px" }}>WELCOME TO</p>
                     <Typography component="h1" variant="h5" className="Sig">
                       Sports App
                       <hr
@@ -175,7 +175,7 @@ export default function SignInSide() {
                     <Typography component="h1" variant="h4" className="Sign">
                       Change Password
                     </Typography>
-                    <p1 className="p">Fill your new password.</p1>
+                    <p className="p">Fill your new password.</p>
                     <form
                       method="POST"
                       noValidate

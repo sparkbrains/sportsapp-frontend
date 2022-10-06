@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ButtonAppBar({match}) {
-  console.log(match,"ankul");
  
   const classes = useStyles();
   const [progress, setProgress] = useState(0);

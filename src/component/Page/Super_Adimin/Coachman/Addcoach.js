@@ -108,7 +108,6 @@ const AddCoach = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        console.log(res, "ssssssankul");
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });

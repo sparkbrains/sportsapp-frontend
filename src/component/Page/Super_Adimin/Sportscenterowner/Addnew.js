@@ -116,7 +116,6 @@ let history = useHistory();
       )
       .then((res) => {
         // setMessage(res.data.message);
-        console.log(res, "ssssssankul");
         swal("Owner Created Successfully.", "", "success", {
           button: "OK",
         });

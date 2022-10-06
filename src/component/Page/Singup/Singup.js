@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
                       className="display"
                       style={{ color: "white", marginTop: "280px" }}
                     >
-                      <p1 style={{ fontSize: "20px" }}>WELCOME TO</p1>
+                      <p style={{ fontSize: "20px" }}>WELCOME TO</p>
                       <Typography
                         component="h1"
                         variant="h5"

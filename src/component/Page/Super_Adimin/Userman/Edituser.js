@@ -82,7 +82,6 @@ const EditUser = () => {
          )
         .then((res) => {
             // setMessage(res.data.message);
-            console.log(res, "ssssssankul");
             swal("User Edit Successfully", "", "success", {
               button: "ok",
             });

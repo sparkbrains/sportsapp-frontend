@@ -160,7 +160,6 @@ export default function SignInSide() {
        
       .then((res) => {
         setMessage(res.data.message);
-        console.log(res, "ssssssankul");
         swal("User Created Successfully", "", "success", {
           button: "ok",
         });
