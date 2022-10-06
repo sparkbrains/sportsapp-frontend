@@ -366,7 +366,7 @@ export default function AddUser() {
                         fontSize: "17px",
                       }}
                     >
-                      ADD UESR
+                      ADD USER
                     </Button>
                   </div>
                 </Grid>

@@ -113,7 +113,7 @@ export default function WidgetLg() {
   };
   const deleteUser = async (id) => {
     await axios
-      .delete(baseURL + `sports/categories/${setid}/`)
+      .delete(baseURL + `sports/categories/?id=${setid}`)
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);

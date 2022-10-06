@@ -58,14 +58,14 @@ export default function DiscreteSlider() {
       )
       .then((res) => {
         setMessage(res.data.message);
-        swal("Settings Saved Successfully.", "", "message", {
-          button: "ok",
+        swal("Settings Saved Successfully.", "Success", "message", {
+          button: "OK",
         });
       })
       .catch((error) => {
         setMessage(error.message);
         swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
+          button: "OK",
         });
       });
   };
@@ -155,7 +155,7 @@ export default function DiscreteSlider() {
                       name="sportcenterowner"
                       // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="auto"
+                      valueLabelDisplay="on"
                       value={edit.sportcenterowner}
                       onChange={(e, newVal) => {
                         onChange('sportcenterowner',newVal);
@@ -178,7 +178,7 @@ export default function DiscreteSlider() {
                     }}
                       // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="auto"
+                      valueLabelDisplay="on"
                       value={edit.coach}
                       onChange={(e,newVal) => {
                         onChange('coach',newVal);
@@ -203,7 +203,7 @@ export default function DiscreteSlider() {
                     }}
                       // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="auto"
+                      valueLabelDisplay="on"
                       value={edit.enduser}
                       onChange={(e, newVal) => {
                         onChange('enduser',newVal);

@@ -127,9 +127,7 @@ let history = useHistory();
          
           // Request made and server responded
           seterror(error?.response?.data?.error)
-          console.log(error.response.data.error, "hellp1234567890");
           console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -190,7 +188,7 @@ let history = useHistory();
                   <TextField
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
-                      formik.touched.name && formik.errors.ownername
+                      formik.touched.name && formik.errors.name
                     )}
                     margin="normal"
                     required
@@ -281,12 +279,12 @@ let history = useHistory();
                   <TextField
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sportcenter && formik.errors.sportcenter
                     )}
                     margin="normal"
                     fullWidth
                     helperText={
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sportcenter && formik.errors.sportcenter
                     }
                     name="sports_center"
                     // onBlur={formik.handleBlur}
@@ -347,9 +345,9 @@ let history = useHistory();
                     onChange={handleopentimingsChange}
                     id="closetimings"
                     name="closetimings"
-                    min="09:00"
-                    max="18:00"
-                    defaultValue="09:00"
+                    min="00:00"
+                    max="12:00"
+                    defaultValue="07:00"
                     required
                   ></TextField>
                  
@@ -376,8 +374,8 @@ let history = useHistory();
                     onChange={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
-                    min="00:00"
-                    defaultValue="10:00"
+                    min="12:00"
+                    defaultValue="12:00"
                     max="23:59"
                     required
                   ></TextField>

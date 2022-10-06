@@ -21,7 +21,7 @@ function Footer() {
                 textAlign: "center", color: "#999",
                     height: "30px",
             }} >
-                Made with <Favorite style={{ fontSize: "12px" }} /> by SparkBrains. Copyright 2022. All right reserved.
+                Made by SparkBrains. Copyright 2022. All right reserved.
             </p>
             </AppBar>
         </Container>
