@@ -66,7 +66,6 @@ const Addsportscenter = () => {
     timefrom: "",
     location: "",
   });
-  console.log(user, "hello mam");
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };

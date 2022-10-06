@@ -185,7 +185,6 @@ const Editnew = () => {
   
 
   const classes = useStyles();
-  console.log(editnew,'editnew');
   return (
     <div style={{ marginBottom: "80px" }}>
       {/* <SportsCenterOwners /> */}

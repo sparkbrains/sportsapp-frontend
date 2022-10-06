@@ -8,9 +8,9 @@ import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 import swal from "sweetalert";
+import { useHistory } from "react-router-dom";
 import "./Signup.css";
 import {
   PersonRounded,
@@ -19,14 +19,9 @@ import {
   VpnKeyOutlined,
   Wc,
 } from "@material-ui/icons";
-import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { useEffect } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,60 +56,39 @@ const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 const validationSchema = yup.object({
   name: yup
     .string()
-    .min(3, "Please enter your name")
-    .required("Full name is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // .matches(countryNameRegex, "Only alphabets are required."),
-  email: yup
-    .string()
-    .email("Please enter a valid email address a@gmail.COM .").matches(emailRegx, "Invalid Email ID...")
-    .required("Email is a required field."),
+    .min(3, "Please Enter Your Name...")
+    .required("Full Name Is Required...")
+    .matches(/^[A-Za-z ]*$/, 'Only Alphabets Are Required.'),
+    // .matches(countryNameRegex, "Only alphabets are required."),
+  email: yup.string().email("Please Enter a Valid Email Address.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
-    .min(10, "Please enter your 10 digit Mobile Number")
-    .max(12, "Please enter your 10 digit Mobile Number")
-    .required("Contact number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
-  // gendr: yup
-  // .string()
-  //   .required("Required") ,
+    .max(12, "Contact Number Must Be At Least 12 Number.")
+    .required("Contact Number Is Required.")
+    .matches(phoneRegExp, "Only Numbers Are Allowed."),
   password: yup
     .string()
-    .matches(PASSWORD_REGEX, " Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.")
-    .required("Password is a required field."),
+    .matches(PASSWORD_REGEX, "Please Enter A Strong Password.")
+    .required(),
   confirmPassword: yup
     .string()
-    .required("Please confirm your password.")
+    .required("Please Confirm Your Password.")
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
       then: yup
         .string()
-        .oneOf([yup.ref("password")], "Password does not match"),
+        .oneOf([yup.ref("password")], "Password Does Not Match."),
     }),
 });
 
+
+
+
 export default function SignInSide() {
+  
   useEffect(() => {
     document.title = "Sign Up User";
   }, []);
-  const [role, setRole] = useState("owner");
-  const classes = useStyles();
-  const [age, setAge] = useState("MALE");
-   console.log(age,"hello");
-  const [gender, setgender] = useState("MALE");
-  console.log(gender,"hello");
-  // const [age, setAge] = React.useState('');
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [mes, setMes] = useState(null);
-
-  let history = useHistory();
-
-  // console.log(selectedValue, "ram");
-
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
 
   const [name, setname] = useState();
   const handlenameChange = (e) => {
@@ -124,11 +98,11 @@ export default function SignInSide() {
   const handleEmailChange = (e) => {
     setemail(e.target.value);
   };
-  const [contact, setcontact] = useState();
-  const handleContactChange = (e) => {
-    setcontact(e.target.value);
+  const [contactno, setcontactno] = useState();
+  const handleContactnoChange = (e) => {
+    setcontactno(e.target.value);
   };
-
+  const [gender, setgender] = useState();
   const handleGenderonChange = (e) => {
     setgender(e.target.value);
   };
@@ -136,52 +110,41 @@ export default function SignInSide() {
   const handlePasswordonChange = (e) => {
     setPassword(e.target.value);
   };
-  //  const showAlert = () => {
-  //     Swal.fire({
-  //         title: "Success",
-  //         text: "Alert successful",
-  //         icon: "success",
-  //         confirmButtonText: "OK",
-  //       });
-  // }
-  const baseURL = process.env.REACT_APP_API_ENDPOINT;
+  const [message, setMessage] = useState(null);
+  let history = useHistory();
+
+
   const onSubmit = async (e) => {
-    console.log("ddddaa");
     // e.preventDefault();
     const res = await axios
-      .post(baseURL+"users/register/",
-        {
-          name: name,
-          email: email,
-          gender: gender,
-          contact: contact,
-          password: password,
-          role: role,
-        }
-      )
-       
+      .post("http://1806-103-205-134-82.ngrok.io/signup/", {
+        name: (name),
+        email: (email),
+        gender: (gender),
+        contact: (contactno),
+        password: (password),
+      })
       .then((res) => {
+        formik.resetForm();        
         setMessage(res.data.message);
-        swal("User Created Successfully", "", "success", {
+        swal("Owner Account has Created Successfully!!", "", "success", {
           button: "ok",
         });
         history.push("/")
+       
       })
-      // .catch((err) => { });
-      .catch((error) => {
+     
+      .catch(function (error) {
         if (error.response) {
-          setMessage(error.response.data.message);
-          setMes(error.response.data.gender);
-          // Request made and server responded
+          console.log(error.response.data);
           console.log(error.response.status);
+          console.log(error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
           console.log(error.request);
         } else {
           console.log("Error", error.message);
         }
-        //{message && <div>{message}</div>}
-
+        console.log(error.config);
         swal("User with this email already exists.", "", "error", {
           button: "ok",
         });
@@ -192,21 +155,22 @@ export default function SignInSide() {
     initialValues: {
       name: "",
       email: "",
-      contactno: "",
+      contactno:"",
+      gender: "",
       password: "",
-      // gender:"",
       confirmPassword: "",
     },
     validateOnBlur: true,
     onSubmit,
-
     validationSchema: validationSchema,
   });
 
-  // console.log("formik",formik);
+  const classes = useStyles();
+  const [age, setAge] = useState("");
+  // const [age, setAge] = React.useState('');
+  const [open, setOpen] = useState(false);
 
   const onChange = (event, item) => {
-    // console.log("item  in onchange",item?.props?.children?.props?.children)
     setgender(item.props.children);
     setAge(event.target.value);
   };
@@ -220,59 +184,12 @@ export default function SignInSide() {
   };
 
   return (
-    // swal("Here's a titlel", "Here's some text", "success", {
-    //   button: "I am new button",
-    // }),
-    <Grid container component="main">
+    <Grid container component="main" >
       <CssBaseline />
       <Grid md={12}>
+      
         <div className="main">
           <div className={classes.paper}>
-            <div>
-              <Stack
-                direction="row"
-                spacing={2}
-                style={{ justifyContent: "center", marginTop: "34px" }}
-              >
-             
-                <FormControl>
-                  <RadioGroup
-                  defaultValue="owner"
-                  checked={role === "owner"}
-                    row
-                     //aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                    
-                    defaultChecked={role === "owner"}
-                      onChange={handleChange}
-                      value="owner"
-                      control={<Radio />}
-                      label="Owner Signup"
-                      inputProps={{ "aria-label": "owner" }}
-                    />
-                    <FormControlLabel
-                      checked={role === "coach"}
-                      onChange={handleChange}
-                      value="coach"
-                      control={<Radio />}
-                      label="Coaches Signup"
-                      inputProps={{ "aria-label": "coaches" }}
-                    />
-                    <FormControlLabel
-                      checked={role === "user"}
-                      onChange={handleChange}
-                      value="user"
-                      control={<Radio />}
-                      label="User Signup"
-                      inputProps={{ "aria-label": "user" }}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Stack>
-            </div>
-
             <Grid
               align="start"
               style={{
@@ -281,14 +198,13 @@ export default function SignInSide() {
                 fontWeight: "bold",
               }}
             >
-              <h2 className="signupheading"> Sign Up</h2>
-              {/* {message && <div>{message}</div>} */}
+              <h2 className="signupheading">Coaches Sign Up</h2>
               <Typography
                 variant="caption"
                 gutterBottom
                 style={{ fontSize: "16px" }}
               >
-                Fill below fields to sign up
+                Fill Below Fields To Sign Up
               </Typography>
             </Grid>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>
@@ -307,7 +223,6 @@ export default function SignInSide() {
                 NAME
               </InputLabel>
               <TextField
-                inputProps={{ maxLength: 50 }}
                 error={Boolean(formik.touched.name && formik.errors.name)}
                 margin="normal"
                 required
@@ -334,7 +249,6 @@ export default function SignInSide() {
                 EMAIL
               </InputLabel>
               <TextField
-                inputProps={{ maxLength: 50 }}
                 error={Boolean(formik.touched.email && formik.errors.email)}
                 fullWidth
                 helperText={formik.touched.email && formik.errors.email}
@@ -362,31 +276,26 @@ export default function SignInSide() {
                     GENDER
                   </InputLabel>
                   <Select
-                    //  error={Boolean(formik.touched.gender && formik.errors.gender)}
+                    // error={Boolean(touched.gender && errors.gender)}
                     fullWidth
-                    required
-                    //  helperText={formik.touched.gender && formik.errors.gender}
+                    // helperText={touched.gender && errors.gender}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    Value={age}
-                    // onChange={(item)=>{console.log("Selected item",item.target.value)}}
+                    value={age}
                     onChange={onChange}
-                    defaultValue="MALE"
-
                     // onBlur={formik.handleBlur}
                     // onKeyUp={handleGenderonChange}
                   >
-                    {/* <MenuItem value="">
-                      <em>Male</em>
-                    </MenuItem> */}
-                    <MenuItem value="MALE">Male</MenuItem>
-                    <MenuItem value="FEMALE">Female</MenuItem>
-                    <MenuItem value="OTHER">Other</MenuItem>
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Male</MenuItem>
+                    <MenuItem value={20}>Female</MenuItem>
+                    <MenuItem value={30}>Other</MenuItem>
                   </Select>
-                  {mes && <div style={{ color: "red" }}>{mes}</div>}
                 </Grid>
 
                 <Grid item sm={12} md={6}>
@@ -405,7 +314,6 @@ export default function SignInSide() {
                   </InputLabel>
 
                   <TextField
-                    inputProps={{ maxLength: 13 }}
                     error={Boolean(
                       formik.touched.contactno && formik.errors.contactno
                     )}
@@ -417,8 +325,8 @@ export default function SignInSide() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     name="contactno"
-                    // type="number"
-                    onKeyUp={handleContactChange}
+                    type="number"
+                    onKeyUp={handleContactnoChange}
                     autoComplete="number"
                   />
                 </Grid>
@@ -437,7 +345,6 @@ export default function SignInSide() {
                 PASSWORD
               </InputLabel>
               <TextField
-                inputProps={{ maxLength: 40 }}
                 error={Boolean(
                   formik.touched.password && formik.errors.password
                 )}
@@ -466,7 +373,6 @@ export default function SignInSide() {
               </InputLabel>
 
               <TextField
-                inputProps={{ maxLength: 40 }}
                 error={Boolean(
                   formik.touched.confirmPassword &&
                     formik.errors.confirmPassword
@@ -499,8 +405,7 @@ export default function SignInSide() {
                   type="submit"
                   variant="outlined"
                   size="medium"
-                  // onClick={showAlert}
-                  // onClick={handleSubmit}
+                  onClick={(e) =>onSubmit(e)}
                   color="primary"
                   className={classes.margin}
                 >
@@ -536,6 +441,7 @@ export default function SignInSide() {
             </form>
           </div>
         </div>
+      
       </Grid>
     </Grid>
   );

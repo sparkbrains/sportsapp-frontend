@@ -356,7 +356,7 @@ export default function AddUser() {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
-                      onClick={(e) => {onSubmit(e); console.log("user")}}
+                      onClick={(e) => {onSubmit(e)}}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

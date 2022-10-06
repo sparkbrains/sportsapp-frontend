@@ -307,7 +307,7 @@ export default function SignInSide() {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
-                      onClick={(e) => {onSubmit(e); console.log("cat")}}
+                      onClick={(e) => {onSubmit(e)}}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

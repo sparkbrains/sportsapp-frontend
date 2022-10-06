@@ -7,11 +7,14 @@ import Container from "@material-ui/core/Container";
 import "./Signup.css";
 import { useEffect } from "react";
 import Stack from "@mui/material/Stack";
+import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import Ownersignup  from './Ownersignup ';
+import Usersignup from "./Usersignup";
+import Coachessignup from "./Coachessignup";
+import Ownersignup from "./Ownersignup ";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
  function SignInSide({ match }) {
-  console.log(match, "login match");
 
   useEffect(() => {
     document.title = "Sign Up User";
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
       <CssBaseline />
       <Grid md={12}>
         <div className="bgimg1">
+          <Router>
             <Container maxWidth="false">
               <div className="main">
                 <Grid container spacing={2} style={{ margin: "0" }}>
@@ -85,15 +88,77 @@ const useStyles = makeStyles((theme) => ({
                   </Grid>
 
                   <Grid item md={6} lg={6}>
-                
+                    {/* <Signupapp /> */}
+
                     <Container>
-                      
-                      <Ownersignup />
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        style={{ justifyContent: "center", marginTop: "34px" }}
+                      >
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            // aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                          >
+                            <Link
+                              to={`${match.path}/usersignup`}
+                              variant="body2"
+                              style={{ textDecoration: "none" }}
+                            >
+                              <FormControlLabel
+                                value="Coaches"
+                                control={<Radio />}
+                                label="User Signup"
+                              />
+                            </Link>
+                            <Link
+                              to={`${match.path}/coachessignup`}
+                              variant="body2"
+                              style={{ textDecoration: "none" }}
+                            >
+                              <FormControlLabel
+                                value="Owner"
+                                control={<Radio />}
+                                label="Coaches Signup"
+                              />
+                            </Link>
+                            <Link
+                              to={`${match.path}/`}
+                              variant="body2"
+                              style={{ textDecoration: "none" }}
+                            >
+                              <FormControlLabel
+                                value="ownersignup"
+                                control={<Radio />}
+                                label="Owner Signup"
+                              />
+                            </Link>
+                          </RadioGroup>
+                        </FormControl>
+                      </Stack>
                     </Container>
+                    <Switch>
+                      <Route
+                        exact
+                        path={`${match.path}/coachessignup`}
+                        component={Coachessignup}
+                      />
+                      <Route
+                        path={`${match.path}/usersignup`}
+                        component={Usersignup}
+                      />
+                      <Route
+                        path={`${match.path}/`}
+                        component={Ownersignup}
+                      />
+                    </Switch>
                   </Grid>
                 </Grid>
               </div>
             </Container>
+          </Router>
         </div>
       </Grid>
     </Grid>

@@ -86,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
 export default function WidgetLg() {
   const [data, setData] = useState([]);
 
-  console.log(data, "data");
 
   //console.log(data[0].user.name,"data1")
   const classes = useStyles();
@@ -171,7 +170,7 @@ export default function WidgetLg() {
           >
             <div
               className="search"
-              style={{ border: "1px solid black" }}
+              style={{ "display": "flex",border: "1px solid black" }}
             >
               <InputBase
                 onChange={(e) => {
@@ -184,7 +183,7 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-              <div className="searchIcon">
+              <div style={{"margin" : "10px"}} >
                 <SearchIcon />
               </div>
             </div>

@@ -68,7 +68,6 @@ export default function CenteredGrid() {
   };
   const onSubmit = async (e) => {
     // e.preventDefault();
-    console.log(e, "coach");
    const res = await axios.post(baseURL+"sports/coaches/", user);
    history.push("/sportscenterowner/coaches");
   };

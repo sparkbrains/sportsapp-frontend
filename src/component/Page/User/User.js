@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ButtonAppBar({ match }) {
-  console.log(match,'mam');
   const classes = useStyles();
 
   return (

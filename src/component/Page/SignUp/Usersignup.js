@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import "./Signup.css";
+import swal from "sweetalert";
+import { useHistory } from "react-router-dom";
 import {
   PersonRounded,
   Email,
@@ -50,32 +52,30 @@ const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 const countryNameRegex = /^[a-zA-Z]{1,40}( [a-zA-Z]{1,40})+$/;
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
-
 const validationSchema = yup.object({
   name: yup
     .string()
-    .min(3, "Please Enter Your Name...")
-    .required("Full Name Is Required...")
-    .matches(/^[A-Za-z ]*$/, 'Only Alphabets Are Required.'),
-    // .matches(countryNameRegex, "Only alphabets are required."),
-  email: yup.string().email("Please Enter a Valid Email Address.").matches(emailRegx, "Invalid Email ID...").required(),
+    .min(3, "Please enter your name")
+    .required("Full name is required.")
+    .matches(countryNameRegex, "Only alphabets are required."),
+  email: yup.string().email("Please enter a valid email address.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
-    .max(12, "Contact Number Must Be At Least 12 Number.")
-    .required("Contact Number Is Required.")
-    .matches(phoneRegExp, "Only Numbers Are Allowed."),
+    .max(12, "Contact number must be at least 12 number.")
+    .required("Contact number is required.")
+    .matches(phoneRegExp, "Only numbers are allowed."),
   password: yup
     .string()
-    .matches(PASSWORD_REGEX, "Please Enter A Strong Password.")
+    .matches(PASSWORD_REGEX, "Please enter a strong password.")
     .required(),
   confirmPassword: yup
     .string()
-    .required("Please Confirm Your Password.")
+    .required("Please confirm your password.")
     .when("password", {
       is: (val) => (val && val.length > 0 ? true : false),
       then: yup
         .string()
-        .oneOf([yup.ref("password")], "Password Does Not Match."),
+        .oneOf([yup.ref("password")], "Password does not match."),
     }),
 });
 
@@ -109,8 +109,12 @@ export default function SignInSide() {
     setPassword(e.target.value);
   };
 
+  const [message, setMessage] = useState(null);
+  let history = useHistory();
+
   const onSubmit = async (e) => {
     // e.preventDefault();
+    
     const res = await axios
       .post("http://1806-103-205-134-82.ngrok.io/signup/", {
         name: (name),
@@ -120,9 +124,14 @@ export default function SignInSide() {
         password: (password),
       })
       .then((res) => {
-       
+        formik.resetForm();        
+        setMessage(res.data.message);
+        swal("Owner Account has Created Successfully!!", "", "success", {
+          button: "ok",
+        });
+        history.push("/")
       })
-     
+      // .catch((err) => { });
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -134,6 +143,9 @@ export default function SignInSide() {
           console.log("Error", error.message);
         }
         console.log(error.config);
+        swal("User with this email already exists.", "", "error", {
+          button: "ok",
+        });
       });
   };
 
@@ -183,7 +195,7 @@ export default function SignInSide() {
                 fontWeight: "bold",
               }}
             >
-              <h2 className="signupheading">Coaches Sign Up</h2>
+              <h2 className="signupheading">User Sign Up</h2>
               <Typography
                 variant="caption"
                 gutterBottom
@@ -390,7 +402,7 @@ export default function SignInSide() {
                   type="submit"
                   variant="outlined"
                   size="medium"
-                  // onClick={handleSubmit}
+                  onClick={(e) => onSubmit(e)}
                   color="primary"
                   className={classes.margin}
                 >

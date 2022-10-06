@@ -71,7 +71,6 @@ export default function CenteredGrid() {
   });
   const onInputChange = (e) => {
     setEditcoach({ ...editcoach, [e.target.name]: e.target.value });
-    console.log(editcoach, "editcoach===");
   };
 
   useEffect(() => {
@@ -122,7 +121,6 @@ export default function CenteredGrid() {
       email: result.data?.user?.email,
     });
 
-    //console.log(editcoach,"editcoach");
   };
 
   const classes = useStyles();

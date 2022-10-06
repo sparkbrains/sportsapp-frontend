@@ -55,7 +55,6 @@ export default function SignInSide() {
   };
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = (e) => {
-    console.log(email);
     // e.preventDefault();
     axios
       .post(baseURL+"users/forget-password/step1/",
@@ -68,18 +67,12 @@ export default function SignInSide() {
         swal("Email sent successfully.", "", "success", {
           button: "ok",
         });
-        console.log(res.data.status, "lekkoo");
-        //  setState({
-        //   email: "",
-        // });
       })
       .catch((error) => {
         if (error.response) {
           setMessage(error.response.data.status);
           // setMes(error.response.data.gender)
           // Request made and server responded
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);

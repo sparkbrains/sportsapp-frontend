@@ -47,14 +47,15 @@ const Editcategory = () => {
   const [message, setMessage] = useState(null);
   const [mes, setMes] = useState(null);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-   console.log(mes,"ggggg");
   const handlesportnoChange = (e) => {
     setsport(e.target.value);
   };
   const [user, setUser] = useState({
     category: "",
     sport: "",
-    sport_center: "",
+    sport_center: {
+      center_name : ""
+    },
     location: "",
   });
 
@@ -93,7 +94,6 @@ const Editcategory = () => {
     const result = await axios.get(baseURL+`sports/categories/${id}/`
     );
     setUser(result.data);
-    console.log(result.data,"tes======");
   };
 
   const formik = useFormik({
@@ -119,7 +119,7 @@ const Editcategory = () => {
   const [sports, setSports] = useState([]);
   const handleSports = async (e) => {
     const resp = await axios.get(
-      baseURL + "sports/categories/"
+      baseURL + "sports/sports-center/sports-center-owner/"
     );
     // setSportsCenter(resp.data);
     setSports(resp.data);

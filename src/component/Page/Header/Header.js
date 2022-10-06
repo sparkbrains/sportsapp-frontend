@@ -101,7 +101,6 @@ export default function Header(history) {
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(event,"helloevent");
   };
 
   const handleMobileMenuClose = () => {

@@ -99,7 +99,7 @@ const AddCoach = () => {
           },
           profile: {
             role: "coach",
-            contact: contact,
+            phone_no: contact,
           },
           name: name,
           location: location,
@@ -127,7 +127,6 @@ const AddCoach = () => {
     const resp = await axios.get(
       baseURL + "sports/sports-center/sports-center-owner/"
     );
-    // setSportsCenter(resp.data);
     setSports(resp.data);
   };
 
@@ -249,7 +248,7 @@ const AddCoach = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
-                    name="contact"
+                    name="phone_no"
                     autoComplete="number"
                     variant="outlined"
                     label="Phone No."

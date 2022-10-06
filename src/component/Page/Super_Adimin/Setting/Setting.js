@@ -52,7 +52,6 @@ export default function DiscreteSlider() {
   const classes = useStyles();
   const handleSubmit = (e) => {
     // e.preventDefault();
-    console.log(edit,"edit2");
     axios
       .patch(baseURL+`sports/setting/1/`,
       edit
@@ -124,7 +123,6 @@ export default function DiscreteSlider() {
       [name]:val
     })
   }
-  console.log(edit,'edit===');
   return (
     <div>
       <Container>
@@ -154,20 +152,15 @@ export default function DiscreteSlider() {
 
                   <div className="sliderbox">
                     <Slider
-                      sx={{
-                        '& input[type="range"]': {
-                          WebkitAppearance: 'slider-horizontal',
-                        },
-                      }}
                       name="sportcenterowner"
                       // defaultValue={50}
+                      aria-label="Default"
                       valueLabelDisplay="auto"
                       value={edit.sportcenterowner}
                       onChange={(e, newVal) => {
                         onChange('sportcenterowner',newVal);
                       }}
-                      step={1}
-                      getAriaValueText={(val) =>valueText(val)}
+                      // getAriaValueText={valueText}
                       marks={marks}
                     />
                   </div>
@@ -193,7 +186,7 @@ export default function DiscreteSlider() {
                       step={1}
                       marks={marks}
 
-                      getAriaValueText={(val) =>valueText(val)}
+                      // getAriaValueText={(val) =>valueText(v/al)}
                     />
                   </div>
                 </div>
@@ -218,7 +211,7 @@ export default function DiscreteSlider() {
                       step={1}
                       marks={marks}
 
-                      getAriaValueText={(val) =>{valueText(val)}}
+                      // getAriaValueText={(val) =>{valueText(val)}}
                     />
                   </div>
                 </div>

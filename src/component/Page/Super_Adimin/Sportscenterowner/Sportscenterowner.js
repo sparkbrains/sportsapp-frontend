@@ -121,7 +121,6 @@ export default function BasicTable() {
   }, []);
 
   const deleteUser = async () => {
-    console.log(setid, "id===");
     await axios
       .delete(baseURL + `sports/owner/?id=${setid}`)
       .then((res) => {
@@ -193,7 +192,7 @@ export default function BasicTable() {
               justifyContent: "end",
             }}
           >
-            <div className="search" style={{ border: "1px solid black " }}>
+            <div className="search" style={{ "display": "flex", border: "1px solid black " }}>
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -206,11 +205,11 @@ export default function BasicTable() {
                 inputProps={{ "aria-label": "search" }}
                 className="search_bar"
               >
-                <SearchIcon />
               </InputBase>
 
-              {/* <div className="searchIcon">
-              </div> */}
+              <div style={{"margin" : "10px"}}>
+                <SearchIcon />
+              </div>
             </div>
 
             <Link to="/superadmin/addnew" style={{ textDecoration: "none" }}>

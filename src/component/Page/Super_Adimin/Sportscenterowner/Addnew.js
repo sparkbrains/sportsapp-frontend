@@ -95,7 +95,6 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    console.log(sports_center,"sports");
     const res = await axios
       .post(
         baseURL + "sports/owner/",
@@ -360,9 +359,9 @@ const Addnew = () => {
                     onChange={handleopentimingsChange}
                     id="closetimings"
                     name="closetimings"
-                    min="09:00"
-                    max="18:00"
-                    defaultValue="09:00"
+                    min="00:00"
+                    max="23:59"
+                    defaultValue="00:00"
                     required
                     label="Opening-Time"
                   ></TextField>
@@ -390,7 +389,7 @@ const Addnew = () => {
                     id="closetimings"
                     name="closetimings"
                     min="00:00"
-                    defaultValue="10:00"
+                    defaultValue="23:59"
                     max="23:59"
                     required
                     label="Closing-Time"
@@ -432,7 +431,7 @@ const Addnew = () => {
                     label="Password"
                   />
                 </Grid>
-                <Grid item sm={12} md={4}>
+                {/* <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -485,7 +484,7 @@ const Addnew = () => {
                       Upload Supporting Documents
                     </p>
                   </div>
-                </Grid>
+                </Grid> */}
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button

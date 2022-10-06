@@ -131,10 +131,8 @@ export default function AddUser() {
   const [age, setAge] = useState("");
   const [open, setOpen] = useState(false);
   const onChange = (event, gender) => {
-    console.log(gender.props.children);
     setgender(gender.props.children);
     setAge(event.target.value);
-    console.log(event);
   };
 
   const handleClose = () => {

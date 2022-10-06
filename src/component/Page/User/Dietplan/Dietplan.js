@@ -14,7 +14,7 @@ import Saturday from './Saturday'
 import Sunday from './Sunday'
 
 function dietplan({match}) {
-    console.log(match,'hello match');
+
     return (
         <Router>
             <Container maxWidth="lg">

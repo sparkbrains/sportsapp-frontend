@@ -102,7 +102,6 @@ export default function WidgetLg() {
     setOpen(false);
   };
 
-  console.log(data, "data");
 
   useEffect(() => {
     loadUsers();
@@ -167,7 +166,7 @@ export default function WidgetLg() {
           >
             <div
               className="search"
-              style={{ border: "1px solid black" }}
+              style={{ "display": "flex",border: "1px solid black" }}
             >
              
               <InputBase
@@ -181,7 +180,7 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-               <div className="searchIcon">
+               <div style={{"margin" : "10px"}}>
                 <SearchIcon />
               </div>
             </div>
@@ -248,7 +247,7 @@ export default function WidgetLg() {
                         <TableCell align="left">{admin.category}</TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="left">
-                          {admin.sports_center}
+                          {admin.sports_center.center_name}
                         </TableCell>
                         <TableCell align="left">{admin.sport}</TableCell>
                         <TableCell align="center">

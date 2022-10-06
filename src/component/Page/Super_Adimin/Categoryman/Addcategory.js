@@ -57,7 +57,6 @@ export default function SignInSide() {
   };
   const [sportsCenter, setsportCenter] = useState();
   const handlesportcenterChange = (e) => {
-    console.log(e,"eeeeeee");
     setsportCenter(e.target.value);
   };
   const [sport, setsport] = useState("Select");
@@ -74,8 +73,10 @@ export default function SignInSide() {
         {
           category: category,
           sport: sport,
-          sports_center: sportsCenter,
           location: location,
+          sports_center: {
+            center_name: sportsCenter,
+          },
         },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -95,7 +96,7 @@ export default function SignInSide() {
     initialValues: {
       category: "",
       sport:"",
-      sports_center: "",
+      sports_center: {center_name :""},
       location: "",
     },
     validateOnBlur: true,
@@ -116,7 +117,6 @@ export default function SignInSide() {
   const [age, setAge] = React.useState("football");
   const [open, setOpen] = React.useState(false);
   const onChange = (event, item) => {
-    console.log(item.props.children);
     setsport(item.props.children);
     setAge(event.target.value);
   };

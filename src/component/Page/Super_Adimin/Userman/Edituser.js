@@ -66,7 +66,6 @@ const EditUser = () => {
         location: "",
     });
 
-   console.log(admin,"admin");
     
 
     const onInputChange = e => {

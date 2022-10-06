@@ -85,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function WidgetLg() {
   const [data, setData] = useState([]);
-  console.log(data, "data");
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
   const [message, setMessage] = useState(null);
@@ -169,11 +168,9 @@ export default function WidgetLg() {
           >
             <div
               className={classes.search}
-              style={{ border: "1px solid black" }}
+              style={{ "display": "flex",border: "1px solid black" }}
             >
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
+              
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -185,6 +182,9 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
+              <div style={{"margin" : "10px"}}>
+                <SearchIcon/>
+              </div>
             </div>
 
             <Link to="/superadmin/addcoach" style={{ textDecoration: "none" }}>

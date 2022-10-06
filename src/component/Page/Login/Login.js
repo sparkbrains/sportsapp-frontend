@@ -84,7 +84,6 @@ export default function SignInSide() {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
-  console.log(success,"log");
 
   useEffect(() => {
     document.title = "Sign In"
@@ -106,9 +105,6 @@ export default function SignInSide() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
 
-    console.log(process.env,"hello123321");
-    console.log(email)
-    console.log(password)
     setIsLoading(true);
    const res = await axios
       .post(baseURL+"users/login/", {
@@ -120,15 +116,12 @@ export default function SignInSide() {
 
       .then((res) => {
         setIsLoading(false);
-        console.log(res,"res1234");
         setMessage(res.data.message)
-        console.log();
          
         if (res.status === 200) {
           const { token } = res.data.token.access;
           localStorage.setItem('token',res.data.token.access );
           localStorage.getItem('token');
-          console.log(token,"res.data.token.access");
       
           if (res.data.role === 'admin') {
             setSuccess(res.data.message)
