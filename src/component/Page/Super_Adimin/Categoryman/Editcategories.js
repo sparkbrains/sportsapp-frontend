@@ -47,68 +47,69 @@ const Editcategory = () => {
   const [message, setMessage] = useState(null);
   const [mes, setMes] = useState(null);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-   console.log(mes,"ggggg");
   const handlesportnoChange = (e) => {
     setsport(e.target.value);
   };
   const [user, setUser] = useState({
     category: "",
-    // item: "",
-    sport_center: "",
+    sport: "",
+    sports_center: {
+      center_name: "",
+    },
     location: "",
   });
-  console.log(user,"user");
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const [center, setCenter] = useState();
+
+  const onCenterChange = (e) => {
+    setCenter(e.target.value);
+  };
+  
   useEffect(() => {
     document.title = "Edit Category";
     loadUser();
+    handleSports();
   }, []);
-
+  
   const onSubmit = async (e) => {
     // e.preventDefault();
-    await axios.put(baseURL+`sports/categories/${id}/`,
-      user,
-      sport
-    )
-    .then((res) => {
-      setMessage(res.data.message);
-      swal("Category Edit Successfully.", "", "success", {
-        button: "ok",
-      });
-    })
-    // .catch((err) => { });
-    .catch((error) => {
-      if (error.response) {
-        setMessage(error.response.data.message);
-        setMes(error.response.data.gender);
-        // Request made and server responded
-        console.log(error.response.data.gender, "hellp1234567890");
-        console.log(error.response.status);
-        console.log(error.response.gender, "hellp");
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
-      }
-      //{message && <div>{message}</div>}
+    console.log(center, "eeeee");
 
-      swal("Something went wrong!", "Oops...", "error", {
-        button: "ok",
+    await axios
+      .patch(baseURL + `sports/categories/?id=${id}`, {
+        category: user.category,
+        sport: user.sport,
+        // sports_center: center,
+        location: user.location,
+      })
+      .then((res) => {
+        setMessage(res.data.message);
+        swal("Category Edit Successfully.", "", "success", {
+          button: "OK",
+        });
+      })
+      // .catch((err) => { });
+      .catch((error) => {
+        swal("Something went wrong!", "Oops...", "error", {
+          button: "OK",
+        });
       });
-    });
     history.push("/superadmin/categorymanagement");
   };
 
   const loadUser = async () => {
-    const result = await axios.get(baseURL+`sports/categories/${id}/`
-    );
-    setUser(result.data);
-    console.log(result.data, "result maooo");
+    const result = await axios.get(baseURL + `sports/categories/?id=${id}`);
+    setUser({
+      category: result.data.category,
+      sports_center: result.data.sports_center.id,
+      location: result.data.location,
+      sport: result.data.sport,
+    });
+    console.log(result.data, "userrrr");
   };
 
   const formik = useFormik({
@@ -127,8 +128,18 @@ const Editcategory = () => {
   const [open, setOpen] = React.useState(false);
   const onChange = (event, item) => {
     setUser((prev) => {
-      return { ...prev , 'sport' : event.target.value}
-    })
+      return { ...prev, sport: event.target.value };
+    });
+  };
+
+  const [sports, setSports] = useState([]);
+  const handleSports = async (e) => {
+    const resp = await axios.get(
+      baseURL + "sports/sports-center/sports-center-owner/"
+    );
+    // setSportsCenter(resp.data);
+    setSports(resp.data);
+    console.log(resp.data, "check");
   };
 
   const handleClose = () => {
@@ -137,6 +148,7 @@ const Editcategory = () => {
   const handleOpen = () => {
     setOpen(true);
   };
+  console.log(user,'user==');
   return (
     <div>
       <Container>
@@ -189,26 +201,40 @@ const Editcategory = () => {
                   >
                     Sport Center:
                   </InputLabel>
-                  <TextField
-                    // error={Boolean(
-                    //   formik.touched.sportcenter && formik.errors.sportcenter
-                    // )}
+                  <Select
+                     
+                    style={{
+                      marginTop: "16px",
+                    }}
+                    error={Boolean(
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
+                    )}
                     margin="normal"
                     required
                     fullWidth
-                    name="sport_center"
+                    name="sports_center"
                     variant="outlined"
-                    // helperText={
-                    //   formik.touched.sportcenter && formik.errors.sportcenter
-                    // }
-                    sportcenter="sport_center "
-                    // onBlur={formik.handleBlur}
-                    // onClick={formik.handleChange}
-                    onChange={(e) => onInputChange(e)}
-                    autoComplete="sport_center "
+                    helperText={
+                      formik.touched.sports_center &&
+                      formik.errors.sports_center
+                    }
+                    onBlur={formik.handleBlur}
+                    onClick={formik.handleChange}
+                    onChange={(e) => onCenterChange(e)}
                     type="text"
-                    value={user.sports_center}
-                  />
+                    disabled
+                    value={user?.sports_center}
+                  >
+                    {sports?.map((val) => {
+                      const { id, center_name } = val;
+                      return (
+                        <MenuItem value={id} key={id}>
+                          {center_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -256,13 +282,7 @@ const Editcategory = () => {
                     Sport:
                   </InputLabel>
                   <Select
-                    // error={Boolean(
-                    //   formik.touched.location && formik.errors.location
-                    // )}
                     fullWidth
-                    // helperText={
-                    //   formik.touched.location && formik.errors.location
-                    // }
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}
@@ -271,22 +291,22 @@ const Editcategory = () => {
                     onClose={handleClose}
                     onKeyUp={handlesportnoChange}
                     onOpen={handleOpen}
-                    value={user.sport?.length > 1 && user.sport || 'none'}
+                    value={(user.sport?.length > 1 && user.sport) || "none"}
                     onChange={onChange}
                     style={{ marginTop: "13px" }}
                   >
                     <MenuItem value="none">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={'badminton'}>badminton</MenuItem>
-                    <MenuItem value={'football'}>football</MenuItem>
-                    <MenuItem value={'shooting'}>shooting</MenuItem>
-                    <MenuItem value={'wrestling'}>wrestling</MenuItem>
-                    <MenuItem value={'boxing'}>boxing</MenuItem>
-                    <MenuItem value={'tennis'}>tennis</MenuItem>
-                    <MenuItem value={'squash'}>squash</MenuItem>
-                    <MenuItem value={'weightlifting'}>weightlifting</MenuItem>
-                    <MenuItem value={'gymnastics'}>gymnastics</MenuItem>
+                    <MenuItem value={"badminton"}>badminton</MenuItem>
+                    <MenuItem value={"football"}>football</MenuItem>
+                    <MenuItem value={"shooting"}>shooting</MenuItem>
+                    <MenuItem value={"wrestling"}>wrestling</MenuItem>
+                    <MenuItem value={"boxing"}>boxing</MenuItem>
+                    <MenuItem value={"tennis"}>tennis</MenuItem>
+                    <MenuItem value={"squash"}>squash</MenuItem>
+                    <MenuItem value={"weightlifting"}>weightlifting</MenuItem>
+                    <MenuItem value={"gymnastics"}>gymnastics</MenuItem>
                   </Select>
                 </Grid>
               </Grid>

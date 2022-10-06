@@ -27,15 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 const validationSchema = yup.object({
   name: Yup.string()
     .max(25, "Must be 25 characters or less")
     .required("Name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: Yup.string().email("Email is invalid.").required("Email is required."),
+  email: Yup.string()
+    .email("Email is invalid.")
+    .required("Email is required.")
+    .matches(emailRegx, "Invalid Email ID..."),
   contact: Yup.string()
     .min(10, "Phone number not less than 10 character.")
     .max(12, "Phone no not more than 12 character.")
@@ -48,15 +51,12 @@ const validationSchema = yup.object({
   password: yup.string().required("Password is required."),
 });
 const AddCoach = () => {
-  // let history = useHistory();
-  const [sport, setsport] = useState();
-  // console.log(sport)
   let history = useHistory();
-  const [speciallsation, setspecialisation] = useState("cardio");
+  const [specialization, setspecialisation] = useState("Specialization");
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
-  const [error, seterror] = useState();
+  const [error, setError] = useState("");
   const [name, setname] = useState();
   const handlenameChange = (e) => {
     setname(e.target.value);
@@ -71,9 +71,9 @@ const AddCoach = () => {
     setcontact(e.target.value);
   };
 
-  const [sports_center, setsportcenter] = useState();
+  const [sportsCenter, setSportsCenter] = useState();
   const handlesportcenterChange = (e) => {
-    setsportcenter(e.target.value);
+    setSportsCenter(e.target.value);
   };
   const [password, setPassword] = useState();
   const handlepasswordonChange = (e) => {
@@ -83,6 +83,7 @@ const AddCoach = () => {
   const handlelocationChange = (e) => {
     setlocation(e.target.value);
   };
+
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const token = localStorage.getItem("token");
@@ -91,48 +92,42 @@ const AddCoach = () => {
       .post(
         baseURL + "sports/coach/",
         {
-          profile: {
-            role: "coach",
-            contact: contact,
-          },
-          location: location,
-          speciallsation: speciallsation,
-          sports_center: sports_center,
           user: {
-            name: name,
             email: email,
+            name: name,
             password: password,
           },
-
+          profile: {
+            role: "coach",
+            phone_no: contact,
+          },
+          name: name,
+          location: location,
+          speciallsation: specialization,
+          sports_center: sportsCenter,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       )
-      .then((res) => {
+      .then((f) => {
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
         history.push("/superadmin/coachmanagement");
       })
-      // .catch((err) => { });
       .catch((error) => {
-        if (error.response) {
-          seterror(error?.response?.data?.error);
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        //{message && <div>{message}</div>}
-
-        swal("Something went wrong!", "Oops...", "error", {
+        swal("Something went wrong!", "Oops...", error, {
           button: "ok",
         });
       });
-    
+  };
+
+  const [sports, setSports] = useState([]);
+
+  const handleSports = async (e) => {
+    const resp = await axios.get(
+      baseURL + "sports/sports-center/sports-center-owner/"
+    );
+    setSports(resp.data);
   };
 
   const formik = useFormik({
@@ -150,17 +145,12 @@ const AddCoach = () => {
 
   useEffect(() => {
     document.title = "Add Coach";
+    handleSports();
   }, []);
 
   const classes = useStyles();
-  const [age, setAge] = React.useState("cardio");
 
   const [open, setOpen] = React.useState(false);
-
-  const onChange = (event, item) => {
-    setspecialisation(item.props.children);
-    setAge(event.target.value);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -203,6 +193,7 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
+                    label="Coach Name"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -229,8 +220,9 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     type="email"
                     variant="outlined"
+                    label="Email"
                   />
-                   <p style={{ color: "red", margin: "0px" }}>{error}</p>
+                  <p style={{ color: "red", margin: "0px" }}>{error}</p>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -256,9 +248,10 @@ const AddCoach = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
-                    name="contact"
+                    name="phone_no"
                     autoComplete="number"
                     variant="outlined"
+                    label="Phone No."
                   />
                 </Grid>
               </Grid>
@@ -275,20 +268,33 @@ const AddCoach = () => {
                   >
                     Sport Center:
                   </InputLabel>
-                  <TextField
+                  <Select
+                    style={{
+                      marginTop: "16px",
+                    }}
                     inputProps={{ maxLength: 50 }}
-                    // error={Boolean(formik.touched.sportcenter && formik.errors.sportcenter)}
                     margin="normal"
                     required
                     fullWidth
-                    // helperText={formik.touched.sportcenter && formik.errors.sportcenter}
-                    // onBlur={formik.handleBlur}
-                    onKeyUp={handlesportcenterChange}
-                    // onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    // onKeyUp={handlesportcenterChange}
+                    onChange={handlesportcenterChange}
                     name="sports_center"
-                    autoComplete=""
                     variant="outlined"
-                  />
+                    value={sportsCenter}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Sport Center</em>
+                    </MenuItem>
+                    {sports?.map((val) => {
+                      const { id, center_name } = val;
+                      return (
+                        <MenuItem value={id} key={id}>
+                          {center_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -320,10 +326,12 @@ const AddCoach = () => {
                     name="location"
                     autoComplete="location"
                     variant="outlined"
+                    label="Location"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
+                    id="demo-controlled-open-select-label"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -340,23 +348,22 @@ const AddCoach = () => {
                     open={open}
                     variant="outlined"
                     onClose={handleClose}
-                    onKeyUp={handlespecialisationonChange}
+                    onChange={handlespecialisationonChange}
                     onOpen={handleOpen}
-                    value={age}
-                    onChange={onChange}
-                    // required={true}
-                    defaultValue="cardio"
+                    value={specialization}
+                    required
                     style={{ marginTop: "13px" }}
+                    label="Specialization"
                   >
-                    {/* <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem> */}
+                    <MenuItem  Selected value="Specialisation">
+                      Specialization
+                    </MenuItem>
                     <MenuItem value="cardio">cardio</MenuItem>
                     <MenuItem value="strength">strength</MenuItem>
-                    {/* <MenuItem value={30}>shooting</MenuItem>
-                        <MenuItem value={40}>wrestling</MenuItem>
-                        <MenuItem value={50}>boxing</MenuItem>
-                        <MenuItem value={60}>tennis</MenuItem> */}
+                    <MenuItem value="shooting">shooting</MenuItem>
+                    <MenuItem value="wrestling">wrestling</MenuItem>
+                    <MenuItem value="boxing">boxing</MenuItem>
+                    <MenuItem value="tennis">tennis</MenuItem>
                   </Select>
                 </Grid>
               </Grid>
@@ -408,6 +415,9 @@ const AddCoach = () => {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
+                      onClick={(e) => {
+                        onSubmit(e);
+                      }}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

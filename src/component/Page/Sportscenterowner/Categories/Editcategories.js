@@ -43,7 +43,6 @@ const Editcategory = () => {
   let history = useHistory();
   const { id } = useParams();
   const [sport, setsport] = useState();
-  console.log(sport);
   const handlesportnoChange = (e) => {
     setsport(e.target.value);
   };

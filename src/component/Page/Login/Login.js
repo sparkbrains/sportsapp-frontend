@@ -105,8 +105,6 @@ export default function SignInSide() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
 
-    console.log(email)
-    console.log(password)
     setIsLoading(true);
    const res = await axios
       .post(baseURL+"users/login/", {
@@ -119,13 +117,11 @@ export default function SignInSide() {
       .then((res) => {
         setIsLoading(false);
         setMessage(res.data.message)
-        console.log();
          
         if (res.status === 200) {
           const { token } = res.data.token.access;
           localStorage.setItem('token',res.data.token.access );
           localStorage.getItem('token');
-          console.log(token,"res.data.token.access");
       
           if (res.data.role === 'admin') {
             setSuccess(res.data.message)
@@ -214,9 +210,9 @@ export default function SignInSide() {
                       <div className={classes.paper}>
                       
                         <Typography component="h1" variant="h4" className="Sign">
-                          Sign in
+                          Sign In
                         </Typography>
-                        <p className="p">Sign In with your Email and Password</p>
+                        <p className="p">Sign In With Your Email And Password</p>
                         {/* <FromSuccess> {success ?success:""} </FromSuccess> */}
                         <form className={classes.form} method="POST" noValidate onSubmit={formik.handleSubmit}
                         // onChange={Submit}
@@ -269,7 +265,7 @@ export default function SignInSide() {
                           {message && <div style={{color:"red"}}>{message}</div>}
                             <Grid item xs={12} sm={12} style={{textAlign:"right",fontSize:"16px"}}>
                               <Link style={{ textDecoration: "none"}} to="/forgetpassword" variant="body2">
-                                Forgot password?
+                                Forgot Password?
                               </Link>
                             </Grid>
                           </Grid>
@@ -297,7 +293,7 @@ export default function SignInSide() {
                             <Grid item container justify="center" style={{display:"flex"}}>
                               <p style={{marginRight:"6px", marginTop:"0px"}}>Don't have an account?</p>
                               <Link style={{ textDecoration: "none",fontWeight:"bold" }} to="/signup" variant="body2">
-                                {" Sign Up here!"}
+                                {" Sign Up Here!"}
                               </Link>
                             </Grid>
                           </Grid>

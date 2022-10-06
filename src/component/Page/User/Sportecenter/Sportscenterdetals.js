@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
 const validationSchema = yup.object({
   firstname: yup
@@ -131,10 +131,8 @@ export default function AddUser() {
   const [age, setAge] = useState("");
   const [open, setOpen] = useState(false);
   const onChange = (event, gender) => {
-    console.log(gender.props.children);
     setgender(gender.props.children);
     setAge(event.target.value);
-    console.log(event);
   };
 
   const handleClose = () => {

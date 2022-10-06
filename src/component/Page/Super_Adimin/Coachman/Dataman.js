@@ -22,7 +22,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Paper from "@mui/material/Paper";
+import Paper from '@mui/material/Paper';
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -120,9 +121,7 @@ export default function WidgetLg() {
           setMessage(error.response.data.message);
 
           // Request made and server responded
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
+
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
@@ -169,11 +168,9 @@ export default function WidgetLg() {
           >
             <div
               className={classes.search}
-              style={{ border: "1px solid black" }}
+              style={{ "display": "flex",border: "1px solid black" }}
             >
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
+              
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -185,6 +182,9 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
+              <div style={{"margin" : "5px"}}>
+                <SearchIcon/>
+              </div>
             </div>
 
             <Link to="/superadmin/addcoach" style={{ textDecoration: "none" }}>

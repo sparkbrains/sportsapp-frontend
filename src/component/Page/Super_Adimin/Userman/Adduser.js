@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
   name: yup
     .string()
-
     .max(50, "Must be 50 characters or less")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
     .required("name is required"),
-  email: yup.string().email("Email is invalid").required("Email is required"),
+  email: yup.string().email("Email is invalid").required("Email is required").matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
     .min(10, "Phone number must be at least 10 number.")
@@ -99,28 +99,13 @@ export default function AddUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        // setMessage(res.data.message);
         swal("User Created Successfully.", "", "success", {
           button: "OK",
         });
         history.push("/superadmin/usermanagement");
       })
-      // .catch((err) => { });
       .catch((error) => {
-        if (error.response) {
-          seterror(error?.response?.data?.error);
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        //{message && <div>{message}</div>}
-
-        swal("Something went wrong!", "Oops...", "error", {
+        swal("Something went wrong!", "Oops...", error, {
           button: "OK",
         });
       });
@@ -135,8 +120,8 @@ export default function AddUser() {
       password: "",
     },
     validateOnBlur: true,
-    onSubmit,
     validationSchema: validationSchema,
+    onSubmit,
   });
 
   const [gender, setgender] = useState("Male");
@@ -147,10 +132,8 @@ export default function AddUser() {
   const [age, setAge] = useState("Male");
   const [open, setOpen] = useState(false);
   const onChange = (event, gender) => {
-    console.log(gender.props.children);
     setgender(gender.props.children);
     setAge(event.target.value);
-    console.log(event);
   };
 
   const handleClose = () => {
@@ -167,7 +150,7 @@ export default function AddUser() {
         <h3 style={{ padding: "10px" }}>Add User</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
-            <form method="POST" noValidate onSubmit={formik.handleSubmit}>
+            <form method="POST" Validate autoComplete="off" onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -192,7 +175,7 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     onKeyUp={handlefirstnameChange}
-                    autoComplete="name"
+                    label="User Name"
                     variant="outlined"
                   />
                 </Grid>
@@ -226,6 +209,7 @@ export default function AddUser() {
                     name="location"
                     autoComplete=""
                     variant="outlined"
+                    label="Location"
                   />
                 </Grid>
 
@@ -254,8 +238,8 @@ export default function AddUser() {
                     value={age}
                     onChange={onChange}
                     defaultValue="Male"
+                    label="Gender"
                   >
-                  
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
@@ -286,6 +270,7 @@ export default function AddUser() {
                     onChange={formik.handleChange}
                     onKeyUp={handleEmailChange}
                     type="email"
+                    label="Email"
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px" }}>{error}</p>
@@ -319,6 +304,7 @@ export default function AddUser() {
                     name="phone_no"
                     autoComplete="number"
                     variant="outlined"
+                    label="Phone No"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -352,6 +338,7 @@ export default function AddUser() {
                     type="password"
                     autoComplete="password"
                     variant="outlined"
+                    label="Password"
                   />
                 </Grid>
               </Grid>
@@ -369,6 +356,7 @@ export default function AddUser() {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
+                      onClick={(e) => {onSubmit(e)}}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

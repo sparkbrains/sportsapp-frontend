@@ -24,14 +24,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
   name: yup.string()
     .max(25, "Must be 25 characters or less")
     .required("Name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: yup.string().email("Email is invalid.").required("Email is required."),
+  email: yup.string().email("Email is invalid.").required("Email is required.").matches(emailRegx, "Invalid Email ID..."),
   phoneno: yup.string()
     .min(10, "phone number must be at least 12 number.")
     .required("Phone number is required.")
@@ -54,12 +56,13 @@ export default function CenteredGrid() {
   const [user, setUser] = useState({
     name: "",
     sportscenter: "",
-    phoneno: "",
-    speciallsation: "",
-    location: "",
     email: "",
+    phoneno: "",
+    sportscenter : "",
+    location: "",
+    speciallsation: "",
+    password : ""
   });
-  console.log(user, "hello mam");
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -69,17 +72,22 @@ export default function CenteredGrid() {
    history.push("/sportscenterowner/coaches");
   };
   // 
+  const [password, setPassword] = useState();
+  const handlepasswordonChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   const classes = useStyles();
 
   const formik = useFormik({
     initialValues: {
       name: "",
-      sportscenter: "",
-      phoneno: "",
-      speciallsation: "",
-      location: "",
       email: "",
+      phoneno: "",
+      sportscenter: "",
+      location: "",
+      speciallsation: "",
+      password: ""
     },
     validateOnBlur: true,
     onSubmit,
@@ -120,6 +128,7 @@ export default function CenteredGrid() {
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
+                    label="Coach Name"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -262,6 +271,39 @@ export default function CenteredGrid() {
                   />
                 </Grid>
               </Grid>
+              <Grid item sm={12} md={4}>
+                  <InputLabel
+                    className="Input"
+                    style={{
+                      color: "rgba(12,11,69,255)",
+                      display: "flex",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Password:
+                  </InputLabel>
+                  <TextField
+                    inputProps={{ maxLength: 50 }}
+                    error={Boolean(
+                      formik.touched.password && formik.errors.password
+                    )}
+                    margin="normal"
+                    required
+                    fullWidth
+                    location="password"
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
+                    onBlur={formik.handleBlur}
+                    onKeyUp={handlepasswordonChange}
+                    onChange={formik.handleChange}
+                    name="password"
+                    type="password"
+                    autoComplete="password"
+                    variant="outlined"
+                  />
+                </Grid>
               <Grid container spacing={2}>
                 <Grid item sm={12} md={12}>
                   <div
@@ -275,6 +317,7 @@ export default function CenteredGrid() {
                       variant="contained"
                     //   disabled={isSubmitting}
                       type="submit"
+                      onClick={(e) => onSubmit(e)}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

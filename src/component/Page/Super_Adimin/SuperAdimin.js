@@ -69,7 +69,7 @@ function ButtonAppBar({match}) {
           }}
         >
           <Toolbar>
-            <Grid container spacing={2} justify="center">
+            <Grid container spacing={2} justifyContent="center">
               <Grid item style={{ alignSelf: "center" }}>
                 <Link
                   className="id"

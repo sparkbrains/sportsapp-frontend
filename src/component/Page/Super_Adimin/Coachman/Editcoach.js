@@ -16,7 +16,6 @@ import swal from "sweetalert";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,27 +27,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
-  // name: yup
-  //   .string()
-  //   .max(25, "Must be 25 characters or less")
-  //   .required("Name is required.")
-  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // email: yup.string().email("Email is invalid.").required("Email is required."),
-  // contact: yup
-  //   .string()
-  //   .min(10, "Phone number not less than 10 character.")
-  //   .max(15, "Phone number not more than 15 character.")
-  //   .required("Phone number is required.")
-  //   .matches(phoneRegExp, "Only numbers are allowed."),
-  // location: yup.string().required("Location is required."),
-  // sport_center: yup
-  //   .string()
-  //   .required("Sport center  is required.")
-  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  name: yup
+    .string()
+    .max(25, "Must be 25 characters or less")
+    .required("Name is required.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  email: yup
+    .string()
+    .email("Email is invalid.")
+    .required("Email is required.")
+    .matches(emailRegx, "Invalid Email ID..."),
+  contact: yup
+    .string()
+    .min(10, "Phone number not less than 10 character.")
+    .max(15, "Phone number not more than 15 character.")
+    .required("Phone number is required.")
+    .matches(phoneRegExp, "Only numbers are allowed."),
+  location: yup.string().required("Location is required."),
+  sports_center: yup
+    .string()
+    .required("Sport center  is required.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
 });
 
 export default function CenteredGrid() {
@@ -59,50 +63,47 @@ export default function CenteredGrid() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const [editcoach, setEditcoach] = useState({
     name: "",
-    sport_center: "",
+    sports_center: "",
     contact: "",
     speciallsation: "",
     location: "",
-    // email: "",
+    email: "",
   });
-  console.log(editcoach, "editcoach");
   const onInputChange = (e) => {
     setEditcoach({ ...editcoach, [e.target.name]: e.target.value });
-    //console.log("on1111");
   };
 
   useEffect(() => {
-    document.title = "Edit Coach Ownetr";
+    document.title = "Edit Coach Owner";
     loadUser();
+    handleSports();
   }, []);
 
   const onSubmit = async (e) => {
     // e.preventDefault();
     await axios
-      .patch(baseURL + `sports/coach/?id=${id}`, editcoach, specialisation)
+      .patch(baseURL + `sports/coach/?id=${id}`, {
+        user: {
+          email: editcoach.email,
+          name: editcoach.name,
+          password: editcoach.password,
+        },
+        profile: {
+          role: "coach",
+          phone_no: editcoach.contact,
+        },
+        name: editcoach.name,
+        location: editcoach.location,
+        speciallsation: editcoach.speciallsation,
+        sports_center: editcoach.sports_center,
+      })
       .then((res) => {
         setMessage(res.firstname);
         swal("Coach Edit Successfully.", "", "success", {
           button: "ok",
         });
       })
-      // .catch((err) => { });
       .catch((error) => {
-        if (error.response) {
-          setMessage(error.response.data.firstname);
-          setMes(error.response.data.firstname);
-          // Request made and server responded
-          console.log(error.response.data.firstname, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.firstname, "hellp");
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        //{message && <div>{message}</div>}
-
         swal("Something went wrong!", "Oops...", "error", {
           button: "ok",
         });
@@ -113,15 +114,13 @@ export default function CenteredGrid() {
   const loadUser = async (e) => {
     const result = await axios.get(baseURL + `sports/coach/?id=${id}`);
     setEditcoach({
-    name:result.data?.user?.name,
-    sport_center:result.data?.sports_center?.center_name,
-    contact:result.data?.sports_center?.contact,
-    speciallsation:result.data?.speciallsation,
-    location:result.data?.location,
-    email:result.data?.user?.email,
+      name: result.data?.user?.name,
+      sports_center: result.data?.sports_center.id,
+      contact: result.data?.profile?.phone_no,
+      speciallsation: result.data?.speciallsation,
+      location: result.data?.location,
+      email: result.data?.user?.email,
     });
-
-    //console.log(editcoach,"editcoach");
   };
 
   const classes = useStyles();
@@ -134,11 +133,19 @@ export default function CenteredGrid() {
   const [open, setOpen] = React.useState(false);
 
   const onChange = (event, item) => {
-    //setspecialisation(item.props.children);
-    //setAge(event.target.value);
     setEditcoach((prev) => {
-      return { ...prev, specialisation: event.target.value };
+      return { ...prev, speciallsation: event.target.value };
     });
+  };
+
+  const [sports, setSports] = useState([]);
+
+  const handleSports = async (e) => {
+    const resp = await axios.get(
+      baseURL + "sports/sports-center/sports-center-owner/"
+    );
+    setSports(resp.data);
+
   };
 
   const handleClose = () => {
@@ -151,9 +158,9 @@ export default function CenteredGrid() {
   const formik = useFormik({
     initialValues: {
       // name: "",
-      email: "",
+      // email: "",
       // contact: "",
-      // sport_center: "",
+      // sports_center: "",
       // location: "",
     },
     validateOnBlur: true,
@@ -161,13 +168,19 @@ export default function CenteredGrid() {
     validationSchema: validationSchema,
   });
 
+  console.log(editcoach,"user====");
   return (
     <div>
       <Container>
         <h3 style={{ padding: "10px" }}>Edit Coach</h3>
         <Paper>
           <div className={classes.root} style={{ padding: "20px" }}>
-            <form method="POST" noValidate onSubmit={formik.handleSubmit}>
+            <form
+              method="POST"
+              Validate
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
+            >
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -182,15 +195,15 @@ export default function CenteredGrid() {
                     Name
                   </InputLabel>
                   <TextField
-                    // error={Boolean(formik.touched.name && formik.errors.name)}
+                    error={Boolean(formik.touched.name && formik.errors.name)}
                     margin="normal"
                     required
                     fullWidth
-                    // helperText={formik.touched.name && formik.errors.name}
+                    helperText={formik.touched.name && formik.errors.name}
                     name="name"
-                    // onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    // onClick={formik.handleChange}
+                    onClick={formik.handleChange}
                     variant="outlined"
                     value={editcoach?.name}
                   />
@@ -207,24 +220,38 @@ export default function CenteredGrid() {
                   >
                     Sports Center
                   </InputLabel>
-                  <TextField
-                    // error={Boolean(
-                    //   formik.touched.sport_center && formik.errors.sport_center
-                    // )}
+                  <Select
+                  style={{
+                    marginTop: "16px",
+                  }}
+                    error={Boolean(
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
+                    )}
+                    helperText={formik.touched.name && formik.errors.name}
+                    onBlur={formik.handleBlur}
+                    onClick={formik.handleChange}
                     margin="normal"
                     required
                     fullWidth
-                    // helperText={
-                    //   formik.touched.sport_center && formik.errors.sport_center
-                    // }
-                    name="sport_center"
-                    // onBlur={formik.handleBlur}
+                    name="sports_center"
                     onChange={(e) => onInputChange(e)}
-                    // onClick={formik.handleChange}
-                    autoComplete="sport_center"
+                    autoComplete="sports_center"
                     variant="outlined"
-                    value={editcoach?.sport_center}
-                  />
+                    value={editcoach?.sports_center}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Select Sport Center</em>
+                    </MenuItem>
+                    {sports?.map((val) => {
+                      const { id, center_name } = val;
+                      return (
+                        <MenuItem value={id} key={id}>
+                          {center_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -239,28 +266,39 @@ export default function CenteredGrid() {
                     Specialization:
                   </InputLabel>
                   <Select
+                    error={Boolean(
+                      formik.touched.speciallsation &&
+                        formik.errors.speciallsation
+                    )}
+                    helperText={formik.touched.name && formik.errors.name}
+                    onClick={formik.handleChange}
                     fullWidth
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={open}
                     variant="outlined"
                     onClose={handleClose}
-                    onKeyUp={handlespecialisationonChange}
                     onOpen={handleOpen}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={(e) => handlespecialisationonChange(e)}
+                    name="speciallsation"
                     value={
                       (editcoach.speciallsation?.length > 1 &&
                         editcoach.speciallsation) ||
                       "none"
                     }
-                    onChange={onChange}
+                    onChange={(e) => onChange(e)}
                     style={{ marginTop: "13px" }}
                   >
-                    <MenuItem value="none">
+                    <MenuItem disabled value="none">
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={"cardio"}>cardio</MenuItem>
                     <MenuItem value={"strength"}>strength</MenuItem>
-                  
+                    <MenuItem value="shooting">shooting</MenuItem>
+                    <MenuItem value="wrestling">wrestling</MenuItem>
+                    <MenuItem value="boxing">boxing</MenuItem>
+                    <MenuItem value="tennis">tennis</MenuItem>
                   </Select>
                 </Grid>
               </Grid>
@@ -278,15 +316,14 @@ export default function CenteredGrid() {
                     Email
                   </InputLabel>
                   <TextField
-                    // error={Boolean(formik.touched.email && formik.errors.email)}
+                    error={Boolean(formik.touched.email && formik.errors.email)}
+                    helperText={formik.touched.name && formik.errors.name}
+                    onBlur={formik.handleBlur}
+                    onClick={formik.handleChange}
                     fullWidth
-                    // helperText={formik.touched.email && formik.errors.email}
                     margin="normal"
                     name="email"
-                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    // type="email"
-                    // onClick={formik.handleChange}
                     value={editcoach?.email}
                     variant="outlined"
                   />
@@ -304,18 +341,20 @@ export default function CenteredGrid() {
                     Phone No.
                   </InputLabel>
                   <TextField
-                    // error={Boolean(
-                    //   formik.touched.contact && formik.errors.contact
-                    // )}
+                    inputProps={{ maxLength: 13 }}
+                    error={Boolean(
+                      formik.touched.phone_no && formik.errors.phone_no
+                    )}
+                    helperText={
+                      formik.touched.phone_no && formik.errors.phone_no
+                    }
+                    onBlur={formik.handleBlur}
+                    onClick={formik.handleChange}
                     margin="normal"
                     required
                     fullWidth
-                    // helperText={formik.touched.contact && formik.errors.contact}
-                    // onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    // onClick={formik.handleChange}
                     name="contact"
-                    autoComplete="number"
                     variant="outlined"
                     value={editcoach?.contact}
                   />
@@ -333,18 +372,18 @@ export default function CenteredGrid() {
                     Location
                   </InputLabel>
                   <TextField
-                    // error={Boolean(
-                    //   formik.touched.location && formik.errors.location
-                    // )}
+                    error={Boolean(
+                      formik.touched.location && formik.errors.location
+                    )}
                     fullWidth
-                    // helperText={
-                    //   formik.touched.location && formik.errors.location
-                    // }
+                    helperText={
+                      formik.touched.location && formik.errors.location
+                    }
                     margin="normal"
                     name="location"
-                    // onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    // onClick={formik.handleChange}
+                    onClick={formik.handleChange}
                     // type="text"
                     value={editcoach.location}
                     variant="outlined"
@@ -371,6 +410,7 @@ export default function CenteredGrid() {
                         width: "192Px",
                         padding: "11px",
                       }}
+                      onClick={(e) => onSubmit(e)}
                     >
                       Save
                     </Button>

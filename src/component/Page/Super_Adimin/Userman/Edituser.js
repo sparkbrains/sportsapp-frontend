@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { React, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object({
 //   firstname: yup
@@ -36,7 +39,7 @@ const validationSchema = yup.object({
 //     .max(25, "Must be 25 characters or less")
 //     .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
 //     .required("Firstname is required"),
-  email: yup.string().email("Email is invalid").required("Email is required"),
+  email: yup.string().email("Email is invalid").matches(emailRegx, "Invalid Email ID...").required("Email is required"),
   phone_no: yup
     .string()
     .min(10, "Phone number not less that 10 character.")
@@ -56,15 +59,13 @@ const EditUser = () => {
     const { id } = useParams();
     let history = useHistory();
     const [admin, setAdmin] = useState({
-        firstname: "",
-        lastname: "",
+        name: "",
         gender: "",
         email: "",
         phone_no: "",
         location: "",
     });
 
-   console.log(admin,"admin");
     
 
     const onInputChange = e => {
@@ -78,7 +79,20 @@ const EditUser = () => {
     const onSubmit = async () => {
         // e.preventDefault();
         await axios.patch(baseURL+`sports/user/?id=${id}`,
-         admin,gender
+        {
+            user: {
+                email: admin.email,
+                name: admin.name,
+                // password: password,
+              },
+              profile: {
+                role: "user",
+                phone_no: admin.phone_no,
+              },
+              gender: admin.gender,
+              location: admin.location,
+        }
+         ,gender
          )
         .then((res) => {
             // setMessage(res.data.message);
@@ -90,9 +104,6 @@ const EditUser = () => {
             if (error.response) {
               
               // Request made and server responded
-              console.log(error.response.data.gender, "hellp1234567890");
-              console.log(error.response.status);
-              console.log(error.response.gender, "hellp");
             } else if (error.request) {
               // The request was made but no response was received
               console.log(error.request);
@@ -126,7 +137,7 @@ const EditUser = () => {
         setgender(e.target.value)
     };
     const classes = useStyles();
-    const [age, setAge] = useState('');
+    // const [age, setAge] = useState('');
     const [open, setOpen] = useState(false);
     const onChange = (event,item) => {
        
@@ -158,8 +169,8 @@ const EditUser = () => {
           location: "",
         },
         validateOnBlur: true,
-        onSubmit,
         validationSchema: validationSchema,
+        onSubmit,
       });
 
     return (
@@ -169,7 +180,7 @@ const EditUser = () => {
                 <Paper elevation={3}>
                   
                             <div className={classes.root} style={{ padding: "20px" }}>
-                                <form method="POST" noValidate onSubmit={formik.handleSubmit} >
+                                <form method="POST" Validate autoComplete='off' onSubmit={formik.handleSubmit} >
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={4}>
 
@@ -181,17 +192,17 @@ const EditUser = () => {
                                                  Name:
                                             </InputLabel>
                                             <TextField
-                                                // error={Boolean(formik.touched.name && formik.errors.name)}
+                                                error={Boolean(formik.touched.name && formik.errors.name)}
                                                 margin="normal"
-                                                id="firstname"
+                                                id="name"
                                                 required
                                                 fullWidth
-                                                // helperText={formik.touched.name && formik.errors.name}
-                                                name="firstname"
+                                                helperText={formik.touched.name && formik.errors.name}
+                                                name="name"
                                                 // onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
                                                 // onClick={formik.handleChange}
-                                                autoComplete="firstname"
+                                                autoComplete=""
                                                 variant="outlined"
                                                 value={admin?.name}
                                             />

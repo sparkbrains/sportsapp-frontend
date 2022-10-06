@@ -23,7 +23,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Paper from "@mui/material/Paper";
+import Paper from '@mui/material/Paper';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -125,9 +125,6 @@ export default function WidgetLg() {
       .catch((error) => {
         if (error.response) {
           setMessage(error.response.data.message);
-          console.log(error.response.data.gender, "hellp1234567890");
-          console.log(error.response.status);
-          console.log(error.response.gender, "hellp");
         } else if (error.request) {
           console.log(error.request);
         } else {
@@ -169,7 +166,7 @@ export default function WidgetLg() {
           >
             <div
               className="search"
-              style={{ border: "1px solid black" }}
+              style={{ "display": "flex",border: "1px solid black" }}
             >
              
               <InputBase
@@ -183,7 +180,7 @@ export default function WidgetLg() {
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
-               <div className="searchIcon">
+               <div style={{"margin" : "10px"}}>
                 <SearchIcon />
               </div>
             </div>

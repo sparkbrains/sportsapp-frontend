@@ -7,11 +7,11 @@
     height: 19px !important;
 }
 .sliderbox .PrivateValueLabel-label-20 {
-    color: #a2b5c9;
-    transform: rotate(45deg);
+    color: #ffff;
+    transform: rotate(360deg);
 }
 .sliderbox .PrivateValueLabel-circle-19 {
-    background-color: transparent !important;
+    /* background-color: transparent !important; */
 }
 .sliderbox .PrivateValueLabel-offset-18 {
     top: 36px;

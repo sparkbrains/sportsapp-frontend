@@ -9,8 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import { Delete, Edit } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
+import Paper from '@mui/material/Paper';
 import { useEffect } from 'react'
-import Paper from "@mui/material/Paper";
 import {
     AddCircleOutlineOutlined,
 } from '@material-ui/icons';

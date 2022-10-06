@@ -109,7 +109,7 @@ let history = useHistory();
       closetimings:closetimings,
       location:location,
       "speciallsation": "strength",
-      sports_center:sports_center
+      sports_center:{center_name :sports_center},
       },
       { "headers": {"Authorization" : `Bearer ${token}`} }
       
@@ -280,14 +280,14 @@ let history = useHistory();
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
-                    // error={Boolean(
-                    //   formik.touched.sports_center && formik.errors.sports_center
-                    // )}
+                    error={Boolean(
+                      formik.touched.sports_center && formik.errors.sports_center
+                    )}
                     margin="normal"
                     fullWidth
-                    // helperText={
-                    //   formik.touched.sports_center && formik.errors.sports_center
-                    // }
+                    helperText={
+                      formik.touched.sports_center && formik.errors.sports_center
+                    }
                     name="sports_center"
                     // onBlur={formik.handleBlur}
                     onKeyUp={handlesportcenterChange}
@@ -417,8 +417,8 @@ let history = useHistory();
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item sm={12} md={4}>
-                  <InputLabel
+                {/* <Grid item sm={12} md={4}> */}
+                  {/* <InputLabel
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -440,7 +440,7 @@ let history = useHistory();
                     }}
                   >
                     <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{marginTop:"5px"}}>Upload Sports Logo</p> 
+                    <p style={{marginTop:"5px"}}>Upload Sports Logo</p>  */}
 
                     {/* <Button
                                                     variant="contained"
@@ -463,7 +463,7 @@ let history = useHistory();
                       onChange={onDropzoneAreaChange}
                       dropzoneText={"Upload Sports Logo"}
                     /> */}
-                  </div>
+                  {/* </div>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -492,7 +492,7 @@ let history = useHistory();
                           Upload Supporting Documents
                         </p> 
                         </div>
-                   
+                    */}
 
                   {/* <Button
                                                     variant="contained"
@@ -518,7 +518,7 @@ let history = useHistory();
                     dropzoneText={"Upload Supporting Documents"}
                   /> */}
                  
-                </Grid>
+                {/* </Grid> */}
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button

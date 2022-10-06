@@ -9,7 +9,10 @@ import { Button } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
 import swal from 'sweetalert';
+import { useFormik } from "formik";
 import "./setting.css";
+import { useParams } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
@@ -24,61 +27,102 @@ const marks = [
     value: 0,
     label: "0",
   },
+
+  {
+    value: 50,
+    label: "50",
+  },
+
   {
     value: 100,
     label: "100",
   },
 ];
-function valuetext(value) {
-  return `${value}°C`;
+function valueText(value) {
+  return `value%`;
 }
 
+
 export default function DiscreteSlider() {
-  const [getOwner, setgetOwner] = useState(50);
-  const [getCoach, setgetCoach] = useState(50);
-  const [EndUser, setEndUser] = useState(50);
+  const [getOwner, setGetOwner] = useState();
+  const [getCoach, setGetCoach] = useState();
+  const [EndUser, setEndUser] = useState();
   const [message, setMessage] = useState(null);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
-  console.log(EndUser, "EndUseraa");
   const classes = useStyles();
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(getOwner, EndUser, getCoach);
-
+    // e.preventDefault();
     axios
-      .post(baseURL+"sports/setting/",
-        {
-          sportcenterowner: getOwner,
-          coach: getCoach,
-          enduser: EndUser,
-        }
+      .patch(baseURL+`sports/setting/1/`,
+      edit
       )
       .then((res) => {
         setMessage(res.data.message);
-        swal("Settings Saved Successfully.", "", "success", {
+        swal("Settings Saved Successfully.", "", "message", {
           button: "ok",
         });
       })
-      // .catch((err) => { });
-      .catch(function (error) {
+      .catch((error) => {
         setMessage(error.message);
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
+        swal("Something went wrong!", "Oops...", "error", {
+          button: "ok",
+        });
       });
   };
 
+  const [edit, setEdit] = useState({
+    sportcenterowner: 0,
+    enduser : 0,
+    coach:0
+  });
+
+  const { id } = useParams();
+
+
+  const loadUser = async () => {
+    const result = await axios.get(baseURL+"sports/setting/1/"
+    );
+    const data = result?.data
+    setEdit({
+      sportcenterowner: data?.sportcenterowner,
+      enduser: data?.enduser,
+      coach: data?.coach
+    })
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      id:"",
+      sportcenterowner: "",
+      coach: "",
+      enduser: "",
+    },
+    validateOnBlur: true,
+    handleSubmit
+  });
+
+  // const handleOwnerChange = (e, newVal) => {
+  //   setGetOwner(newVal);
+  // }
+
+  // const handleCoachChange = (e, newVal) => {
+  //   setGetCoach(newVal);
+  // }
+
+  // const handleEndChange = (e, newVal) => {
+  //   setEndUser(newVal);
+  // }
+
   useEffect(() => {
     document.title = "Setting";
+    loadUser()
   }, []);
-
+  const onChange=(name,val)=>{
+    setEdit({
+      ...edit,
+      [name]:val
+    })
+  }
   return (
     <div>
       <Container>
@@ -88,7 +132,7 @@ export default function DiscreteSlider() {
         <Paper elevation={3} style={{ marginBottom: "100px" }}>
           <form method="POST" noValidate>
             {/* {message && <div style={{ color: "red" }}>{message}</div>} */}
-            <container maxWidth="sm">
+            <Container maxwidth="sm">
               <h3
                 style={{
                   paddingTop: "31px",
@@ -108,13 +152,15 @@ export default function DiscreteSlider() {
 
                   <div className="sliderbox">
                     <Slider
-                      defaultValue={50}
+                      name="sportcenterowner"
+                      // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="on"
-                      value={getOwner}
-                      onChange={(e, d) => {
-                        setgetOwner(d);
+                      valueLabelDisplay="auto"
+                      value={edit.sportcenterowner}
+                      onChange={(e, newVal) => {
+                        onChange('sportcenterowner',newVal);
                       }}
+                      // getAriaValueText={valueText}
                       marks={marks}
                     />
                   </div>
@@ -125,14 +171,22 @@ export default function DiscreteSlider() {
                   </Typography>
                   <div className="sliderbox">
                     <Slider
-                      defaultValue={50}
+                    sx={{
+                      '& input[type="range"]': {
+                        WebkitAppearance: 'slider-horizontal',
+                      },
+                    }}
+                      // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="on"
-                      value={getCoach}
-                      onChange={(e, d) => {
-                        setgetCoach(d);
+                      valueLabelDisplay="auto"
+                      value={edit.coach}
+                      onChange={(e,newVal) => {
+                        onChange('coach',newVal);
                       }}
+                      step={1}
                       marks={marks}
+
+                      // getAriaValueText={(val) =>valueText(v/al)}
                     />
                   </div>
                 </div>
@@ -142,14 +196,22 @@ export default function DiscreteSlider() {
                   </Typography>
                   <div className="sliderbox">
                     <Slider
-                      defaultValue={50}
+                    sx={{
+                      '& input[type="range"]': {
+                        WebkitAppearance: 'slider-horizontal',
+                      },
+                    }}
+                      // defaultValue={50}
                       aria-label="Default"
-                      valueLabelDisplay="on"
-                      value={EndUser}
-                      onChange={(e, d) => {
-                        setEndUser(d);
+                      valueLabelDisplay="auto"
+                      value={edit.enduser}
+                      onChange={(e, newVal) => {
+                        onChange('enduser',newVal);
                       }}
+                      step={1}
                       marks={marks}
+
+                      // getAriaValueText={(val) =>{valueText(val)}}
                     />
                   </div>
                 </div>
@@ -176,13 +238,13 @@ export default function DiscreteSlider() {
                       fontWeight: "bold",
                       padding: "26px 95px",
                     }}
-                    onClick={handleSubmit}
+                    onClick={(e) => handleSubmit(e)}
                   >
                     SAVE
                   </Button>
                 </div>
               </Grid>
-            </container>
+            </Container>
           </form>
         </Paper>
       </Container>
