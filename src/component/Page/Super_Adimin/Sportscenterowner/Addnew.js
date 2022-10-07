@@ -87,6 +87,7 @@ let history = useHistory();
  
   const handlefirstnameChange = (e) => {
     setclosetimings(e.target.value);
+    // (e.target.value) >= opentimings ? " " : setclosetimings(e.target.value);
   };
 
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
@@ -343,8 +344,8 @@ let history = useHistory();
                     variant="outlined"
                     fullWidth
                     onChange={handleopentimingsChange}
-                    id="closetimings"
-                    name="closetimings"
+                    id="opentimings"
+                    name="opentimings"
                     min="00:00"
                     max="12:00"
                     defaultValue="07:00"
@@ -367,15 +368,15 @@ let history = useHistory();
                   </InputLabel>
                   <TextField
                     type="time"
-                    time="12-hour"
+                    // time="12-hour"
                     fullWidth
                     variant="outlined"
                     margin="normal"
                     onChange={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
-                    min="12:00"
-                    defaultValue="12:00"
+                    min={opentimings}
+                    defaultValue=""
                     max="23:59"
                     required
                   ></TextField>

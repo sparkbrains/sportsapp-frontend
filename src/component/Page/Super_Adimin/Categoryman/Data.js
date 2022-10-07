@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 import React, { useEffect, useState } from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableHead from "@material-ui/core/TableHead";

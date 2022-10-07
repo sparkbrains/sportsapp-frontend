@@ -15,7 +15,7 @@ import Header from "../Header/Header";
 import library from "./Library/Library";
 import Dietplan from "./Dietplan/Dietplan"
 import Sportecenter from "./Sportecenter/Sportecenter";
-import { Route, Switch, BrowserRouter as BrowserRouter, Link } from "react-router-dom";
+import { Route, Switch, BrowserRouter, Link } from "react-router-dom";
 import Footer from "../Header/Footer";
 import Subscription from "./Subscription/Subscription"
 import Sportscenterdetals from "./Sportecenter/Sportscenterdetals"
