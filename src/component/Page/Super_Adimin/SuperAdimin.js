@@ -14,9 +14,10 @@ import {
 import LoadingBar from "react-top-loading-bar";
 import Grid from "@material-ui/core/Grid";
 import {
-  BrowserRouter as Router,Switch,
+  BrowserRouter as Router,Routes,
   Link,
   Route,
+  useLocation,
 } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Header/Footer";
@@ -33,6 +34,8 @@ import Editcoach from "./Coachman/Editcoach"
 import Editcategory from "./Categoryman/Editcategories"
 import Editnew from "./Sportscenterowner/Editnew";
 import EditUser from "./Userman/Edituser";
+import PrivateRoutes from "./component/./../../../useAuth/PrivateRoute";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,8 +50,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ButtonAppBar({match}) {
- 
+function ButtonAppBar() {
+  const match = useLocation().pathname
+  console.log(match,'history==');
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
   return (
@@ -74,7 +78,7 @@ function ButtonAppBar({match}) {
                 <Link
                   className="id"
                   onClick={() => setProgress(100)}
-                  to={`${match.path}/`}
+                  to={`${match.path}/sportscenterowner`}
                   style={{ textDecoration: "none" }}
                 >
                   <ListItem button key={"sports-center-owners"}>
@@ -163,8 +167,8 @@ function ButtonAppBar({match}) {
         </AppBar>
         <Footer />
       </div>
-      <Switch>
-        <Route exact path={`${match.path}/`} component={Sportscenterowner}/>
+      <Route element={<PrivateRoutes />} >
+        <Route  path={`${match.path}/sportscenterowner`} component={Sportscenterowner}/>
         <Route path={`${match.path}/coachmanagement`} component={Coachmanagement}/>
         <Route path={`${match.path}/usermanagement`} component={Usermanagement}/>
         <Route path={`${match.path}/categorymanagement`} component={Categorymanagement}/>
@@ -177,8 +181,7 @@ function ButtonAppBar({match}) {
         <Route path={`${match.path}/editcategory/:id`} component={Editcategory} />
         <Route path={`${match.path}/edituser/:id`} component={EditUser} />
         <Route path={`${match.path}/editnew/:id`} component={Editnew} />
-      
-      </Switch>
+        </Route>
     </Router>
   );
 }

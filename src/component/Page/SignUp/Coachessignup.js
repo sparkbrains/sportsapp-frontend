@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import swal from "sweetalert";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import {
   PersonRounded,
@@ -111,7 +111,7 @@ export default function SignInSide() {
     setPassword(e.target.value);
   };
   const [message, setMessage] = useState(null);
-  let history = useHistory();
+  let navigate = useNavigate();
 
 
   const onSubmit = async (e) => {
@@ -130,7 +130,7 @@ export default function SignInSide() {
         swal("Owner Account has Created Successfully!!", "", "success", {
           button: "ok",
         });
-        history.push("/")
+        navigate("/")
        
       })
      

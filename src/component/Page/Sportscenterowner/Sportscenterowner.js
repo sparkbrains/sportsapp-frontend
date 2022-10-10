@@ -14,7 +14,7 @@ import {
   Style,
 } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link, Route, Routes, BrowserRouter as Router, useLocation } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Header/Footer";
 import Sportcenter from "./Sportcenter/Sportcenter";
@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ButtonAppBar({ match }) {
+  console.log({match}, "lllllll");
+  
   const classes = useStyles();
 
   return (
@@ -81,7 +83,7 @@ export default function ButtonAppBar({ match }) {
                   to={`${match.path}/coaches`}
                   style={{ textDecoration: "none" }}
                 >
-                  <ListItem button key={"coaches-ownetr"}>
+                  <ListItem button key={"coaches-owner"}>
                     <PersonOutlineOutlined style={{ color: "#3a2e2e" }} />
                     <ListItemText
                       primary={"Coaches"}
@@ -178,7 +180,7 @@ export default function ButtonAppBar({ match }) {
         </AppBar>
         <Footer />
       </div>
-      <Switch>
+      <Routes>
         <Route exact path={`${match.path}/`} component={Sportcenter} />
         <Route path={`${match.path}/categories`} component={Categories} />
         <Route
@@ -198,7 +200,7 @@ export default function ButtonAppBar({ match }) {
           path={`${match.path}/addsportscenter`}
           component={Addsportscenter}
         />
-      </Switch>
+      </Routes>
     </Router>
   );
 }

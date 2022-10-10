@@ -11,7 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import "./Signup.css";
 import swal from "sweetalert";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   PersonRounded,
   Email,
@@ -110,7 +110,7 @@ export default function SignInSide() {
   };
 
   const [message, setMessage] = useState(null);
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const onSubmit = async (e) => {
     // e.preventDefault();
@@ -129,7 +129,7 @@ export default function SignInSide() {
         swal("Owner Account has Created Successfully!!", "", "success", {
           button: "ok",
         });
-        history.push("/")
+        navigate("/")
       })
       // .catch((err) => { });
       .catch(function (error) {

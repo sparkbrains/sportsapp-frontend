@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
 import Select from "@material-ui/core/Select";
@@ -57,7 +57,7 @@ const validationSchema = yup.object({
 
 export default function CenteredGrid() {
   const { id } = useParams();
-  let history = useHistory();
+  let navigate = useNavigate();
   const [message, setMessage] = useState(null);
   const [mes, setMes] = useState(null);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
@@ -108,7 +108,7 @@ export default function CenteredGrid() {
           button: "OK",
         });
       });
-    history.push("/superadmin/coachmanagement");
+    navigate("/superadmin/coachmanagement");
   };
 
   const loadUser = async (e) => {

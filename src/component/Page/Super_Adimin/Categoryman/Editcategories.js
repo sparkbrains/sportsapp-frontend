@@ -13,7 +13,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import swal from "sweetalert";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,7 @@ const validationSchema = yup.object({
 });
 
 const Editcategory = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const { id } = useParams();
   const [sport, setsport] = useState();
   const [message, setMessage] = useState(null);
@@ -98,7 +98,7 @@ const Editcategory = () => {
           button: "OK",
         });
       });
-    history.push("/superadmin/categorymanagement");
+    navigate("/superadmin/categorymanagement");
   };
 
   const loadUser = async () => {

@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 import "./Signup.css";
 import { useEffect } from "react";
 import Stack from "@mui/material/Stack";
-import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Link } from "react-router-dom";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
                         </FormControl>
                       </Stack>
                     </Container>
-                    <Switch>
+                    <Routes>
                       <Route
                         exact
                         path={`${match.path}/coachessignup`}
@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
                         path={`${match.path}/`}
                         component={Ownersignup}
                       />
-                    </Switch>
+                    </Routes>
                   </Grid>
                 </Grid>
               </div>

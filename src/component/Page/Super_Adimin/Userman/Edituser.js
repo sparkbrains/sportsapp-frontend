@@ -14,7 +14,7 @@ import * as yup from 'yup';
 import { useFormik } from "formik";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import swal from "sweetalert";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,7 @@ const validationSchema = yup.object({
 const EditUser = () => {
     const baseURL = process.env.REACT_APP_API_ENDPOINT;
     const { id } = useParams();
-    let history = useHistory();
+    let navigate = useNavigate();
     const [admin, setAdmin] = useState({
         name: "",
         gender: "",
@@ -127,7 +127,7 @@ const EditUser = () => {
               button: "OK",
             });
           });
-         history.push("/superadmin/usermanagement");
+         navigate("/superadmin/usermanagement");
     };
 
    

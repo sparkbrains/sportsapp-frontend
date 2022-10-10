@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +54,7 @@ const Addsportscenter = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  let history = useHistory();
+  let navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 
@@ -74,7 +74,7 @@ const Addsportscenter = () => {
     await axios.post(baseURL+"sports/sports/",
       user
     );
-     history.push("/sportscenterowner/");
+     navigate("/sportscenterowner/");
   };
 
   const formik = useFormik({

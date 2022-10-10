@@ -13,12 +13,14 @@ import { Email, VpnKeyOutlined } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import swal from "sweetalert2";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
+import { useAuth } from "../../useAuth/useAuth";
+import { useLocation } from "react-router-dom";
 
 const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
@@ -100,7 +102,13 @@ export default function SignInSide(props) {
   const [message, setMessage] = useState(null);
   // const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  const { state } = useLocation();
+
+  const { login } = useAuth();
+
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -109,12 +117,16 @@ export default function SignInSide(props) {
     document.title = "Sign In";
   }, []);
 
+
+
   useEffect(() => {
     if (props?.match?.path === "/login-admin") {
     }
   }, [props?.match?.path]);
 
   const classes = useStyles();
+
+
 
   const [email, setEmail] = useState();
   const handleEmailChange = (e) => {
@@ -126,6 +138,7 @@ export default function SignInSide(props) {
     setPassword(e.target.value);
     // setPassword({ e.target.value});
   };
+
 
   const [err, setErr] = useState();
   // var token = localStorage.getItem("token");
@@ -140,7 +153,7 @@ export default function SignInSide(props) {
         {
           email: email,
           password: password,
-        },
+        }
         // { headers: { Authorization: `Bearer ${token}` } }
       )
 
@@ -149,33 +162,36 @@ export default function SignInSide(props) {
         setMessage(res.data.message);
 
         if (res.status === 200) {
-          const { token } = res.data.token.access;
-          localStorage.setItem("token", res.data.token.access);
-          localStorage.getItem("token");
-          if (res.data.role === "admin") {
-            setSuccess(res.data.message);
-            history.push("/superadmin");
-          } else if (res.data.role === "coach") {
-            setSuccess(res.data.message);
-            history.push("/coaches");
-          } else if (res.data.role === "user") {
-            setSuccess(res.data.message);
-            history.push("/user");
-          } else if (res.data.role === "") {
-            setSuccess(res.data.message);
-            history.push("/sportscenterowner");
-          } else {
-            history.push("/");
-          }
-          props?.context.authLogin(res?.data?.user?.role);
-          token = res.data.token.access;
+          // const { token } = res.data.token.access;
+          // localStorage.setItem("token", res.data.token.access);
+          // localStorage.getItem("token");
+          // if (res.data.role === "admin") {
+          //   setSuccess(res.data.message);
+          //   // navigate("/superadmin");
+          // } else if (res.data.role === "coach") {
+          //   setSuccess(res.data.message);
+          //   // navigate("/coaches");
+          // } else if (res.data.role === "user") {
+          //   setSuccess(res.data.message);
+          //   // navigate("/user");
+          // } else if (res.data.role === "") {
+          //   setSuccess(res.data.message);
+          //   // navigate("/sportscenterowner");
+          
+          // else {
+          //   navigate("/sportscenterowner");
+          // }
+          // // props?.context.authLogin(res?.data?.user?.role);
+          const token = res.data.token.access;
           localStorage.refresh_token = res.data.token.refresh;
           localStorage.setItem("token", token);
-          localStorage.getItem("token");
-          const user = JSON.stringify(res?.data?.user);
-          localStorage.user = user;
-          props?.context.getProfile();
-          history.push("/sportscenterowner");
+          navigate(state?.path || "/sportscenterowner");
+          // localStorage.getItem("token");
+          // const user = JSON.stringify(res?.data?.user);
+          // localStorage.user = user;
+          // props?.context.getProfile();
+          navigate("/sportscenterowner");
+          
         }
       })
       .catch((error) => {
@@ -189,13 +205,19 @@ export default function SignInSide(props) {
 
           console.log(error.request);
         } else {
-          setMessage(error.response.data.message);
+          setMessage(error?.response?.data?.message);
 
           console.log("Error", error.message);
         }
-        swal("please enter valid email or password or both!", "", "error", {
-          button: "OK",
-        });
+        // swal("please enter valid email or password or both!", "", "error", {
+        //   button: "OK",
+        // });
+        swal.fire({
+          // title: 'Success!',
+          text: "please enter valid email or password or both!",
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 
@@ -399,7 +421,7 @@ export default function SignInSide(props) {
                           variant="outlined"
                           type="submit"
                           // onClick={() => {
-                          //   history.push("/sports-center-owners")
+                          //   navigate("/sports-center-owners")
                           // }}
                           size="medium"
                           color="primary"
@@ -430,7 +452,7 @@ export default function SignInSide(props) {
                             variant="outlined"
                             type="submit"
                             // onClick={() => {
-                            //   history.push("/sports-center-owners")
+                            //   navigate("/sports-center-owners")
                             // }}
                             size="medium"
                             color="primary"

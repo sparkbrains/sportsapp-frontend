@@ -16,7 +16,7 @@ import {
 
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { useHistory,useParams } from "react-router";
+import { useNavigate,useParams } from "react-router";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +66,7 @@ export default function CenteredGrid() {
   const onInputChange = (e) => {
     setEditsport({ ...editsport, [e.target.name]: e.target.value });
   };
-  let history = useHistory();
+  let navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 
@@ -80,7 +80,7 @@ export default function CenteredGrid() {
     await axios.put(baseURL+`sports/sports/${id}/`,
       editsport
     );
-    history.push("/sportscenterowner");
+    navigate("/sportscenterowner");
   };
 
   const loadUser = async () => {

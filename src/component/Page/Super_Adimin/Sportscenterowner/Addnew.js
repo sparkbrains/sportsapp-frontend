@@ -11,8 +11,9 @@ import { MdFileUpload } from "react-icons/md";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import swal from "sweetalert";
+// import { Datepicker } from "@mobiscroll";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,20 +61,23 @@ const validationSchema = yup.object({
     .min(10, "Phone number should not be less than 10 digits.")
     .max(10, "Phone number should not be more than 10 digits.")
     .required("Phone number is required."),
-  location: yup.string().max(50, "Must be 50 characters or less.")
-  .matches(/^[A-Za-z ]*$/, "Only alphabets are required.").required("Location is required."),
+  location: yup
+    .string()
+    .max(50, "Must be 50 characters or less.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
+    .required("Location is required."),
   sports_center: yup
-  .string()
-  .max(25, "Must be 25 characters or less.")
-  .required("Sports center is required.")
-  .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+    .string()
+    .max(25, "Must be 25 characters or less.")
+    .required("Sports center is required.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   password: yup.string().required("Password is required."),
   opentimings: yup.string().required("Time is required."),
   closetimings: yup.string().required("Time is required."),
 });
 
 const Addnew = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const [document, setdocument] = useState();
   const [error, seterror] = useState();
   const [closetimings, setclosetimings] = useState();
@@ -143,7 +147,7 @@ const Addnew = () => {
         swal("Owner Created Successfully.", "", "success", {
           button: "OK",
         });
-        history.push("/superadmin/");
+        navigate("/superadmin/");
       })
 
       .catch((error) => {
@@ -252,7 +256,9 @@ const Addnew = () => {
                     type="email"
                     variant="outlined"
                   />
-                  <p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{error}</p>
+                  <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
+                    {error}
+                  </p>
                 </Grid>
 
                 <Grid item sm={12} md={4}>
@@ -365,6 +371,12 @@ const Addnew = () => {
                   >
                     Opening Time
                   </InputLabel>
+                  {/* <Datepicker
+                    controls={["time"]}
+                    select="range"
+                    display="inline"
+                    touchUi={true}
+                  /> */}
                   <TextField
                     error={Boolean(
                       formik.touched.opentimings && formik.errors.opentimings

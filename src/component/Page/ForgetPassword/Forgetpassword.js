@@ -1,4 +1,4 @@
-import { React, setState } from "react";
+import { React } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -56,11 +56,14 @@ export default function SignInSide() {
     setEmail(e.target.value);
     // setState({email: e.target.value});
   };
+
+  const [err, setError] = useState(null);
+
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = (e) => {
     // e.preventDefault();
     axios
-      .post(baseURL+"users/forget-password/step1/",
+      .post(baseURL+"users/forget-password/",
         {
           email: email,
         }
@@ -73,6 +76,7 @@ export default function SignInSide() {
       })
       .catch((error) => {
         if (error.response) {
+          setError(error?.response?.data?.error)
           setMessage(error.response.data.status);
           // setMes(error.response.data.gender)
           // Request made and server responded
@@ -82,9 +86,9 @@ export default function SignInSide() {
         } else {
           console.log("Error", error.message);
         }
-        swal("Email does not exist!", "", "error", {
-          button: "OK",
-        });
+        // swal("Email does not exist!", "", "error", {
+        //   button: "OK",
+        // });
       });
   };
 

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Route, Switch, BrowserRouter as Router, Link } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router, Link } from 'react-router-dom';
 import Monday from './Monday'
 import Tursday from './Tursday'
 import Wednesday from './Wednesday'
@@ -67,7 +67,7 @@ function dietplan({match}) {
                     </Stack>
                 </Paper>
             </Container>
-            <Switch>
+            <Routes>
             <Route path={`${match.path}/monday`} component={Monday} />
             <Route path={`${match.path}/tursday`} component={Tursday} />
             <Route path={`${match.path}/wednesday`} component={Wednesday} />
@@ -76,7 +76,7 @@ function dietplan({match}) {
             <Route path={`${match.path}/saturday`} component={Saturday} />
             <Route path={`${match.path}/sunday`} component={Sunday} />
  
-            </Switch>
+            </Routes>
         </Router>
     )
 }

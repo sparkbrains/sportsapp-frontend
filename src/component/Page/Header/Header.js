@@ -15,6 +15,8 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { KeyboardArrowDown } from "@material-ui/icons";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../useAuth/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,12 +91,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(history) {
   const classes = useStyles();
+
+  const { authed, logout } = useAuth();
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const logout = () => {
+  const signOut = () => {
     localStorage.clear();
-    history.push("/");
+    logout();
+    navigate("/");
   };
+
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -139,7 +148,7 @@ export default function Header(history) {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
       <a style={{ textDecoration: "none" }} href="/">
-        <MenuItem onClick={logout}>Log Out</MenuItem>
+        <MenuItem onClick={signOut}>Log Out</MenuItem>
       </a>
       {/* /    </Link> */}
     </Menu>
@@ -248,7 +257,7 @@ export default function Header(history) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      {authed && renderMenu}
     </div>
   );
 }

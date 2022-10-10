@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +67,7 @@ const validationSchema = yup.object({
   specialization: yup.string().required("Specialization is required."),
 });
 const AddCoach = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const [speciallsation, setspecialisation] = useState("");
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
@@ -137,7 +137,7 @@ const AddCoach = () => {
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
-        history.push("/superadmin/coachmanagement");
+        navigate("/superadmin/coachmanagement");
       })
       .catch((error) => {
         if (error.response) {

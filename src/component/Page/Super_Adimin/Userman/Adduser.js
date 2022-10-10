@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as yup from "yup";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import swal from "sweetalert";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ const validationSchema = yup.object({
 });
 
 export default function AddUser() {
-  let history = useHistory();
+  let navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Add User";
@@ -116,7 +116,7 @@ export default function AddUser() {
         swal("User Created Successfully.", "", "success", {
           button: "OK",
         });
-        history.push("/superadmin/usermanagement");
+        navigate("/superadmin/usermanagement");
       })
       .catch((error) => {
         if (error.response) {

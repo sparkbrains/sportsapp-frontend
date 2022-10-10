@@ -13,7 +13,7 @@ import {
   Comment,
 } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import { Route, Switch, BrowserRouter as Router, Link } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Link } from "react-router-dom";
 import Footer from "../Header/Footer";
 import Schedule from "../Coaches/Schedule/Schedule"
 import Sportscenter from "../Coaches/Sportcentre/Sportcentre"
@@ -127,11 +127,11 @@ export default function ButtonAppBar({match}) {
         </AppBar>
         <Footer/>
       </div>
-      <Switch>
+      <Routes>
       <Route  path={`${match.path}/library`} component={Library} />
       <Route path={`${match.path}/schedule`} component={Schedule} />
       <Route exact path={`${match.path}/`} component={Sportscenter} />
-      </Switch>
+      </Routes>
     </Router>
   );
 }

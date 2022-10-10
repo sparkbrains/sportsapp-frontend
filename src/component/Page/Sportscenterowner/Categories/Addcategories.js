@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ export default function SignInSide() {
     document.title = "Add Category";
     handleSports();
   }, []);
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const [category, setcategory] = useState();
   const handlecategoryChange = (e) => {
@@ -77,7 +77,7 @@ export default function SignInSide() {
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
-        history.push("/superadmin/categorymanagement");
+        navigate("/superadmin/categorymanagement");
       })
       // .catch((err) => { });
       .catch(function (error) {

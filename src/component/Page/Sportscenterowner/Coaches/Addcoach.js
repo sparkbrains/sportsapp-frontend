@@ -9,7 +9,7 @@ import { Button } from "@material-ui/core";
 import { useEffect } from "react";
 import * as yup from "yup";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +51,7 @@ export default function CenteredGrid() {
   useEffect(() => {
     document.title = "Add Coach";
   }, []);
-  let history = useHistory();
+  let navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const [user, setUser] = useState({
     name: "",
@@ -69,7 +69,7 @@ export default function CenteredGrid() {
   const onSubmit = async (e) => {
     // e.preventDefault();
    const res = await axios.post(baseURL+"sports/coaches/", user);
-   history.push("/sportscenterowner/coaches");
+   navigate("/sportscenterowner/coaches");
   };
   // 
   const [password, setPassword] = useState();

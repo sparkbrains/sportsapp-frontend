@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as yup from "yup";
-// import { useHistory } from "react-router";
+// import { useNavigate } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,7 @@ const validationSchema = yup.object({
 });
 
 export default function AddUser() {
-  // let history = useHistory();
+  // let navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Add User";
@@ -107,7 +107,7 @@ export default function AddUser() {
         }
         console.log(error.config);
       });
-    // history.push("/category-management");
+    // navigate("/category-management");
   };
 
   const formik = useFormik({

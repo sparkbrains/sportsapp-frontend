@@ -26,7 +26,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useEffect } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +106,7 @@ export default function SignInSide() {
   const [message, setMessage] = useState(null);
   const [mes, setMes] = useState();
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const handleChange = (event) => {
     setRole(event.target.value);
@@ -162,7 +162,7 @@ export default function SignInSide() {
         swal("Account successfully registered!!", "", "success", {
           button: "OK",
         });
-        history.push("/");
+        navigate("/");
       })
       .catch((error) => {
         setMessage(error.response);

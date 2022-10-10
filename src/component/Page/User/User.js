@@ -15,7 +15,7 @@ import Header from "../Header/Header";
 import library from "./Library/Library";
 import Dietplan from "./Dietplan/Dietplan"
 import Sportecenter from "./Sportecenter/Sportecenter";
-import { Route, Switch, BrowserRouter, Link } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Link } from "react-router-dom";
 import Footer from "../Header/Footer";
 import Subscription from "./Subscription/Subscription"
 import Sportscenterdetals from "./Sportecenter/Sportscenterdetals"
@@ -117,13 +117,13 @@ export default function ButtonAppBar({ match }) {
         </AppBar>
         <Footer />
       </div>
-      <Switch>
+      <Routes>
       <Route exact path={`${match.path}/`} component={Sportecenter} />
         <Route path={`${match.path}/library`} component={library} />
         <Route path={`${match.path}/subscription`} component={Subscription} />
         <Route path={`${match.path}/dietplan`} component={Dietplan} />
         <Route path={`${match.path}/sportscenterdetals`} component={Sportscenterdetals} />
-      </Switch>
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ export default function SignInSide() {
     handleSports();
   }, []);
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const [category, setcategory] = useState();
   const handlecategoryChange = (e) => {
@@ -81,7 +81,7 @@ export default function SignInSide() {
         swal("Category Created Successfully.", "", "success", {
           button: "OK",
         });
-        history.push("/superadmin/categorymanagement");
+        navigate("/superadmin/categorymanagement");
       })
       .catch((error) => {
         swal("Something went wrong!", "", "error", {
@@ -310,6 +310,7 @@ export default function SignInSide() {
                         padding: "11px",
                         fontSize: "17px",
                       }}
+                      onClick={(e) => {onSubmit(e)}}
                     >
                       ADD CATEGORY
                     </Button>

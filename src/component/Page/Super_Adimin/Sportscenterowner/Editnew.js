@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import swal from "sweetalert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -62,7 +62,7 @@ const validationSchema = yup.object({
 
 const Editnew = () => {
   const { id } = useParams();
-  let history = useHistory();
+  let navigate = useNavigate();
   const [message, setMessage] = useState(null);
   const [closetimings, setclosetimings] = useState();
   const [opentimings, setopentimings] = useState();
@@ -127,7 +127,7 @@ const Editnew = () => {
           button: "OK",
         });
       });
-    history.push("/superadmin/");
+    navigate("/superadmin/");
   };
 
   const loadUser = async () => {

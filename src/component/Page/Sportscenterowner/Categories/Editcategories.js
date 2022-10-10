@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +40,7 @@ const validationSchema = yup.object({
 });
 
 const Editcategory = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const { id } = useParams();
   const [sport, setsport] = useState();
   const handlesportnoChange = (e) => {
@@ -65,7 +65,7 @@ const Editcategory = () => {
   const onSubmit = async (e) => {
     //   e.preventDefault();
     await axios.put(baseURL + `sports/categories/${id}/`, user);
-    history.push("/sportscenterowner/categories");
+    navigate("/sportscenterowner/categories");
   };
 
   const loadUser = async () => {

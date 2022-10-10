@@ -11,7 +11,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useParams } from "react-router";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +52,7 @@ const validationSchema = yup.object({
 
 export default function CenteredGrid() {
   const { id } = useParams();
-  let history = useHistory();
+  let navigate = useNavigate();
   const [editcoach, setEditcoach] = useState({
     name: "",
     sportscenter: "",
@@ -75,7 +75,7 @@ export default function CenteredGrid() {
     await axios.put(baseURL+`sports/coaches/${id}/`,
       editcoach
     );
-    history.push("/sportscenterowner/coaches");
+    navigate("/sportscenterowner/coaches");
   };
   const loadUser = async (e) => {
     const result = await axios.get(baseURL+`sports/coaches/${id}/`
