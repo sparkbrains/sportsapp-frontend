@@ -2,6 +2,7 @@ import React from 'react'
 import { Favorite } from '@material-ui/icons';
 import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
+import CopyrightIcon from '@material-ui/icons/Copyright';
 
 
 function Footer() {
@@ -21,7 +22,7 @@ function Footer() {
                 textAlign: "center", color: "#999",
                     height: "30px",
             }} >
-                Made by SparkBrains. Copyright 2022. All right reserved.
+                Copyright <CopyrightIcon style={{fontSize : "15px"}}/>  2022 Sports App. All rights reserved.
             </p>
             </AppBar>
         </Container>

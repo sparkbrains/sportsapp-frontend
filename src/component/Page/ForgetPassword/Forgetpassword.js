@@ -38,8 +38,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
 const validationSchema = yup.object({
-  email: yup.string().email("Please enter a valid email address.").required(),
+  email: yup.string().email("Please enter a valid email address.").matches(emailRegx,"Invalid Email ID...").required("Email is required."),
 });
 
 export default function SignInSide() {
@@ -64,8 +67,8 @@ export default function SignInSide() {
       )
       .then((res) => {
         setMessage(res.data.status);
-        swal("Email sent successfully.", "", "success", {
-          button: "ok",
+        swal("Reset Link has sent successfully on your registered Email.", "", "success", {
+          button: "OK",
         });
       })
       .catch((error) => {
@@ -79,8 +82,8 @@ export default function SignInSide() {
         } else {
           console.log("Error", error.message);
         }
-        swal("This Email is not found!", "Oops...", "error", {
-          button: "ok",
+        swal("Email does not exist!", "", "error", {
+          button: "OK",
         });
       });
   };
@@ -134,9 +137,9 @@ export default function SignInSide() {
                   <div className={classes.paper} style={{ marginTop: "90px" }}>
                     {/* {message && <div style={{fontSize:"30px"}}>{message}</div>} */}
                     <Typography component="h1" variant="h4" className="Sign">
-                      Forgot Password
+                      Forget Password
                     </Typography>
-                    <p className="p">Fill your registerd Email to get link</p>
+                    <p className="p">Enter your registered email to reset your password</p>
 
                     <form
                       className={classes.form}
@@ -150,7 +153,7 @@ export default function SignInSide() {
                           color: "rgba(12,11,69,255)",
                           padding: "5px",
                           display: "flex",
-                          fontSize: "15px",
+                          fontSize: "20px",
                           fontWeight: "bold",
                           marginTop: "80px",
                           letterSpacing: "2px",

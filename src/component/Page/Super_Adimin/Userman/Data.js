@@ -168,7 +168,7 @@ export default function WidgetLg() {
             className="butt"
             style={{ padding: "47px 0px", display: "flex" }}
           >
-            <div
+            {/* <div
               className="search"
               style={{ "display": "flex",border: "1px solid black" }}
             >
@@ -186,7 +186,7 @@ export default function WidgetLg() {
               <div style={{"margin" : "10px"}} >
                 <SearchIcon />
               </div>
-            </div>
+            </div> */}
 
             <Link to="/superadmin/adduser" style={{ textDecoration: "none" }}>
               <Button
@@ -203,7 +203,7 @@ export default function WidgetLg() {
                 }}
               >
                 <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
-                Add User
+                Add New User
               </Button>
             </Link>
           </Grid>
@@ -216,12 +216,12 @@ export default function WidgetLg() {
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right"> S.No</TableCell>
+                  <TableCell align="center">S.No</TableCell>
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
-                  <TableCell align="left"> Email Address</TableCell>
-                  <TableCell align="left"> Contact.No</TableCell>
-                  <TableCell align="right"> Actions</TableCell>
+                  <TableCell align="center"> Email Address</TableCell>
+                  <TableCell align="center"> Contact.No</TableCell>
+                  <TableCell align="center"> Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -238,18 +238,18 @@ export default function WidgetLg() {
                   .map((admin, i) => {
                     return (
                       <TableRow key={i}>
-                        <TableCell align="right">{i + 1}</TableCell>
+                        <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="left">
                           {data[i]?.user?.name}
                         </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
-                        <TableCell align="left">
+                        <TableCell align="center">
                           {data[i]?.user?.email}
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="center">
                           {data[i]?.profile?.phone_no}
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell align="center">
                           <Link to={`/superadmin/edituser/${admin.id}`}>
                             <Button
                               variant="contained"
@@ -289,7 +289,7 @@ export default function WidgetLg() {
               <DialogTitle>Delete User</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to delete this user?.
+                  Are you sure you want to delete this user?
                 </DialogContentText>
               </DialogContent>
               <DialogActions className="Buttonss">

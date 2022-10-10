@@ -198,7 +198,7 @@ export default function SignInSide() {
                 fontWeight: "bold",
               }}
             >
-              <h2 className="signupheading">Coaches Sign Up</h2>
+              <h2 className="signupheading">Coach</h2>
               <Typography
                 variant="caption"
                 gutterBottom

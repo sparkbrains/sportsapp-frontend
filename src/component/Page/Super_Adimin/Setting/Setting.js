@@ -8,17 +8,25 @@ import Grid from "@material-ui/core/Grid";
 import { Button } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from 'sweetalert2'
 import { useFormik } from "formik";
 import "./setting.css";
 import { useParams } from "react-router-dom";
+import Tooltip from '@mui/material/Tooltip';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
+    flexGrow:1
   },
   margin: {
-    height: theme.spacing(3),
+    // height: theme.spacing(3),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -39,7 +47,7 @@ const marks = [
   },
 ];
 function valueText(value) {
-  return `value%`;
+  return `${value}°C`;
 }
 
 
@@ -48,6 +56,8 @@ export default function DiscreteSlider() {
   const [getCoach, setGetCoach] = useState();
   const [EndUser, setEndUser] = useState();
   const [message, setMessage] = useState(null);
+  const [error, seterror] = useState(null);
+
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const classes = useStyles();
   const handleSubmit = (e) => {
@@ -58,15 +68,30 @@ export default function DiscreteSlider() {
       )
       .then((res) => {
         setMessage(res.data.message);
-        swal("Settings Saved Successfully.", "Success", "message", {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Success!',
+          text: 'Settings Saved Successfully!!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       })
       .catch((error) => {
-        setMessage(error.message);
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "OK",
-        });
+        if (error.response) {
+          // Request made and server responded
+          seterror(error?.response?.data?.error);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went Wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 
@@ -113,6 +138,22 @@ export default function DiscreteSlider() {
   //   setEndUser(newVal);
   // }
 
+  function ValueLabelComponent(props) {
+    const { children, value } = props;
+  
+    return (
+      <Tooltip enterTouchDelay={0} placement="top" title={value}>
+        {children}
+      </Tooltip>
+    );
+  }
+  
+  ValueLabelComponent.propTypes = {
+    children: PropTypes.element.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+  
+
   useEffect(() => {
     document.title = "Setting";
     loadUser()
@@ -146,38 +187,34 @@ export default function DiscreteSlider() {
               </h3>
               <div style={{ padding: "14px 30px", color: "#111944" }}>
                 <div className={classes.root}>
-                  <Typography id="discrete-slider-always" gutterBottom>
+                  <Typography id="discrete-slider-always" gutterBottom style={{marginBottom:"35px"}}>
                     Sport Center Owner
                   </Typography>
 
                   <div className="sliderbox">
                     <Slider
                       name="sportcenterowner"
-                      // defaultValue={50}
-                      aria-label="Default"
                       valueLabelDisplay="on"
                       value={edit.sportcenterowner}
                       onChange={(e, newVal) => {
                         onChange('sportcenterowner',newVal);
                       }}
-                      // getAriaValueText={valueText}
+                      getAriaValueText={valueText}
                       marks={marks}
+                      aria-label="Always visible"
+                      components={{
+                        ValueLabel: ValueLabelComponent,
+                      }}
                     />
                   </div>
                 </div>
                 <div className={classes.root}>
-                  <Typography id="discrete-slider-always" gutterBottom>
+                  <Typography id="discrete-slider-always" gutterBottom style={{marginBottom:"35px"}}>
                     Coach
                   </Typography>
                   <div className="sliderbox">
                     <Slider
-                    sx={{
-                      '& input[type="range"]': {
-                        WebkitAppearance: 'slider-horizontal',
-                      },
-                    }}
-                      // defaultValue={50}
-                      aria-label="Default"
+                      aria-label="Always visible"
                       valueLabelDisplay="on"
                       value={edit.coach}
                       onChange={(e,newVal) => {
@@ -185,24 +222,18 @@ export default function DiscreteSlider() {
                       }}
                       step={1}
                       marks={marks}
-
-                      // getAriaValueText={(val) =>valueText(v/al)}
+                      name="coach"
+                      getAriaValueText={valueText}
                     />
                   </div>
                 </div>
                 <div className={classes.root}>
-                  <Typography id="discrete-slider-always" gutterBottom>
+                  <Typography id="discrete-slider-always" gutterBottom style={{marginBottom:"35px"}}>
                     End User
                   </Typography>
                   <div className="sliderbox">
                     <Slider
-                    sx={{
-                      '& input[type="range"]': {
-                        WebkitAppearance: 'slider-horizontal',
-                      },
-                    }}
-                      // defaultValue={50}
-                      aria-label="Default"
+                      aria-label="Always visible"
                       valueLabelDisplay="on"
                       value={edit.enduser}
                       onChange={(e, newVal) => {
@@ -210,8 +241,8 @@ export default function DiscreteSlider() {
                       }}
                       step={1}
                       marks={marks}
-
-                      // getAriaValueText={(val) =>{valueText(val)}}
+                      getAriaValueText={valueText}
+                      name="enduser"
                     />
                   </div>
                 </div>

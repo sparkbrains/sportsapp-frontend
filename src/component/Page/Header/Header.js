@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -93,8 +93,8 @@ export default function Header(history) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const logout = () => {
     localStorage.clear();
-    history.push('/')
-  } 
+    history.push("/");
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -102,18 +102,25 @@ export default function Header(history) {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
-
+  
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
+  
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+    console.log(event.currentTarget,"loggggg");
+  };
+
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleNotification = () => {
+    setShowNotification(true);
   };
 
   const menuId = "primary-search-account-menu";
@@ -132,9 +139,9 @@ export default function Header(history) {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
       <a style={{ textDecoration: "none" }} href="/">
-      <MenuItem onClick={logout}>Log Out</MenuItem>
-        </a> 
-  {/* /    </Link> */}
+        <MenuItem onClick={logout}>Log Out</MenuItem>
+      </a>
+      {/* /    </Link> */}
     </Menu>
   );
 
@@ -181,11 +188,11 @@ export default function Header(history) {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
 
           <div className={classes.grow} />
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -198,12 +205,16 @@ export default function Header(history) {
               }}
               inputProps={{ "aria-label": "search" }}
             />
-          </div>
+          </div> */}
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show new notifications" color="inherit">
-              <Badge>
-                <NotificationsIcon />
-              </Badge>
+            <IconButton
+              aria-haspopup="true"
+              aria-label="show new notifications"
+              color="inherit"
+              onClick={handleNotification}
+            >
+              {/* <NotificationsIcon /> */}
+              <Badge></Badge>
             </IconButton>
             <IconButton
               edge="end"
@@ -214,10 +225,12 @@ export default function Header(history) {
               color="inherit"
             >
               <Avatar
-                // alt="Remy Sharp"
-                // src="https://www.shaadidukaan.com/vogue/wp-content/uploads/2019/08/hug-kiss-images.jpg"
+              // alt="Remy Sharp"
+              // src="https://www.shaadidukaan.com/vogue/wp-content/uploads/2019/08/hug-kiss-images.jpg"
               />
-              <p style={{ marginLeft: "10px", fontSize: "15px" }}>Super Admin</p>
+              <p style={{ marginLeft: "10px", fontSize: "15px" }}>
+                Super Admin
+              </p>
               <KeyboardArrowDown />
             </IconButton>
           </div>

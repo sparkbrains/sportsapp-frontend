@@ -31,12 +31,12 @@ const validationSchema = yup.object({
     .max(25, "Must be 25 characters or less.")
     .required("Category is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // sportcenter: yup
-  //   .string()
-  //   .max(25, "Must be 25 characters or less.")
-  //   .required("Sportcenter is required.")
-  //   .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.'),
-  location: yup.string().required("Location is required."),
+  sports_center: yup.string().required("Sport Center is required."),
+  location: yup.string().required("Location is required.").matches(/^[a-zA-Z0-9\s,'-]*$/, "Alpha-Numeric Characters Required."),
+  sport: yup
+    .string()
+    .max(25, "Must be 25 characters or less.")
+    .required("Sport is required.").matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
 });
 
 export default function SignInSide() {
@@ -55,18 +55,17 @@ export default function SignInSide() {
   const handlelocationChange = (e) => {
     setlocation(e.target.value);
   };
-  const [sportsCenter, setsportCenter] = useState();
+  const [sportsCenter, setsportCenter] = useState("");
   const handlesportcenterChange = (e) => {
     setsportCenter(e.target.value);
   };
-  const [sport, setsport] = useState("Select");
+  const [sport, setsport] = useState("");
   const handlesportonChange = (e) => {
     setsport(e.target.value);
   };
   const token = localStorage.getItem("token");
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
-
     const res = await axios
       .post(
         baseURL + "sports/categories/",
@@ -80,20 +79,20 @@ export default function SignInSide() {
       )
       .then((res) => {
         swal("Category Created Successfully.", "", "success", {
-          button: "ok",
+          button: "OK",
         });
         history.push("/superadmin/categorymanagement");
       })
       .catch((error) => {
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
+        swal("Something went wrong!", "", "error", {
+          button: "OK",
         });
       });
   };
   const formik = useFormik({
     initialValues: {
       category: "",
-      sport:"",
+      sport: "",
       sports_center: "",
       location: "",
     },
@@ -112,11 +111,9 @@ export default function SignInSide() {
   };
 
   const classes = useStyles();
-  const [age, setAge] = React.useState("football");
   const [open, setOpen] = React.useState(false);
   const onChange = (event, item) => {
-    setsport(item.props.children);
-    setAge(event.target.value);
+    setsport(event.target.value);
   };
 
   const handleClose = () => {
@@ -128,7 +125,7 @@ export default function SignInSide() {
   return (
     <div>
       <Container>
-        <h3 style={{ padding: "10px" }}>Add Category</h3>
+        <h3 style={{ padding: "10px" }}>Add New Category</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>
@@ -143,7 +140,7 @@ export default function SignInSide() {
                       fontWeight: "bold",
                     }}
                   >
-                    Category:
+                    Category
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -167,6 +164,8 @@ export default function SignInSide() {
                 </Grid>
                 <Grid item sm={12} md={6}>
                   <InputLabel
+                    id="sports_center"
+                    name="sports_center"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -175,12 +174,13 @@ export default function SignInSide() {
                       fontWeight: "bold",
                     }}
                   >
-                    Sport Center:
+                    Sport Center
                   </InputLabel>
                   <Select
                     inputProps={{ maxLength: 30 }}
                     error={Boolean(
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
                     )}
                     style={{
                       marginTop: "16px",
@@ -190,15 +190,18 @@ export default function SignInSide() {
                     fullWidth
                     name="sports_center"
                     variant="outlined"
+                    displayEmpty
                     helperText={
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sports_center &&
+                      formik.errors.sports_center
                     }
+                    onKeyUp={formik.dirty}
                     onBlur={formik.handleBlur}
                     onChange={handlesportcenterChange}
                     value={sportsCenter}
                   >
                     <MenuItem disabled value="">
-                      <em>Select Sport Center</em>
+                      <em>---Select Sport Center---</em>
                     </MenuItem>
                     {sports?.map((val) => {
                       const { id, center_name } = val;
@@ -222,7 +225,7 @@ export default function SignInSide() {
                       fontWeight: "bold",
                     }}
                   >
-                    Location:
+                    Location
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -237,15 +240,14 @@ export default function SignInSide() {
                     helperText={
                       formik.touched.location && formik.errors.location
                     }
-                    sportcenter="location "
                     onBlur={formik.handleBlur}
                     onKeyUp={handlelocationChange}
                     onChange={formik.handleChange}
-                    autoComplete="location "
                   />
                 </Grid>
                 <Grid item sm={12} md={6}>
                   <InputLabel
+                    id="sport"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -253,32 +255,28 @@ export default function SignInSide() {
                       fontWeight: "bold",
                     }}
                   >
-                    Sport:
+                    Sport
                   </InputLabel>
                   <Select
-                    error={Boolean(
-                      formik.touched.location && formik.errors.location
-                    )}
+                    error={Boolean(formik.touched.sport && formik.errors.sport)}
                     fullWidth
-                    helperText={
-                      formik.touched.location && formik.errors.location
-                    }
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
+                    helperText={formik.touched.sport && formik.errors.sport}
+                    inputProps={{ maxLength: 50 }}
                     open={open}
                     variant="outlined"
-                    name="Sport"
+                    name="sport"
                     onClose={handleClose}
-                    onKeyUp={handlesportonChange}
+                    onKeyUp={formik.handleChange}
                     onOpen={handleOpen}
                     value={sport}
                     onChange={onChange}
                     defaultValue="Select"
+                    displayEmpty
                     style={{ marginTop: "13px" }}
                   >
-                    <MenuItem disabled Selected defaultValue="">
-                          <em>Select</em>
-                        </MenuItem>
+                    <MenuItem disabled value="">
+                      <em>---Select Sport---</em>
+                    </MenuItem>
                     <MenuItem value="badminton">badminton</MenuItem>
                     <MenuItem value="football">football</MenuItem>
                     <MenuItem value="shooting">shooting</MenuItem>

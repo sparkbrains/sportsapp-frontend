@@ -165,7 +165,7 @@ export default function WidgetLg() {
               display: "flex",
             }}
           >
-            <div
+            {/* <div
               className="search"
               style={{ "display": "flex",border: "1px solid black" }}
             >
@@ -184,7 +184,7 @@ export default function WidgetLg() {
                <div style={{"margin" : "10px"}}>
                 <SearchIcon />
               </div>
-            </div>
+            </div> */}
             <Link
               to="/superadmin/addcategory"
               style={{ textDecoration: "none" }}
@@ -203,7 +203,7 @@ export default function WidgetLg() {
                 }}
               >
                 <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
-                Add Category
+                Add New Category
               </Button>
             </Link>
           </Grid>
@@ -289,10 +289,10 @@ export default function WidgetLg() {
                   })}
               </TableBody>
               <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Delete Category.</DialogTitle>
+                <DialogTitle>Delete Category</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Are you sure you want to delete this Category?.
+                    Are you sure you want to delete this Category?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions className="Buttonss">

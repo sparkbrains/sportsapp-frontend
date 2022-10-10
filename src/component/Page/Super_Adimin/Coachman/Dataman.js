@@ -166,7 +166,7 @@ export default function WidgetLg() {
               justifyContent: "end",
             }}
           >
-            <div
+            {/* <div
               className={classes.search}
               style={{ "display": "flex",border: "1px solid black" }}
             >
@@ -185,7 +185,7 @@ export default function WidgetLg() {
               <div style={{"margin" : "5px"}}>
                 <SearchIcon/>
               </div>
-            </div>
+            </div> */}
 
             <Link to="/superadmin/addcoach" style={{ textDecoration: "none" }}>
               <Button
@@ -201,8 +201,8 @@ export default function WidgetLg() {
                   padding: "2px 6px",
                 }}
               >
-                <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
-                Add Coach
+                <AddCircleOutlineOutlined style={{ marginRight: "4px" }} />
+                Add New Coach
               </Button>
             </Link>
           </Grid>
@@ -281,10 +281,10 @@ export default function WidgetLg() {
                   })}
               </TableBody>
               <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Delete Coach.</DialogTitle>
+                <DialogTitle>Delete Coach</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Are you sure you want to delete this Coach?.
+                    Are you sure you want to delete this Coach?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions className="Buttonss">

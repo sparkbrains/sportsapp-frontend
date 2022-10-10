@@ -7,7 +7,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
 import { Button } from "@material-ui/core";
 import { useEffect } from "react";
-import { MdFileUpload } from 'react-icons/md';
+import { MdFileUpload } from "react-icons/md";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -25,8 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const baseURL = process.env.REACT_APP_API_ENDPOINT;
+
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
+
+const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 const validationSchema = yup.object({
   name: yup
@@ -34,21 +37,43 @@ const validationSchema = yup.object({
     .max(25, "Must be 25 characters or less.")
     .required("Owner name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: yup.string().email("Email is invalid.").required("Email is required."),
+  email: yup
+    .string()
+    .email("Email is invalid.")
+    .required("Email is required.")
+    // .test(
+    //   "email check",
+    //   "email déjà utiliser",
+    //   async (value) =>
+    //     await fetch(baseURL + `sports/coach/`, {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-type": "application/json",
+    //       },
+    //       body: JSON.stringify({ email: value }),
+    //     }).then((res) => res.json())
+    // )
+    .matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
-    .required("Phone number is required.")
-    .min(10, "Please enter your 10 digit Mobile Number.")
-    .max(15, "Please enter your 10 digit Mobile Number.")
-    .matches(phoneRegExp, "Phone number is only number type."),
-  location: yup.string().required("Location is required."),
-
- 
+    .matches(phoneRegExp, "Phone number must contains only number.")
+    .min(10, "Phone number should not be less than 10 digits.")
+    .max(10, "Phone number should not be more than 10 digits.")
+    .required("Phone number is required."),
+  location: yup.string().max(50, "Must be 50 characters or less.")
+  .matches(/^[A-Za-z ]*$/, "Only alphabets are required.").required("Location is required."),
+  sports_center: yup
+  .string()
+  .max(25, "Must be 25 characters or less.")
+  .required("Sports center is required.")
+  .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  password: yup.string().required("Password is required."),
+  opentimings: yup.string().required("Time is required."),
+  closetimings: yup.string().required("Time is required."),
 });
 
- const Addnew = () => {
-
-let history = useHistory();
+const Addnew = () => {
+  let history = useHistory();
   const [document, setdocument] = useState();
   const [error, seterror] = useState();
   const [closetimings, setclosetimings] = useState();
@@ -84,36 +109,34 @@ let history = useHistory();
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
   };
- 
+
   const handlefirstnameChange = (e) => {
     setclosetimings(e.target.value);
     // (e.target.value) >= opentimings ? " " : setclosetimings(e.target.value);
   };
 
-  const baseURL = process.env.REACT_APP_API_ENDPOINT;
-
-
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    const res = await axios.post(baseURL+"sports/owner/",
-    { 
-      "user":{
-        email:email,
-        name:name,
-        password:password
-      },
-      "profile":{
-        "role":"owner",
-        phone_no:phone_no,
-      },
-      opentimings:opentimings,
-      closetimings:closetimings,
-      location:location,
-      "speciallsation": "strength",
-      sports_center:{center_name :sports_center},
-      },
-      { "headers": {"Authorization" : `Bearer ${token}`} }
-      
+    const res = await axios
+      .post(
+        baseURL + "sports/owner/",
+        {
+          user: {
+            email: email,
+            name: name,
+            password: password,
+          },
+          profile: {
+            role: "owner",
+            phone_no: phone_no,
+          },
+          opentimings: opentimings,
+          closetimings: closetimings,
+          location: location,
+          speciallsation: "strength",
+          sports_center: { center_name: sports_center },
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
         // setMessage(res.data.message);
@@ -122,12 +145,11 @@ let history = useHistory();
         });
         history.push("/superadmin/");
       })
-    
+
       .catch((error) => {
         if (error.response) {
-         
           // Request made and server responded
-          seterror(error?.response?.data?.error)
+          seterror(error?.response?.data?.error);
           console.log(error.response.status);
         } else if (error.request) {
           // The request was made but no response was received
@@ -135,11 +157,10 @@ let history = useHistory();
         } else {
           console.log("Error", error.message);
         }
-        swal("Something went wrong!", "Oops...", "error", {
+        swal("Something went wrong!", "", "error", {
           button: "OK",
         });
       });
-    
   };
 
   const formik = useFormik({
@@ -147,8 +168,11 @@ let history = useHistory();
       name: "",
       email: "",
       phone_no: "",
-      sportcenter: "",
+      sports_center: "",
       location: "",
+      opentimings: "",
+      closetimings: "",
+      password: "",
     },
     validateOnBlur: true,
     onSubmit,
@@ -165,7 +189,7 @@ let history = useHistory();
   return (
     <div style={{ marginBottom: "50px" }}>
       <Container>
-        <h3 style={{ padding: "10px" }}>Add Sport Center Owners</h3>
+        <h3 style={{ padding: "10px" }}>Add Sports Center Owner</h3>
         <Paper elevation={3}>
           <div
             className={classes.root}
@@ -184,25 +208,22 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Owner Name:
+                    Owner Name
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
-                    error={Boolean(
-                      formik.touched.name && formik.errors.name
-                    )}
+                    error={Boolean(formik.touched.name && formik.errors.name)}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={
-                      formik.touched.name && formik.errors.name
-                    }
+                    helperText={formik.touched.name && formik.errors.name}
                     name="name"
                     onBlur={formik.handleBlur}
                     onKeyUp={handlenameChange}
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
+                    type="text"
                     // value={values.name}
                   />
                 </Grid>
@@ -216,7 +237,7 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Email:
+                    Email
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -231,9 +252,9 @@ let history = useHistory();
                     type="email"
                     variant="outlined"
                   />
-                  <p style={{color:"red",margin:"0px"}}>{error}</p> 
+                  <p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{error}</p>
                 </Grid>
-                
+
                 <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
@@ -244,7 +265,7 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No:
+                    Phone No
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
@@ -254,19 +275,22 @@ let history = useHistory();
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phone_no && formik.errors.phone_no}
+                    helperText={
+                      formik.touched.phone_no && formik.errors.phone_no
+                    }
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
                     name="phone_no"
-                    autoComplete="number"
                     variant="outlined"
+                    type="tel"
                   />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
+                    id="sports_center"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -275,24 +299,27 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Sport Center:
+                    Sports Center
                   </InputLabel>
                   <TextField
+                    id="sport_center"
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
-                      formik.touched.sportcenter && formik.errors.sportcenter
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
                     )}
                     margin="normal"
                     fullWidth
                     helperText={
-                      formik.touched.sportcenter && formik.errors.sportcenter
+                      formik.touched.sports_center &&
+                      formik.errors.sports_center
                     }
                     name="sports_center"
-                    // onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
                     onKeyUp={handlesportcenterChange}
                     onChange={formik.handleChange}
-                    autoComplete="sports_center"
                     variant="outlined"
+                    type="text"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -305,25 +332,25 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Location:
+                    Location
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
                       formik.touched.location && formik.errors.location
                     )}
-                    margin="normal"
-                    required
-                    fullWidth
                     helperText={
                       formik.touched.location && formik.errors.location
                     }
+                    margin="normal"
+                    required
+                    fullWidth
                     onBlur={formik.handleBlur}
                     onKeyUp={handlelocationChange}
                     onChange={formik.handleChange}
                     name="location"
-                    autoComplete=""
                     variant="outlined"
+                    type="text"
                   />
                 </Grid>
                 <Grid item sm={12} md={2}>
@@ -336,10 +363,16 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Open Timings:
+                    Opening Time
                   </InputLabel>
                   <TextField
-                  margin="normal"
+                    error={Boolean(
+                      formik.touched.opentimings && formik.errors.opentimings
+                    )}
+                    helperText={
+                      formik.touched.opentimings && formik.errors.opentimings
+                    }
+                    margin="normal"
                     type="time"
                     variant="outlined"
                     fullWidth
@@ -348,10 +381,9 @@ let history = useHistory();
                     name="opentimings"
                     min="00:00"
                     max="12:00"
-                    defaultValue="07:00"
+                    defaultValue="00:00"
                     required
                   ></TextField>
-                 
                 </Grid>
 
                 <Grid item sm={12} md={2}>
@@ -364,11 +396,17 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Close Timings:
+                    Closing Time
                   </InputLabel>
                   <TextField
+                    error={Boolean(
+                      formik.touched.closetimings && formik.errors.closetimings
+                    )}
+                    helperText={
+                      formik.touched.closetimings && formik.errors.closetimings
+                    }
                     type="time"
-                    // time="12-hour"
+                    format="12-hour"
                     fullWidth
                     variant="outlined"
                     margin="normal"
@@ -376,14 +414,14 @@ let history = useHistory();
                     id="closetimings"
                     name="closetimings"
                     min={opentimings}
-                    defaultValue=""
+                    defaultValue="00:00"
                     max="23:59"
                     required
                   ></TextField>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-              <Grid item sm={12} md={4}>
+                <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -393,7 +431,7 @@ let history = useHistory();
                       fontWeight: "bold",
                     }}
                   >
-                    Password:
+                    Password
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -417,7 +455,7 @@ let history = useHistory();
                   />
                 </Grid>
                 {/* <Grid item sm={12} md={4}> */}
-                  {/* <InputLabel
+                {/* <InputLabel
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -441,7 +479,7 @@ let history = useHistory();
                     <MdFileUpload style={{ fontSize: "40px" }} />
                     <p style={{marginTop:"5px"}}>Upload Sports Logo</p>  */}
 
-                    {/* <Button
+                {/* <Button
                                                     variant="contained"
                                                     component="label"
                                                     style={{
@@ -454,7 +492,7 @@ let history = useHistory();
                                                    dropzoneText={"Upload Sports Logo"}
                                                 </Button> */}
 
-                    {/* <DropzoneArea
+                {/* <DropzoneArea
                       acceptedFiles={["image/*"]}
                       filesLimit={3}
                       maxFileSize={1048576} //1 MB
@@ -462,7 +500,7 @@ let history = useHistory();
                       onChange={onDropzoneAreaChange}
                       dropzoneText={"Upload Sports Logo"}
                     /> */}
-                  {/* </div>
+                {/* </div>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -493,7 +531,7 @@ let history = useHistory();
                         </div>
                     */}
 
-                  {/* <Button
+                {/* <Button
                                                     variant="contained"
                                                     component="label"
                                                     style={{
@@ -507,8 +545,8 @@ let history = useHistory();
                                                         hidden
                                                     />
                                                 </Button> */}
-                  {/* </div> */}
-                  {/* <DropzoneArea
+                {/* </div> */}
+                {/* <DropzoneArea
                     acceptedFiles={["image/*"]}
                     filesLimit={3}
                     maxFileSize={1048576} //1 MB
@@ -516,7 +554,7 @@ let history = useHistory();
                     onChange={DropzoneAreaChange}
                     dropzoneText={"Upload Supporting Documents"}
                   /> */}
-                 
+
                 {/* </Grid> */}
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -532,6 +570,7 @@ let history = useHistory();
                         padding: "13px",
                         fontSize: "17px",
                       }}
+                      onClick={(e) => onSubmit(e)}
                     >
                       ADD SPORT CENTER OWNER
                     </Button>

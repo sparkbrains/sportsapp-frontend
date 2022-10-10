@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
- function SignInSide({ match }) {
+ function SignInLeftSide({ match }) {
 
   useEffect(() => {
     document.title = "Sign Up User";
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
                         <FormControl>
                           <RadioGroup
                             row
-                            // aria-labelledby="demo-row-radio-buttons-group-label"
+                            aria-labelledby="demo-row-radio-buttons-group-label"
                             name="row-radio-buttons-group"
                           >
                             <Link
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
                               <FormControlLabel
                                 value="Coaches"
                                 control={<Radio />}
-                                label="User Signup"
+                                label="User"
                               />
                             </Link>
                             <Link
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
                               <FormControlLabel
                                 value="Owner"
                                 control={<Radio />}
-                                label="Coaches Signup"
+                                label="Coach"
                               />
                             </Link>
                             <Link
@@ -132,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
                               <FormControlLabel
                                 value="ownersignup"
                                 control={<Radio />}
-                                label="Owner Signup"
+                                label="Owner"
                               />
                             </Link>
                           </RadioGroup>
@@ -164,6 +164,6 @@ const useStyles = makeStyles((theme) => ({
     </Grid>
   );
 }
-export default SignInSide;
+export default SignInLeftSide;
 
 // : http://192.168.18.123:8000/api/token/

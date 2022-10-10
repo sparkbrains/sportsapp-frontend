@@ -26,25 +26,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
 
-const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const validationSchema = yup.object({
   name: yup
     .string()
-    .max(50, "Must be 50 characters or less")
+    .max(25, "Must be 25 characters or less")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
-    .required("name is required"),
-  email: yup.string().email("Email is invalid").required("Email is required").matches(emailRegx, "Invalid Email ID..."),
+    .required("Name is required"),
+  email: yup
+    .string()
+    .email("Please enter a valid email address")
+    .matches(emailRegx, "Invalid Email ID...")
+    .required("Email is required."),
   phone_no: yup
     .string()
-    .min(10, "Phone number must be at least 10 number.")
-    .max(15, "phone number must be at least 12 number.")
-    .required("phone number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
-  location: yup.string().required("Location is required."),
-  password: yup.string().required("Password is required."),
+    .min(10, "Phone number should not be less than 10 digits.")
+    .max(10, "Phone number should not be more than 10 digits.")
+    .required("Phone number is required.")
+    .matches(phoneRegExp, "Phone number must contains only number."),
+  location: yup
+    .string()
+    .max(50, "Must be 50 characters or less.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
+    .required("Location is required."),
+  password: yup
+    .string()
+    .matches(PASSWORD_REGEX, "Invalid password...")
+    .required("Password is required."),
+  gender: yup.string().required("Gender is required."),
 });
 
 export default function AddUser() {
@@ -105,7 +119,17 @@ export default function AddUser() {
         history.push("/superadmin/usermanagement");
       })
       .catch((error) => {
-        swal("Something went wrong!", "Oops...", error, {
+        if (error.response) {
+          // Request made and server responded
+          seterror(error?.response?.data?.error);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+        swal("Something went wrong!", "", error, {
           button: "OK",
         });
       });
@@ -118,21 +142,22 @@ export default function AddUser() {
       phone_no: "",
       location: "",
       password: "",
+      gender: "",
     },
     validateOnBlur: true,
     validationSchema: validationSchema,
     onSubmit,
   });
 
-  const [gender, setgender] = useState("Male");
+  const [gender, setgender] = useState("");
   const handleGenderonChange = (e) => {
     setgender(e.target.value);
   };
   const classes = useStyles();
-  const [age, setAge] = useState("Male");
+  const [age, setAge] = useState("");
   const [open, setOpen] = useState(false);
   const onChange = (event, gender) => {
-    setgender(gender.props.children);
+    setgender(event.target.value);
     setAge(event.target.value);
   };
 
@@ -147,10 +172,15 @@ export default function AddUser() {
   return (
     <div>
       <Container>
-        <h3 style={{ padding: "10px" }}>Add User</h3>
+        <h3 style={{ padding: "10px" }}>Add New User</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
-            <form method="POST" Validate autoComplete="off" onSubmit={formik.handleSubmit}>
+            <form
+              method="POST"
+              noValidate
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
+            >
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -162,7 +192,7 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Name:
+                    Name
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -177,6 +207,7 @@ export default function AddUser() {
                     onKeyUp={handlefirstnameChange}
                     label="User Name"
                     variant="outlined"
+                    type="text"
                   />
                 </Grid>
 
@@ -190,24 +221,24 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Location:
+                    Location
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
                       formik.touched.location && formik.errors.location
                     )}
-                    margin="normal"
-                    required
-                    fullWidth
                     helperText={
                       formik.touched.location && formik.errors.location
                     }
+                    margin="normal"
+                    required
+                    fullWidth
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     onKeyUp={handlelocationChange}
                     name="location"
-                    autoComplete=""
+                    type="text"
                     variant="outlined"
                     label="Location"
                   />
@@ -215,6 +246,7 @@ export default function AddUser() {
 
                 <Grid item sm={12} md={4}>
                   <InputLabel
+                    id="gender"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -224,22 +256,29 @@ export default function AddUser() {
                       padding: "8px",
                     }}
                   >
-                    Gender:
+                    Gender
                   </InputLabel>
                   <Select
+                    error={Boolean(
+                      formik.touched.gender && formik.errors.gender
+                    )}
+                    helperText={formik.touched.gender && formik.errors.gender}
                     fullWidth
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
+                    id="gender"
                     open={open}
                     variant="outlined"
                     onClose={handleClose}
                     onOpen={handleOpen}
                     onKeyUp={handleGenderonChange}
-                    value={age}
+                    value={gender}
                     onChange={onChange}
-                    defaultValue="Male"
-                    label="Gender"
+                    // label="Gender"
+                    name="gender"
+                    displayEmpty
                   >
+                    <MenuItem disabled value="">
+                      <em>--- Gender ---</em>
+                    </MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
@@ -257,7 +296,7 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Email:
+                    Email
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -273,7 +312,9 @@ export default function AddUser() {
                     label="Email"
                     variant="outlined"
                   />
-                  <p style={{ color: "red", margin: "0px" }}>{error}</p>
+                  <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
+                    {error}
+                  </p>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -285,7 +326,7 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No:
+                    Phone No
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
@@ -302,7 +343,7 @@ export default function AddUser() {
                     onChange={formik.handleChange}
                     onKeyUp={handlephonenoChange}
                     name="phone_no"
-                    autoComplete="number"
+                    type="number"
                     variant="outlined"
                     label="Phone No"
                   />
@@ -317,7 +358,7 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Password:
+                    Password
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -356,7 +397,9 @@ export default function AddUser() {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
-                      onClick={(e) => {onSubmit(e)}}
+                      onClick={(e) => {
+                        onSubmit(e);
+                      }}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

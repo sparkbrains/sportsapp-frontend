@@ -27,17 +27,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  // category: yup
-  //   .string()
-  //   .max(25, "Must be 25 characters or less.")
-  //   .required("Category is required.")
-  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // sportcenter: yup
-  //   .string()
-  //   .max(25, "Must be 25 characters or less.")
-  //   .required("Sportcenter is required.")
-  //   .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  // location: yup.string().required("Location is required."),
+  category: yup
+    .string()
+    .max(25, "Must be 25 characters or less.")
+    .required("Category is required.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  sportcenter: yup
+    .string()
+    .max(25, "Must be 25 characters or less.")
+    .required("Sportcenter is required.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+  location: yup.string().required("Location is required."),
 });
 
 const Editcategory = () => {
@@ -94,7 +94,7 @@ const Editcategory = () => {
       })
       // .catch((err) => { });
       .catch((error) => {
-        swal("Something went wrong!", "Oops...", "error", {
+        swal("Something went wrong!", "", "error", {
           button: "OK",
         });
       });
@@ -330,6 +330,7 @@ const Editcategory = () => {
                         width: "165Px",
                         padding: "11px",
                       }}
+                      onClick={(e) => onSubmit(e)}
                     >
                       SAVE
                     </Button>

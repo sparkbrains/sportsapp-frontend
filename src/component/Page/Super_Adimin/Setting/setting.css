@@ -1,21 +1,24 @@
-.sliderbox span {
-    height: 12px;
+/* .sliderbox span {
+    height: 10px;
     border-radius: 18px;
 }
 .sliderbox .MuiSlider-thumb {
     width: 20px;
     height: 19px !important;
 }
-.sliderbox .PrivateValueLabel-label-20 {
+.sliderbox .PrivateValueLabel-label-21 {
     color: #ffff;
+    background-color: rgb(53, 55, 56);
+    padding: 5px;
     transform: rotate(360deg);
+    position: "bottom";
 }
-.sliderbox .PrivateValueLabel-circle-19 {
-    /* background-color: transparent !important; */
+.sliderbox .PrivateValueLabel-circle-20 {
+    top: -10px !important;
+    background-color: transparent !important;
 }
 .sliderbox .PrivateValueLabel-offset-18 {
-    top: 36px;
 }
 .sliderbox span.MuiSlider-mark {
     display: none;
-}
+} */

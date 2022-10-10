@@ -192,7 +192,7 @@ export default function BasicTable() {
               justifyContent: "end",
             }}
           >
-            <div className="search" style={{ "display": "flex", border: "1px solid black " }}>
+            {/* <div className="search" style={{ "display": "flex", border: "1px solid black " }}>
               <InputBase
                 onChange={(e) => {
                   setsearchTerm(e.target.value);
@@ -210,7 +210,7 @@ export default function BasicTable() {
               <div style={{"margin" : "10px"}}>
                 <SearchIcon />
               </div>
-            </div>
+            </div> */}
 
             <Link to="/superadmin/addnew" style={{ textDecoration: "none" }}>
               <Button
@@ -225,7 +225,7 @@ export default function BasicTable() {
                 }}
               >
                 <AddCircleOutlineOutlined style={{ marginRight: "6px" }} />
-                Add New
+                Add New SC Owner
               </Button>
             </Link>
           </Grid>
@@ -326,7 +326,7 @@ export default function BasicTable() {
                 <DialogTitle>Delete Owner</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Are you sure you want to delete this Owner?.
+                    Are you sure you want to delete this Owner?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions className="Buttonss">

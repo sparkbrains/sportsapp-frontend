@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+const phoneRegExp =   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
@@ -38,21 +39,25 @@ const validationSchema = yup.object({
     .max(25, "Must be 25 characters or less.")
     .required("Owner name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  email: yup.string().email("Email is invalid.").required("Email is required.").matches(emailRegx, "Invalid Email ID..."),
+  email: yup
+    .string()
+    .email("Email is invalid.")
+    .required("Email is required.")
+    .matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
     .required("Phone number is required.")
-    .min(10, "Please enter your 10 digit Mobile Number.")
-    .max(12, "Please enter your 10 digit Mobile Number.")
-    .matches(phoneRegExp, "Phone number is only number type."),
-  location: yup.string().required("Location is required."),
-
-  sportcenter: yup
+    .min(10, "Phone number should not be less than 10 digits.")
+    .max(10, "Phone number should not be more than 10 digits.")
+    .matches(phoneRegExp, "Phone number must contains only number."),
+  location: yup.string().max(50, "Must be 50 characters or less.")
+  .matches(/^[A-Za-z ]*$/, "Only alphabets are required.").required("Location is required."),
+  sports_center: yup
     .string()
     .required("Sport Center  is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-    opentimings: yup.string().required("Open timings  is required."),
-    closetimings: yup.string().required("Close timings  is required."),
+  opentimings: yup.string().required("Open timings  is required."),
+  closetimings: yup.string().required("Close timings  is required."),
 });
 
 const Editnew = () => {
@@ -67,19 +72,18 @@ const Editnew = () => {
     setopentimings(e.target.value);
   };
 
-  const handlefirstnameChange = (e) => {
+  const handleCloseChange = (e) => {
     setclosetimings(e.target.value);
   };
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const [editnew, setEditnew] = useState({
-    
     name: "",
     email: "",
     opentimings: "",
     closetimings: "",
     phone_no: "",
-    sportcenter: "",
+    sports_center: "",
     location: "",
   });
   const onInputChange = (e) => {
@@ -92,17 +96,15 @@ const Editnew = () => {
   }, []);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    console.log(editnew,"newwwww");
+    // e.preventDefault();
     await axios
-      .patch(baseURL+`sports/owner/?id=${id}`,
-      {
+      .patch(baseURL + `sports/owner/?id=${id}`, {
         profile: {
           role: "owner",
           phone_no: editnew.phone_no,
         },
-        opentimings: opentimings,
-        closetimings: closetimings,
+        opentimings: editnew.opentimings,
+        closetimings: editnew.closetimings,
         location: editnew.location,
         speciallsation: "strength",
         sports_center: {
@@ -113,41 +115,34 @@ const Editnew = () => {
           name: editnew.name,
           password: editnew.password,
         },
-      }
-      )
+      })
       .then((res) => {
         setMessage(res.data.message);
         swal("Owner Edit Successfully.", "", "success", {
-          button: "ok",
+          button: "OK",
         });
       })
       .catch((error) => {
-
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
+        swal("Something went wrong!", "", "error", {
+          button: "OK",
         });
       });
     history.push("/superadmin/");
   };
 
   const loadUser = async () => {
-    const result = await axios.get(baseURL+`sports/owner/?id=${id}`
-    );
-    console.log(result.data,"aaaaaa");
-    setEditnew(
-      {
-        name:result.data?.user?.name,
-        email:result.data?.user?.email,
-        opentimings:result.data?.opentimings,
-        closetimings:result.data?.closetimings,
-        phone_no:result.data?.profile?.phone_no,
-        sports_center:result.data?.sports_center.center_name,
-        location:result.data?.location
-      },
-      
-  );
+    const result = await axios.get(baseURL + `sports/owner/?id=${id}`);
+    console.log(result.data, "aaaaaa");
+    setEditnew({
+      name: result.data?.user?.name,
+      email: result.data?.user?.email,
+      opentimings: result.data?.opentimings,
+      closetimings: result.data?.closetimings,
+      phone_no: result.data?.profile?.phone_no,
+      sports_center: result.data?.sports_center.center_name,
+      location: result.data?.location,
+    });
   };
-
 
   const onChange = (event, item) => {
     setEditnew((prev) => {
@@ -186,14 +181,12 @@ const Editnew = () => {
     validationSchema: validationSchema,
   });
 
-  
-
   const classes = useStyles();
   return (
     <div style={{ marginBottom: "80px" }}>
       {/* <SportsCenterOwners /> */}
       <Container>
-        <h3 style={{ padding: "10px" }}>Edit Sport Center Owners</h3>
+        <h3 style={{ padding: "10px" }}>Edit Sport Center Owner</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>
@@ -208,18 +201,14 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Owner Name:
+                    Owner Name
                   </InputLabel>
                   <TextField
-                    error={Boolean(
-                      formik.touched.name && formik.errors.name
-                    )}
+                    error={Boolean(formik.touched.name && formik.errors.name)}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={
-                      formik.touched.name && formik.errors.name
-                    }
+                    helperText={formik.touched.name && formik.errors.name}
                     name="name"
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
@@ -239,7 +228,7 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Email:
+                    Email
                   </InputLabel>
                   <TextField
                     error={Boolean(formik.touched.email && formik.errors.email)}
@@ -264,16 +253,18 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No:
+                    Phone No
                   </InputLabel>
                   <TextField
                     error={Boolean(
                       formik.touched.phone_no && formik.errors.phone_no
                     )}
+                    helperText={
+                      formik.touched.phone_no && formik.errors.phone_no
+                    }
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.phone_no && formik.errors.phone_no}
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
@@ -295,20 +286,27 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Sport Center:
+                    Sport Center
                   </InputLabel>
                   <TextField
+                    error={Boolean(
+                      formik.touched.sports_center && formik.errors.sports_center
+                    )}
+                    helperText={
+                      formik.touched.sports_center && formik.errors.sports_center
+                    }
                     margin="normal"
                     fullWidth
                     style={{
-                      marginTop:"16px"
+                      marginTop: "16px",
                     }}
+                    type="text"
                     name="sports_center"
                     onChange={(e) => onInputChange(e)}
                     variant="outlined"
                     value={editnew.sports_center}
                   />
-                     {/* <MenuItem disabled value="">
+                  {/* <MenuItem disabled value="">
                       <em>Select Sport Center</em>
                     </MenuItem>
                   {sports?.map((val) => {
@@ -331,12 +329,13 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Location:
+                    Location
                   </InputLabel>
                   <TextField
                     error={Boolean(
                       formik.touched.location && formik.errors.location
                     )}
+                    type="text"
                     margin="normal"
                     required
                     fullWidth
@@ -347,7 +346,6 @@ const Editnew = () => {
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
                     name="location"
-                    autoComplete=""
                     variant="outlined"
                     value={editnew.location}
                   />
@@ -362,9 +360,15 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Open Timings:
+                    Opening Time
                   </InputLabel>
                   <TextField
+                  error={Boolean(
+                    formik.touched.opentimings && formik.errors.opentimings
+                  )}
+                  helperText={
+                    formik.touched.opentimings && formik.errors.opentimings
+                  }
                     margin="normal"
                     type="time"
                     variant="outlined"
@@ -372,8 +376,8 @@ const Editnew = () => {
                     onKeyUp={handleopentimingsChange}
                     id="opentimings"
                     name="opentimings"
-                    min="09:00"
-                    max="10:59"
+                    min="00:00"
+                    max="11:59"
                     value={editnew.opentimings}
                     onChange={onChange}
                     required
@@ -390,14 +394,20 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Close Timings:
+                    Closing Time
                   </InputLabel>
                   <TextField
+                  error={Boolean(
+                    formik.touched.closetimings && formik.errors.closetimings
+                  )}
+                  helperText={
+                    formik.touched.closetimings && formik.errors.closetimings
+                  }
                     type="time"
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onKeyUp={handlefirstnameChange}
+                    onKeyUp={handleCloseChange}
                     id="closetimings"
                     name="closetimings"
                     min="10:50"
@@ -434,7 +444,7 @@ const Editnew = () => {
                     <MdFileUpload style={{ fontSize: "40px" }} />
                     <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */}
 
-                    {/* <Button
+                {/* <Button
                                                     variant="contained"
                                                     component="label"
                                                     style={{
@@ -448,7 +458,7 @@ const Editnew = () => {
                                                         hidden
                                                     />
                                                 </Button> */}
-                  {/* </div>
+                {/* </div>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <InputLabel
@@ -477,7 +487,7 @@ const Editnew = () => {
                       Upload Supporting Documents
                     </p> */}
 
-                    {/* <Button
+                {/* <Button
                                                     variant="contained"
                                                     component="label"
                                                     style={{
@@ -491,7 +501,7 @@ const Editnew = () => {
                                                         hidden
                                                     />
                                                 </Button> */}
-                  {/* </div>
+                {/* </div>
                 </Grid> */}
                 <Grid item xs={12} sm={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -506,7 +516,9 @@ const Editnew = () => {
                         width: "200Px",
                         padding: "13px",
                       }}
-                      onClick={(e)=> {onSubmit(e)}}
+                      onClick={(e) => {
+                        onSubmit(e);
+                      }}
                     >
                       SAVE
                     </Button>

@@ -100,12 +100,12 @@ export default function CenteredGrid() {
       .then((res) => {
         setMessage(res.firstname);
         swal("Coach Edit Successfully.", "", "success", {
-          button: "ok",
+          button: "OK",
         });
       })
       .catch((error) => {
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
+        swal("Something went wrong!", "", "error", {
+          button: "OK",
         });
       });
     history.push("/superadmin/coachmanagement");
@@ -206,6 +206,7 @@ export default function CenteredGrid() {
                     onClick={formik.handleChange}
                     variant="outlined"
                     value={editcoach?.name}
+                    type="text"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -218,7 +219,7 @@ export default function CenteredGrid() {
                       fontWeight: "bold",
                     }}
                   >
-                    Sports Center
+                    Sport Center
                   </InputLabel>
                   <Select
                   style={{
@@ -230,18 +231,17 @@ export default function CenteredGrid() {
                     )}
                     helperText={formik.touched.name && formik.errors.name}
                     onBlur={formik.handleBlur}
-                    onClick={formik.handleChange}
+                    // onClick={formik.handleChange}
                     margin="normal"
                     required
                     fullWidth
                     name="sports_center"
                     onChange={(e) => onInputChange(e)}
-                    autoComplete="sports_center"
                     variant="outlined"
                     value={editcoach?.sports_center}
                   >
                     <MenuItem disabled value="">
-                      <em>Select Sport Center</em>
+                      <em>--- Select Sport Center ---</em>
                     </MenuItem>
                     {sports?.map((val) => {
                       const { id, center_name } = val;
@@ -291,7 +291,7 @@ export default function CenteredGrid() {
                     style={{ marginTop: "13px" }}
                   >
                     <MenuItem disabled value="none">
-                      <em>None</em>
+                      <em>--- Specialization ---</em>
                     </MenuItem>
                     <MenuItem value={"cardio"}>cardio</MenuItem>
                     <MenuItem value={"strength"}>strength</MenuItem>
@@ -326,6 +326,7 @@ export default function CenteredGrid() {
                     onChange={(e) => onInputChange(e)}
                     value={editcoach?.email}
                     variant="outlined"
+                    type="email"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -352,6 +353,7 @@ export default function CenteredGrid() {
                     onClick={formik.handleChange}
                     margin="normal"
                     required
+                    type="number"
                     fullWidth
                     onChange={(e) => onInputChange(e)}
                     name="contact"
@@ -384,7 +386,7 @@ export default function CenteredGrid() {
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
-                    // type="text"
+                    type="text"
                     value={editcoach.location}
                     variant="outlined"
                   />
@@ -395,7 +397,7 @@ export default function CenteredGrid() {
                   <div
                     style={{
                       textAlign: "center",
-                      marginTop: "180px",
+                      marginTop: "80px",
                       padding: "20px",
                     }}
                   >

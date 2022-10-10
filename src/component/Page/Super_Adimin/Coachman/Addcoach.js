@@ -27,9 +27,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+const baseURL = process.env.REACT_APP_API_ENDPOINT;
+
+
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+
 const validationSchema = yup.object({
   name: Yup.string()
     .max(25, "Must be 25 characters or less")
@@ -38,24 +43,40 @@ const validationSchema = yup.object({
   email: Yup.string()
     .email("Email is invalid.")
     .required("Email is required.")
+    //   'email check',
+    //   'email déjà utiliser',
+    //   async (value) =>
+    //     await fetch(baseURL + `sports/coach/`, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-type': 'application/json'
+    //       },
+    //       body: JSON.stringify({ email: value })
+    //     }).then((res) => res.json())
+    // )
     .matches(emailRegx, "Invalid Email ID..."),
-  contact: Yup.string()
+  phone_no: Yup.string()
     .min(10, "Phone number not less than 10 character.")
-    .max(12, "Phone no not more than 12 character.")
+    .max(10, "Phone no not more than 10 character.")
     .required("Phone number is required.")
     .matches(phoneRegExp, "Only numbers are allowed."),
   location: Yup.string().required("Location is required."),
-  // sportcenter: Yup.string()
-  // .required("Sport center  is required.")
-  // .matches(phoneRegExp, 'Only numbers are allowed.'),
+  sports_center: Yup.string().required("Sport center is required."),
   password: yup.string().required("Password is required."),
+  speciallsation: yup.string().required("Specialization is required."),
+  specialization: yup.string().required("Specialization is required."),
 });
 const AddCoach = () => {
   let history = useHistory();
-  const [specialization, setspecialisation] = useState("Specialization");
+  const [speciallsation, setspecialisation] = useState("");
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
+
+  const onChangeSpecialization = (e) => {
+    setspecialisation(e.target.value);
+  };
+
   const [error, setError] = useState("");
   const [name, setname] = useState();
   const handlenameChange = (e) => {
@@ -71,10 +92,15 @@ const AddCoach = () => {
     setcontact(e.target.value);
   };
 
-  const [sportsCenter, setSportsCenter] = useState();
+  const [sportsCenter, setSportsCenter] = useState("");
   const handlesportcenterChange = (e) => {
     setSportsCenter(e.target.value);
   };
+
+  const onChange = (e) => {
+    setSportsCenter(e.target.value);
+  };
+
   const [password, setPassword] = useState();
   const handlepasswordonChange = (e) => {
     setPassword(e.target.value);
@@ -84,7 +110,6 @@ const AddCoach = () => {
     setlocation(e.target.value);
   };
 
-  const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
@@ -103,7 +128,7 @@ const AddCoach = () => {
           },
           name: name,
           location: location,
-          speciallsation: specialization,
+          speciallsation: speciallsation,
           sports_center: sportsCenter,
         },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -115,6 +140,16 @@ const AddCoach = () => {
         history.push("/superadmin/coachmanagement");
       })
       .catch((error) => {
+        if (error.response) {
+          // Request made and server responded
+          setError(error?.response?.data?.error);
+          console.log(error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
         swal("Something went wrong!", "Oops...", error, {
           button: "ok",
         });
@@ -134,9 +169,11 @@ const AddCoach = () => {
     initialValues: {
       name: "",
       email: "",
-      contact: "",
+      phone_no: "",
       location: "",
       password: "",
+      speciallsation: "",
+      sports_center: "",
     },
     validateOnBlur: true,
     onSubmit,
@@ -163,7 +200,7 @@ const AddCoach = () => {
   return (
     <div>
       <Container>
-        <h3 style={{ padding: "10px" }}>Add Coach</h3>
+        <h3 style={{ padding: "10px" }}>Add New Coach</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>
@@ -178,7 +215,7 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Name:
+                    Name
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -194,6 +231,7 @@ const AddCoach = () => {
                     autoComplete="name"
                     variant="outlined"
                     label="Coach Name"
+                    type="text"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -206,7 +244,7 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Email:
+                    Email
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -234,21 +272,24 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No:
+                    Phone No
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
                     error={Boolean(
-                      formik.touched.contact && formik.errors.contact
+                      formik.touched.phone_no && formik.errors.phone_no
                     )}
                     margin="normal"
                     required
                     fullWidth
-                    helperText={formik.touched.contact && formik.errors.contact}
+                    helperText={
+                      formik.touched.phone_no && formik.errors.phone_no
+                    }
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
                     name="phone_no"
+                    type="number"
                     autoComplete="number"
                     variant="outlined"
                     label="Phone No."
@@ -258,6 +299,7 @@ const AddCoach = () => {
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
+                    id="sports_center"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -266,25 +308,35 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Sport Center:
+                    Sport Center
                   </InputLabel>
                   <Select
+                    id="sports_center"
                     style={{
                       marginTop: "16px",
                     }}
+                    error={Boolean(
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
+                    )}
+                    helperText={
+                      formik.touched.sports_center &&
+                      formik.errors.sports_center
+                    }
                     inputProps={{ maxLength: 50 }}
                     margin="normal"
                     required
                     fullWidth
                     onBlur={formik.handleBlur}
-                    // onKeyUp={handlesportcenterChange}
-                    onChange={handlesportcenterChange}
+                    onKeyUp={handlesportcenterChange}
+                    onChange={onChange}
                     name="sports_center"
                     variant="outlined"
                     value={sportsCenter}
+                    displayEmpty
                   >
                     <MenuItem disabled value="">
-                      <em>Select Sport Center</em>
+                      <em>--- Select Sport Center ---</em>
                     </MenuItem>
                     {sports?.map((val) => {
                       const { id, center_name } = val;
@@ -306,7 +358,7 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Location:
+                    Location
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}
@@ -331,7 +383,7 @@ const AddCoach = () => {
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
-                    id="demo-controlled-open-select-label"
+                    id="speciallsation"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -339,24 +391,33 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Specialization:
+                    Specialization
                   </InputLabel>
                   <Select
+                    onBlur={formik.handleBlur}
                     fullWidth
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
-                    open={open}
                     variant="outlined"
-                    onClose={handleClose}
-                    onChange={handlespecialisationonChange}
+                    onChange={onChangeSpecialization}
+                    onKeyUp={handlespecialisationonChange}
                     onOpen={handleOpen}
-                    value={specialization}
+                    value={speciallsation}
                     required
                     style={{ marginTop: "13px" }}
-                    label="Specialization"
+                    name="speciallsation"
+                    helperText={
+                      formik.touched.speciallsation &&
+                      formik.errors.speciallsation
+                    }
+                    error={Boolean(
+                      formik.touched.speciallsation &&
+                        formik.errors.speciallsation
+                    )}
+                    displayEmpty
                   >
-                    <MenuItem  Selected value="Specialisation">
-                      Specialization
+                    <MenuItem disabled value="">
+                      <em>
+                      --- Select Specialization ---
+                      </em>
                     </MenuItem>
                     <MenuItem value="cardio">cardio</MenuItem>
                     <MenuItem value="strength">strength</MenuItem>
@@ -378,7 +439,7 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Password:
+                    Password
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 50 }}

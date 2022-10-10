@@ -29,28 +29,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const phoneRegExp = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
 
-const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const validationSchema = yup.object({
-//   firstname: yup
-//     .string()
-//     .max(25, "Must be 25 characters or less")
-//     .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
-//     .required("Firstname is required"),
-  email: yup.string().email("Email is invalid").matches(emailRegx, "Invalid Email ID...").required("Email is required"),
+    name: yup
+    .string()
+    .max(25, "Must be 25 characters or less")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
+    .required("Name is required"),
+  email: yup
+    .string()
+    .email("Please enter a valid email address")
+    .matches(emailRegx, "Invalid Email ID...")
+    .required("Email is required."),
   phone_no: yup
     .string()
-    .min(10, "Phone number not less that 10 character.")
-    .max(15, "Phone number not more than 15 character.")
-    .required("phone number is required.")
-    .matches(phoneRegExp, 'Only numbers are allowed.'),
-  location: yup.string().required("Location is required."),
-  lastname: yup.string()
-  .max(25, "Must be 25 characters or less")
-  .matches(/^[A-Za-z ]*$/, 'Only alphabets are required.')
-  .required("Lastname  is required."),
+    .min(10, "Phone number should not be less than 10 digits.")
+    .max(10, "Phone number should not be more than 10 digits.")
+    .required("Phone number is required.")
+    .matches(phoneRegExp, "Phone number must contains only number."),
+  location: yup
+    .string()
+    .max(50, "Must be 50 characters or less.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
+    .required("Location is required."),
+  password: yup
+    .string()
+    .matches(PASSWORD_REGEX, "Invalid password...")
+    .required("Password is required."),
+  gender: yup.string().required("Gender is required."),
 });
 
 
@@ -97,7 +108,7 @@ const EditUser = () => {
         .then((res) => {
             // setMessage(res.data.message);
             swal("User Edit Successfully", "", "success", {
-              button: "ok",
+              button: "OK",
             });
           })
           .catch((error) => {
@@ -112,8 +123,8 @@ const EditUser = () => {
             }
             //{message && <div>{message}</div>}
       
-            swal("Something went wrong!", "Oops...", "error", {
-              button: "ok",
+            swal("Something went wrong!", "", "error", {
+              button: "OK",
             });
           });
          history.push("/superadmin/usermanagement");
@@ -162,11 +173,11 @@ const EditUser = () => {
 
     const formik = useFormik({
         initialValues: {
-        //   firstname: "",
-          email: "",
-          phone_no: "",
-          lastname: "",
-          location: "",
+        //   name: "",
+        //   email: "",
+        //   phone_no: "",
+        //   lastname: "",
+        //   location: "",
         },
         validateOnBlur: true,
         validationSchema: validationSchema,
@@ -189,7 +200,7 @@ const EditUser = () => {
                                                     color: "rgba(12,11,69,255)",
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                 }}>
-                                                 Name:
+                                                 Name
                                             </InputLabel>
                                             <TextField
                                                 error={Boolean(formik.touched.name && formik.errors.name)}
@@ -199,11 +210,11 @@ const EditUser = () => {
                                                 fullWidth
                                                 helperText={formik.touched.name && formik.errors.name}
                                                 name="name"
-                                                // onBlur={formik.handleBlur}
+                                                onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
-                                                // onClick={formik.handleChange}
-                                                autoComplete=""
+                                                onClick={formik.handleChange}
                                                 variant="outlined"
+                                                type="text"
                                                 value={admin?.name}
                                             />
                                         </Grid>
@@ -214,20 +225,20 @@ const EditUser = () => {
                                                     color: "rgba(12,11,69,255)",
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                 }}>
-                                                Location:
+                                                Location
                                             </InputLabel>
                                             <TextField
                                                 error={Boolean(formik.touched.location && formik.errors.location)}
+                                                helperText={formik.touched.location && formik.errors.location}
                                                 margin="normal"
                                                 required
                                                 fullWidth
-                                                helperText={formik.touched.location && formik.errors.location}
                                                 onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
                                                 onClick={formik.handleChange}
                                                 // onKeyUp={e => onInputChange(e)}
                                                 name="location"
-                                                autoComplete=""
+                                                type="text"
                                                 variant="outlined"
                                                 value={admin.location}
                                             />
@@ -240,12 +251,13 @@ const EditUser = () => {
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                     padding: "8px"
                                                 }}>
-                                                Gender:
+                                                Gender
                                             </InputLabel>
                                             <Select
+                                                error={Boolean(formik.touched.gender && formik.errors.gender)}
+                                                helperText={formik.touched.gender && formik.errors.gender}
                                                 fullWidth
-                                                labelId="demo-controlled-open-select-label"
-                                                id="demo-controlled-open-select"
+                                                id="gender"
                                                 open={open}
                                                 variant="outlined"
                                                 onClose={handleClose}
@@ -253,10 +265,10 @@ const EditUser = () => {
                                                 onKeyUp={handleGenderonChange}
                                                 value={admin.gender?.length > 1 && admin.gender || 'none' }
                                                 onChange={onChange}
-                                            
+                                                name="gender"
                                             >
-                                                <MenuItem value="none">
-                                                    <em>None</em>
+                                                <MenuItem disabled value="none">
+                                                    <em>--- Gender ---</em>
                                                 </MenuItem>
                                                 <MenuItem value={'Male'}>Male</MenuItem>
                                                 <MenuItem value={'Female'}>Female</MenuItem>
@@ -282,7 +294,7 @@ variant="outlined"
                                                     color: "rgba(12,11,69,255)",
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                 }}>
-                                                Email:
+                                                Email
                                             </InputLabel>
                                             <TextField
                                                 error={Boolean(formik.touched.email && formik.errors.email)}
@@ -308,7 +320,7 @@ variant="outlined"
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                 }}>
 
-                                                Phone No:
+                                                Phone No
                                             </InputLabel>
                                             <TextField
                                                 error={Boolean(formik.touched.phone_no && formik.errors.phone_no)}
@@ -321,21 +333,21 @@ variant="outlined"
                                                 onChange={e => onInputChange(e)}
                                                 onClick={formik.handleChange}
                                                 name="phone_no"
-                                                autoComplete="number"
                                                 variant="outlined"
                                                 value={admin?.phone_no}
+                                                type="number"
                                             />
                                         </Grid>
                                         
                                     </Grid>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={12}>
-                                            <div style={{ textAlign: "center", marginTop: "180px", padding: "20px" }}>
+                                            <div style={{ textAlign: "center", marginTop: "100px", padding: "20px" }}>
                                                 <Button
-                                                    onClick={() => onSubmit()}
+                                                    onClick={(e) => onSubmit(e)}
                                                     variant="contained"
                                                     // disabled={isSubmitting}
-                                                    // type="submit"
+                                                    type="submit"
                                                     style={{
                                                         backgroundColor: "#232b58", color: "#fff",
                                                         borderRadius: "25px", width: "143Px",
