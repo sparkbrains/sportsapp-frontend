@@ -33,7 +33,7 @@ const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
 
 const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
-const validationSchema = yup.object({
+const validationSchema = yup.object().shape({
   name: yup
     .string()
     .max(25, "Must be 25 characters or less.")
@@ -121,8 +121,10 @@ const Addnew = () => {
   };
 
   const token = localStorage.getItem("token");
-  const onSubmit = async (e) => {
-    const res = await axios
+  const onSubmit = (e) => {
+    console.log(formik.isValid,'isValid---');
+    if(formik.isValid){
+    axios
       .post(
         baseURL + "sports/owner/",
         {
@@ -166,6 +168,7 @@ const Addnew = () => {
           button: "OK",
         });
       });
+    }
   };
 
   const formik = useFormik({
@@ -179,6 +182,7 @@ const Addnew = () => {
       closetimings: "",
       password: "",
     },
+    validateOnChange:true,
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
@@ -200,7 +204,7 @@ const Addnew = () => {
             className={classes.root}
             style={{ padding: "20px", marginBottom: "80px" }}
           >
-            <form method="POST" noValidate onSubmit={formik.handleSubmit}>
+            <form noValidate onSubmit={formik.handleSubmit}>
               {/* <form method="POST" noValidate onSubmit={} >  */}
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>

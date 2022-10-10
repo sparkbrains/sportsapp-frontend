@@ -1,11 +1,18 @@
 import Login from "../Page/Login/Login";
-import {Outlet, Navigate, Routes } from "react-router-dom";
+import {Outlet, Navigate, Routes, } from "react-router-dom";
+import Sportscenterowner from "../Page/Super_Adimin/Sportscenterowner/Sportscenterowner";
 
-const PrivateRoutes = ({children, ...rest}) => {
-    let auth = {'token' : true}
+export const PrivateRoutes = ({children, ...rest}) => {
+    let auth = localStorage.token
     return (
-        auth.token ? <Outlet /> : <Navigate to ="/" element={<Login />} />
+        auth?.length ? <Outlet /> : <Navigate to ="/" element={<Login />} />
+    )
+}
+export const GuestRoutes = ({children, ...rest}) => {
+    let auth = localStorage.token
+    return (
+        !auth?.length ? <Outlet /> : <Navigate to ="/sportscenterowner" element={<Sportscenterowner />} />
     )
 }
 
-export default PrivateRoutes;
+// export default PrivateRoutes;

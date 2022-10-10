@@ -34,7 +34,6 @@ import Editcoach from "./Coachman/Editcoach"
 import Editcategory from "./Categoryman/Editcategories"
 import Editnew from "./Sportscenterowner/Editnew";
 import EditUser from "./Userman/Edituser";
-import PrivateRoutes from "./component/./../../../useAuth/PrivateRoute";
 
 
 
@@ -167,7 +166,6 @@ function ButtonAppBar() {
         </AppBar>
         <Footer />
       </div>
-      <Route element={<PrivateRoutes />} >
         <Route  path={`${match.path}/sportscenterowner`} component={Sportscenterowner}/>
         <Route path={`${match.path}/coachmanagement`} component={Coachmanagement}/>
         <Route path={`${match.path}/usermanagement`} component={Usermanagement}/>
@@ -181,7 +179,6 @@ function ButtonAppBar() {
         <Route path={`${match.path}/editcategory/:id`} component={Editcategory} />
         <Route path={`${match.path}/edituser/:id`} component={EditUser} />
         <Route path={`${match.path}/editnew/:id`} component={Editnew} />
-        </Route>
     </Router>
   );
 }

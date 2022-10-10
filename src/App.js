@@ -5,7 +5,7 @@ import Login from "./component/Page/Login/Login";
 import SignUp from "./component/Page/SignUp/SignUp";
 import Forgetpassword from "./component/Page/ForgetPassword/Forgetpassword";
 import Changepassword from "./component/Page/ForgetPassword/Changepassword";
-import PrivateRoutes from "./component/useAuth/PrivateRoute";
+import { PrivateRoutes, GuestRoutes } from "./component/useAuth/PrivateRoute";
 import Sportscenterowner from "./component/Page/Super_Adimin/Sportscenterowner/Sportscenterowner";
 import Coachmanagement from "./component/Page/Super_Adimin/Coachman/Coachmanagement";
 import Usermanagement from "./component/Page/Super_Adimin/Userman/Usermanagement";
@@ -25,29 +25,31 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route exact path="/forgetpassword" element={<Forgetpassword />} />
-          <Route
-            exact
-            path="/changepassword/:id"
-            element={<Changepassword />}
-          />
-          <Route exact path="/signup" element={<SignUp />} />
-            <Route element={<PrivateRoutes />}>
-              <Route path={`/sportscenterowner`} element={<Sportscenterowner />} />
-              <Route path={`/coachmanagement`} element={<Coachmanagement />} />
-              <Route path={`/usermanagement`} element={<Usermanagement />} />
-              <Route path={`/categorymanagement`} element={<Categorymanagement />} />
-              <Route path={`/setting`} element={<Setting />} />
-              <Route path={`/addcategory`} element={<Addcategory />} />
-              <Route path={`/addcoach`} element={<AddCoach />} />
-              <Route path={`/addnew`} element={<Addnew />} />
-              <Route path={`/adduser`} element={<AddUser />} />
-              <Route path={`/editcoach/:id`} element={<Editcoach />} />
-              <Route path={`/editcategory/:id`} element={<Editcategory />} />
-              <Route path={`/edituser/:id`} element={<EditUser />} />
-              <Route path={`/editnew/:id`} element={<Editnew />} />
-            </Route>
+          <Route element={<GuestRoutes />}>
+            <Route exact path="/" element={<Login />} />
+            <Route exact path="/forgetpassword" element={<Forgetpassword />} />
+            <Route
+              exact
+              path="/changepassword/:id"
+              element={<Changepassword />}
+            />
+            <Route exact path="/signup" element={<SignUp />} />
+          </Route>
+          <Route element={<PrivateRoutes />}>
+            <Route path={`/sportscenterowner`} element={<Sportscenterowner />} />
+            <Route path={`/coachmanagement`} element={<Coachmanagement />} />
+            <Route path={`/usermanagement`} element={<Usermanagement />} />
+            <Route path={`/categorymanagement`} element={<Categorymanagement />} />
+            <Route path={`/setting`} element={<Setting />} />
+            <Route path={`/addcategory`} element={<Addcategory />} />
+            <Route path={`/addcoach`} element={<AddCoach />} />
+            <Route path={`/addnew`} element={<Addnew />} />
+            <Route path={`/adduser`} element={<AddUser />} />
+            <Route path={`/editcoach/:id`} element={<Editcoach />} />
+            <Route path={`/editcategory/:id`} element={<Editcategory />} />
+            <Route path={`/edituser/:id`} element={<EditUser />} />
+            <Route path={`/editnew/:id`} element={<Editnew />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>
