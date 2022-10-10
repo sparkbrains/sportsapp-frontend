@@ -188,7 +188,7 @@ export default function WidgetLg() {
               </div>
             </div> */}
 
-            <Link to="/superadmin/adduser" style={{ textDecoration: "none" }}>
+            <Link to="/adduser" style={{ textDecoration: "none" }}>
               <Button
                 className="usermgbtn"
                 variant="contained"
@@ -250,7 +250,7 @@ export default function WidgetLg() {
                           {data[i]?.profile?.phone_no}
                         </TableCell>
                         <TableCell align="center">
-                          <Link to={`/superadmin/edituser/${admin.id}`}>
+                          <Link to={`/edituser/${admin.id}`}>
                             <Button
                               variant="contained"
                               // href={`/edit-user/${admin.id}`}

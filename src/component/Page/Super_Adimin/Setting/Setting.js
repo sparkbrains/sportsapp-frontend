@@ -14,6 +14,7 @@ import "./setting.css";
 import { useParams } from "react-router-dom";
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +52,7 @@ function valueText(value) {
 }
 
 
-export default function DiscreteSlider() {
+export default function Setting() {
   const [getOwner, setGetOwner] = useState();
   const [getCoach, setGetCoach] = useState();
   const [EndUser, setEndUser] = useState();
@@ -165,7 +166,7 @@ export default function DiscreteSlider() {
     })
   }
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ fontSize: "17px", color: "#111944", fontWeight: "500" }}>
           Settings
@@ -279,6 +280,6 @@ export default function DiscreteSlider() {
           </form>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 }

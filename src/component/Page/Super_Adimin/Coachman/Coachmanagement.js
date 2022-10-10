@@ -2,19 +2,20 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import Dataman from './Dataman'
 import { useEffect } from 'react'
+import AppLayout from '../../../../layout/appLayout';
 
 
-export default function BasicTable() {
+export default function Coachmanagement() {
    
     useEffect(() => {
         document.title = "Coach Management"
     }, [])
 
     return (
-        <div>
+        <AppLayout>
             <Container>
                 <Dataman />
             </Container>
-        </div>
+        </AppLayout>
     );
 }

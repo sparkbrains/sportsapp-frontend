@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import swal from "sweetalert";
+import AppLayout from "../../../../layout/appLayout";
 // import { Datepicker } from "@mobiscroll";
 
 const useStyles = makeStyles((theme) => ({
@@ -147,7 +148,7 @@ const Addnew = () => {
         swal("Owner Created Successfully.", "", "success", {
           button: "OK",
         });
-        navigate("/superadmin/");
+        navigate("/sportscenterowner/");
       })
 
       .catch((error) => {
@@ -191,7 +192,7 @@ const Addnew = () => {
     //document.title = "Add New";
   });
   return (
-    <div style={{ marginBottom: "50px" }}>
+    <AppLayout style={{ marginBottom: "50px" }}>
       <Container>
         <h3 style={{ padding: "10px" }}>Add Sports Center Owner</h3>
         <Paper elevation={3}>
@@ -593,7 +594,7 @@ const Addnew = () => {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 };
 export default Addnew;

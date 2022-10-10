@@ -4,7 +4,7 @@ import {Outlet, Navigate, Routes } from "react-router-dom";
 const PrivateRoutes = ({children, ...rest}) => {
     let auth = {'token' : true}
     return (
-        auth.token ? <Routes /> : <Navigate to ="/" element={<Login />} />
+        auth.token ? <Outlet /> : <Navigate to ="/" element={<Login />} />
     )
 }
 

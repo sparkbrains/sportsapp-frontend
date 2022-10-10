@@ -16,6 +16,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import swal from "sweetalert";
+import AppLayout from '../../../../layout/appLayout';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -127,7 +128,7 @@ const EditUser = () => {
               button: "OK",
             });
           });
-         navigate("/superadmin/usermanagement");
+         navigate("/usermanagement");
     };
 
    
@@ -185,7 +186,7 @@ const EditUser = () => {
       });
 
     return (
-        <div>
+        <AppLayout>
             <Container>
                 <h3 style={{ padding: "10px" }}>Edit User</h3>
                 <Paper elevation={3}>
@@ -363,7 +364,7 @@ variant="outlined"
                        </div>
                 </Paper>
             </Container>
-        </div>
+        </AppLayout>
 
     );
 };

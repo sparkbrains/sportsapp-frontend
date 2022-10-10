@@ -14,6 +14,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useNavigate } from "react-router";
 import swal from "sweetalert";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,7 +117,7 @@ export default function AddUser() {
         swal("User Created Successfully.", "", "success", {
           button: "OK",
         });
-        navigate("/superadmin/usermanagement");
+        navigate("/usermanagement");
       })
       .catch((error) => {
         if (error.response) {
@@ -170,7 +171,7 @@ export default function AddUser() {
   };
 
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ padding: "10px" }}>Add New User</h3>
         <Paper elevation={3}>
@@ -418,6 +419,6 @@ export default function AddUser() {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 }

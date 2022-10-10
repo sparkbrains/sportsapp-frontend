@@ -15,6 +15,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +56,7 @@ const validationSchema = yup.object({
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
 });
 
-export default function CenteredGrid() {
+export default function Editcoach() {
   const { id } = useParams();
   let navigate = useNavigate();
   const [message, setMessage] = useState(null);
@@ -108,7 +109,7 @@ export default function CenteredGrid() {
           button: "OK",
         });
       });
-    navigate("/superadmin/coachmanagement");
+    navigate("/coachmanagement");
   };
 
   const loadUser = async (e) => {
@@ -170,7 +171,7 @@ export default function CenteredGrid() {
 
   console.log(editcoach,"user====");
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ padding: "10px" }}>Edit Coach</h3>
         <Paper>
@@ -423,6 +424,6 @@ export default function CenteredGrid() {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 }

@@ -77,7 +77,7 @@ export default function SignInSide() {
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
-        navigate("/superadmin/categorymanagement");
+        navigate("/categorymanagement");
       })
       // .catch((err) => { });
       .catch(function (error) {

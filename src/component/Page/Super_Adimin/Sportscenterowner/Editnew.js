@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 import swal from "sweetalert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -127,7 +128,7 @@ const Editnew = () => {
           button: "OK",
         });
       });
-    navigate("/superadmin/");
+    navigate("/sportscenterowner/");
   };
 
   const loadUser = async () => {
@@ -183,7 +184,7 @@ const Editnew = () => {
 
   const classes = useStyles();
   return (
-    <div style={{ marginBottom: "80px" }}>
+    <AppLayout style={{ marginBottom: "80px" }}>
       {/* <SportsCenterOwners /> */}
       <Container>
         <h3 style={{ padding: "10px" }}>Edit Sport Center Owner</h3>
@@ -529,7 +530,7 @@ const Editnew = () => {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 };
 export default Editnew;

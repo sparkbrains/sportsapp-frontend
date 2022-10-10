@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate, useParams } from "react-router-dom";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +99,7 @@ const Editcategory = () => {
           button: "OK",
         });
       });
-    navigate("/superadmin/categorymanagement");
+    navigate("/categorymanagement");
   };
 
   const loadUser = async () => {
@@ -150,7 +151,7 @@ const Editcategory = () => {
   };
   console.log(user,'user==');
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ padding: "10px" }}>Edit Category</h3>
         <Paper elevation={3}>
@@ -341,7 +342,7 @@ const Editcategory = () => {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 };
 export default Editcategory;

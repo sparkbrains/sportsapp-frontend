@@ -2,10 +2,11 @@ import {React} from 'react';
 import { Container } from '@material-ui/core';
 import Data from './Data'
 import { useEffect } from 'react'
+import AppLayout from '../../../../layout/appLayout';
 
 
 
-export default function BasicTable() {
+export default function Usermanagement() {
    
     
     useEffect(() => {
@@ -14,10 +15,10 @@ export default function BasicTable() {
 
 
     return (
-        <div>            
+        <AppLayout>            
             <Container>
                 <Data />
             </Container>
-        </div>
+        </AppLayout>
     );
 }

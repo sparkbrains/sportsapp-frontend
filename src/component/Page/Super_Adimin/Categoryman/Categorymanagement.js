@@ -2,19 +2,20 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import Data from './Data'
 import { useEffect } from 'react'
+import AppLayout from '../../../../layout/appLayout';
 
 
-export default function BasicTable() {
+export default function Categorymanagement() {
     useEffect(() => {
         document.title = "Category Management"
     }, [])
 
 
     return (
-        <div>
+        <AppLayout>
             <Container>
                 <Data />
             </Container>
-        </div>
+        </AppLayout>
     );
 }

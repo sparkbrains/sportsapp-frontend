@@ -24,6 +24,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import swal from "sweetalert";
 import zIndex from "@material-ui/core/styles/zIndex";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BasicTable() {
+export default function Sportscenterowner() {
   const [data, setData] = useState([]);
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
@@ -166,7 +167,7 @@ export default function BasicTable() {
   };
 
   return (
-    <>
+    <AppLayout>
       <Container maxWidth="lg">
         <Grid container spacing={3} className="owners">
           <Grid
@@ -212,7 +213,7 @@ export default function BasicTable() {
               </div>
             </div> */}
 
-            <Link to="/superadmin/addnew" style={{ textDecoration: "none" }}>
+            <Link to="/addnew" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
                 style={{
@@ -275,7 +276,7 @@ export default function BasicTable() {
                           {data[i]?.profile?.phone_no}
                         </TableCell>
                         <TableCell align="center">
-                          <Link to={`/superadmin/editnew/${admin.id}`}>
+                          <Link to={`/editnew/${admin.id}`}>
                             <IconButton
                               variant="contained"
                               type="submit"
@@ -338,7 +339,7 @@ export default function BasicTable() {
           </TableContainer>
         </div>
       </Container>
-    </>
+    </AppLayout>
   );
 }
 

@@ -15,6 +15,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,7 +138,7 @@ const AddCoach = () => {
         swal("Coach Created Successfully.", "", "success", {
           button: "ok",
         });
-        navigate("/superadmin/coachmanagement");
+        navigate("/coachmanagement");
       })
       .catch((error) => {
         if (error.response) {
@@ -198,7 +199,7 @@ const AddCoach = () => {
   };
 
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ padding: "10px" }}>Add New Coach</h3>
         <Paper elevation={3}>
@@ -497,7 +498,7 @@ const AddCoach = () => {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 };
 export default AddCoach;

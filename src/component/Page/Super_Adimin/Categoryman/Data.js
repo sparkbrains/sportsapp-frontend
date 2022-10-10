@@ -186,7 +186,7 @@ export default function WidgetLg() {
               </div>
             </div> */}
             <Link
-              to="/superadmin/addcategory"
+              to="/addcategory"
               style={{ textDecoration: "none" }}
             >
               <Button
@@ -252,7 +252,7 @@ export default function WidgetLg() {
                         </TableCell>
                         <TableCell align="left">{admin.sport}</TableCell>
                         <TableCell align="center">
-                          <Link to={`/superadmin/editcategory/${admin.id}`}>
+                          <Link to={`/editcategory/${admin.id}`}>
                             <IconButton
                               variant="contained"
                               type="submit"

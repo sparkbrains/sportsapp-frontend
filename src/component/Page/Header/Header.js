@@ -91,15 +91,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(history) {
   const classes = useStyles();
-
-  const { authed, logout } = useAuth();
+  // const { authed, logout } = useAuth();
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const signOut = () => {
     localStorage.clear();
-    logout();
+    // logout();
     navigate("/");
   };
 
@@ -257,7 +256,7 @@ export default function Header(history) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {authed && renderMenu}
+      {renderMenu}
     </div>
   );
 }

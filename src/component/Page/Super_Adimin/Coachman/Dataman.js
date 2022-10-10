@@ -187,7 +187,7 @@ export default function WidgetLg() {
               </div>
             </div> */}
 
-            <Link to="/superadmin/addcoach" style={{ textDecoration: "none" }}>
+            <Link to="/addcoach" style={{ textDecoration: "none" }}>
               <Button
                 className="coachmgbtn"
                 variant="contained"
@@ -247,7 +247,7 @@ export default function WidgetLg() {
                         </TableCell>
                         <TableCell align="left">{admin?.user?.email}</TableCell>
                         <TableCell align="center">
-                          <Link to={`/superadmin/editcoach/${admin.id}`}>
+                          <Link to={`/editcoach/${admin.id}`}>
                             <IconButton
                               variant="contained"
                               type="submit"

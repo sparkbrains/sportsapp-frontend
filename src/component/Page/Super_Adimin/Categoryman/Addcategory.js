@@ -14,6 +14,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +40,7 @@ const validationSchema = yup.object({
     .required("Sport is required.").matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
 });
 
-export default function SignInSide() {
+export default function Addcategory() {
   useEffect(() => {
     document.title = "Add Category";
     handleSports();
@@ -81,7 +82,7 @@ export default function SignInSide() {
         swal("Category Created Successfully.", "", "success", {
           button: "OK",
         });
-        navigate("/superadmin/categorymanagement");
+        navigate("/categorymanagement");
       })
       .catch((error) => {
         swal("Something went wrong!", "", "error", {
@@ -123,7 +124,7 @@ export default function SignInSide() {
     setOpen(true);
   };
   return (
-    <div>
+    <AppLayout>
       <Container>
         <h3 style={{ padding: "10px" }}>Add New Category</h3>
         <Paper elevation={3}>
@@ -321,6 +322,6 @@ export default function SignInSide() {
           </div>
         </Paper>
       </Container>
-    </div>
+    </AppLayout>
   );
 }
