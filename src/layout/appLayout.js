@@ -11,7 +11,7 @@ import {
 } from "@material-ui/icons";
 import LoadingBar from "react-top-loading-bar";
 import {
-    Link,
+    NavLink,
 } from "react-router-dom";
 import { useState } from "react";
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ export default function AppLayout({ children }) {
                 <Toolbar>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item style={{ alignSelf: "center" }}>
-                            <Link
+                            <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/sportscenterowner`}
@@ -65,10 +65,10 @@ export default function AppLayout({ children }) {
                                         }}
                                     />
                                 </ListItem>
-                            </Link>
+                            </NavLink>
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
-                            <Link
+                            <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/coachmanagement`}
@@ -85,10 +85,10 @@ export default function AppLayout({ children }) {
                                         }}
                                     />
                                 </ListItem>
-                            </Link>
+                            </NavLink>
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
-                            <Link
+                            <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/usermanagement`}
@@ -101,10 +101,10 @@ export default function AppLayout({ children }) {
                                         style={{ color: "#3a2e2e", marginLeft: "6px" }}
                                     />
                                 </ListItem>
-                            </Link>
+                            </NavLink>
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
-                            <Link
+                            <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/categorymanagement`}
@@ -117,10 +117,10 @@ export default function AppLayout({ children }) {
                                         style={{ color: "#3a2e2e", marginLeft: "6px" }}
                                     />
                                 </ListItem>
-                            </Link>
+                            </NavLink>
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
-                            <Link
+                            <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/setting`}
@@ -133,7 +133,7 @@ export default function AppLayout({ children }) {
                                         style={{ color: "#3a2e2e", marginLeft: "6px" }}
                                     />
                                 </ListItem>
-                            </Link>
+                            </NavLink>
                         </Grid>
                     </Grid>
                 </Toolbar>
