@@ -256,6 +256,7 @@ const Editnew = () => {
                     onKeyUp={formik.handleChange}
                     value={editnew?.email}
                     variant="outlined"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>

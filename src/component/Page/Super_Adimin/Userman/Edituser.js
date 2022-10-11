@@ -327,6 +327,7 @@ variant="outlined"
                     Email
                   </InputLabel>
                   <TextField
+                  disabled
                     error={Boolean(formik.touched.email && formik.errors.email)}
                     fullWidth
                     helperText={formik.touched.email && formik.errors.email}

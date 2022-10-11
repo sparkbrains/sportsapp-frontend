@@ -341,6 +341,7 @@ export default function Editcoach() {
                     value={editcoach?.email}
                     variant="outlined"
                     type="email"
+                    disabled
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
