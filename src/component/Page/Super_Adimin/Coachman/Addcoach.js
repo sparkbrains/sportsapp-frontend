@@ -444,7 +444,7 @@ const AddCoach = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item sm={12} md={6}>
+                <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
