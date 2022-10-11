@@ -15,6 +15,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router";
 import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,6 +96,8 @@ export default function AddUser() {
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     // e.preventDefault();
+    setIsLoading(true);
+
     if (formik.isValid) {
      axios
       .post(
@@ -114,19 +118,21 @@ export default function AddUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        // swal("User added successfully.", "", "success", {
-        //   button: "OK",
-        // })
+        
+        setIsLoading(false);
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'User added successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(D=>{
-        navigate("/usermanagement");
+          navigate("/usermanagement");
         });
       })
       .catch((error) => {
+        setIsLoading(false);
+
         if (error.response) {
           // Request made and server responded
           seterror(error?.response?.data?.error);
@@ -139,6 +145,7 @@ export default function AddUser() {
         }
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Something went wrong!!',
           icon: 'error',
           confirmButtonText: 'OK'
@@ -146,6 +153,7 @@ export default function AddUser() {
       });
   };
 }
+const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -219,7 +227,6 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     onKeyUp={handlefirstnameChange}
-                    label="Name"
                     variant="outlined"
                     type="text"
                   />
@@ -254,7 +261,6 @@ export default function AddUser() {
                     name="location"
                     type="text"
                     variant="outlined"
-                    label="Location"
                   />
                 </Grid>
 
@@ -287,7 +293,6 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     value={gender}
                     onChange={(e)=>{formik.handleChange(e);handleGenderonChange(e) }}
-                    // label="Gender"
                     name="gender"
                     displayEmpty
                   >
@@ -324,7 +329,6 @@ export default function AddUser() {
                     onChange={formik.handleChange}
                     onKeyUp={handleEmailChange}
                     type="email"
-                    label="Email"
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
@@ -360,7 +364,6 @@ export default function AddUser() {
                     name="phone_no"
                     type="tel"
                     variant="outlined"
-                    label="Phone No"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -394,7 +397,6 @@ export default function AddUser() {
                     type="password"
                     autoComplete="password"
                     variant="outlined"
-                    label="Password"
                   />
                 </Grid>
               </Grid>
@@ -408,6 +410,7 @@ export default function AddUser() {
                       padding: "20px",
                     }}
                   >
+
                     <Button
                       variant="contained"
                       //   disabled={isSubmitting}
@@ -424,6 +427,11 @@ export default function AddUser() {
                         fontSize: "17px",
                       }}
                     >
+                      {isLoading === true ? (
+                            <CircularProgress Shrink />
+                          ) : (
+                            ""
+                          )}
                       Submit
                     </Button>
                   </div>

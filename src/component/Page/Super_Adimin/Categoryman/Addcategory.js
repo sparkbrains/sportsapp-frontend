@@ -15,6 +15,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +68,11 @@ export default function Addcategory() {
   };
   const token = localStorage.getItem("token");
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (e) => {
+    setIsLoading(true);
+
     const res = await axios
       .post(
         baseURL + "sports/categories/",
@@ -79,17 +85,23 @@ export default function Addcategory() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
+        setIsLoading(false);
+        
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Category Added Succesfully.',
-          icon: 'Success',
+          icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
-        navigate("/categorymanagement");
+          navigate("/categorymanagement");
         });
       })
       .catch((error) => {
+      setIsLoading(false);
+
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -166,7 +178,6 @@ export default function Addcategory() {
                     name="category"
                     variant="outlined"
                     onBlur={formik.handleBlur}
-                    label="Category"
                     onChange={(e)=>{handlecategoryChange(e);formik.handleChange(e)}}
                   />
                 </Grid>
@@ -236,7 +247,6 @@ export default function Addcategory() {
                     Location
                   </InputLabel>
                   <TextField
-                    label="Location"
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
                       formik.touched.location && formik.errors.location
@@ -319,6 +329,8 @@ export default function Addcategory() {
                         fontSize: "17px",
                       }}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       Submit
                     </Button>
                   </div>

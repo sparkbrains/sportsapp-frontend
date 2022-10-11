@@ -70,6 +70,7 @@ export default function Setting() {
       .then((res) => {
         setMessage(res.data.message);
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Success!',
           text: 'Settings Saved Successfully.',
           icon: 'success',
@@ -88,6 +89,7 @@ export default function Setting() {
           console.log("Error", error.message);
         }
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',

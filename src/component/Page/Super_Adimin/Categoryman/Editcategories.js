@@ -15,6 +15,8 @@ import axios from "axios";
 import swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,10 +78,14 @@ const Editcategory = () => {
     handleSports();
   }, []);
   console.log(user, "eeeee");
+  const [isLoading, setIsLoading] = useState(false);
+
   
   const onSubmit = async (e) => {
     console.log(formik,'formik-==');
     if(formik.isValid){
+      setIsLoading(true);
+
     await axios
       .patch(baseURL + `sports/categories/?id=${id}`, {
         category: user.category,
@@ -89,10 +95,13 @@ const Editcategory = () => {
       })
       .then((res) => {
         setMessage(res.data.message);
+      setIsLoading(false);
+
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Category Edited Successfully',
-          icon: 'Success',
+          icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
           navigate("/categorymanagement");
@@ -100,7 +109,10 @@ const Editcategory = () => {
       })
       // .catch((err) => { });
       .catch((error) => {
+      setIsLoading(false);
+
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -337,6 +349,8 @@ const Editcategory = () => {
                       }}
                       // onClick={(e) => onSubmit(e)}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       SAVE
                     </Button>
                   </div>

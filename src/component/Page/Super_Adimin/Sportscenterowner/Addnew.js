@@ -17,6 +17,7 @@ import AppLayout from "../../../../layout/appLayout";
 // import { Datepicker } from '@mobiscroll/react-lite';
 // import '@mobiscroll/react-lite/dist/css/mobiscroll.min.css';
 // import Datepicker from "@mobiscroll/react-lite";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -123,6 +124,8 @@ const Addnew = () => {
     // (e.target.value) >= opentimings ? " " : setclosetimings(e.target.value);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     console.log(
@@ -133,6 +136,8 @@ const Addnew = () => {
       "isValid---"
     );
     if (formik.isValid) {
+    setIsLoading(true);
+
       await axios
         .post(
           baseURL + "sports/owner/",
@@ -155,13 +160,12 @@ const Addnew = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((res) => {
-          // setMessage(res.data.message);
-          // swal("Sports Owner Added Successfully.", "", "success", {
-          //   button: "OK",
-          // });
+        setIsLoading(false);
+         
 
           swal
             .fire({
+              confirmButtonColor: '#232B58',
               // title: 'Error!',
               text: "Sports Owner Added Successfully.",
               icon: "success",
@@ -173,6 +177,8 @@ const Addnew = () => {
         })
 
         .catch((error) => {
+        setIsLoading(false);
+
           if (error.response) {
             // Request made and server responded
             seterror(error?.response?.data?.error);
@@ -185,6 +191,7 @@ const Addnew = () => {
           }
 
           swal.fire({
+            confirmButtonColor: '#232B58',
             // title: 'Error!',
             text: "Something went wrong!!",
             icon: "error",
@@ -619,6 +626,8 @@ const Addnew = () => {
                       }}
                       // onClick={(e) => onSubmit(e)}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       Submit
                     </Button>
                   </div>

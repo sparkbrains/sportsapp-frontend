@@ -16,6 +16,7 @@ import swal from "sweetalert2";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,7 @@ export default function Editcoach() {
     loadUser();
     handleSports();
   }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (e) => {
     // e.preventDefault();
@@ -85,6 +87,8 @@ export default function Editcoach() {
   console.log(formik,"user====");
     
     if (formik.isValid) {
+    setIsLoading(true);
+
       axios
       .patch(baseURL + `sports/coach/?id=${id}`, {
         user: {
@@ -100,13 +104,14 @@ export default function Editcoach() {
         sports_center: editcoach.sports_center,
       })
       .then((res) => {
+    setIsLoading(false);
+
         setMessage(res.firstname);
-        // swal("Coach Edit Successfully.", "", "success", {
-        //   button: "OK",
-        // })
+        
         swal.fire({
           // title: 'Error!',
-          text: 'Coach Edit Successfully.',
+          confirmButtonColor: '#232B58',
+          text: 'Coach Edited Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
@@ -114,8 +119,10 @@ export default function Editcoach() {
         });
       })
       .catch((error) => {
-      
+    setIsLoading(false);
+        
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -335,6 +342,7 @@ export default function Editcoach() {
                     value={editcoach?.email}
                     variant="outlined"
                     type="email"
+                    disabled
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -363,7 +371,6 @@ export default function Editcoach() {
                     required
                     type="tel"
                     fullWidth
-                    label="Phone Number"
                     onChange={(e) => onInputChange(e)}
                     name="contact"
                     variant="outlined"
@@ -423,6 +430,8 @@ export default function Editcoach() {
                       }}
                       onClick={(e) => onSubmit(e)}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       Save
                     </Button>
                   </div>

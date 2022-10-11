@@ -116,11 +116,10 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("User Deleted Successfully.", "", "success", {
-          button: "OK",
-        });
+        
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'User Deleted Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
@@ -141,6 +140,7 @@ export default function WidgetLg() {
 
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Something went wrong!!',
           icon: 'error',
           confirmButtonText: 'OK'
@@ -229,7 +229,7 @@ export default function WidgetLg() {
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
                   <TableCell align="center"> Email Address</TableCell>
-                  <TableCell align="center"> Contact.No</TableCell>
+                  <TableCell align="center"> Contact </TableCell>
                   <TableCell align="center"> Actions</TableCell>
                 </TableRow>
               </TableHead>

@@ -118,10 +118,9 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("", "", "", {
-          button: "OK",
-        });
+       
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Category Deleted Successfully.',
           icon: 'success',
@@ -139,6 +138,7 @@ export default function WidgetLg() {
         }
 
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -227,7 +227,7 @@ export default function WidgetLg() {
                   <TableCell align="center"> S.No.</TableCell>
                   <TableCell align="left"> Category</TableCell>
                   <TableCell align="left"> Location</TableCell>
-                  <TableCell align="left"> Sport Center</TableCell>
+                  <TableCell align="left"> Sports Center</TableCell>
                   <TableCell align="left"> Sport</TableCell>
                   <TableCell align="center"> Actions</TableCell>
                 </TableRow>

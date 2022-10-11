@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,10 +112,13 @@ const AddCoach = () => {
     setlocation(e.target.value);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     if (formik.isValid) {
+    setIsLoading(true);
+
       await axios
       .post(
         baseURL + "sports/coach/",
@@ -136,9 +140,11 @@ const AddCoach = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((f) => {
+    setIsLoading(false);
         
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Coach Added Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
@@ -148,6 +154,8 @@ const AddCoach = () => {
         
       })
       .catch((error) => {
+    setIsLoading(false);
+
         if (error.response) {
           // Request made and server responded
           setError(error?.response?.data?.error);
@@ -159,6 +167,7 @@ const AddCoach = () => {
           console.log("Error", error.message);
         }
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -242,7 +251,6 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
-                    label="Coach Name"
                     type="text"
                   />
                 </Grid>
@@ -270,7 +278,6 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     type="email"
                     variant="outlined"
-                    label="Email"
                   />
                   <p style={{ color: "red", margin: "0px" }}>{error}</p>
                 </Grid>
@@ -304,7 +311,6 @@ const AddCoach = () => {
                     type="tel"
                     autoComplete="number"
                     variant="outlined"
-                    label="Phone Number"
                   />
                 </Grid>
               </Grid>
@@ -386,7 +392,6 @@ const AddCoach = () => {
                     name="location"
                     autoComplete="location"
                     variant="outlined"
-                    label="Location"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -495,6 +500,8 @@ const AddCoach = () => {
                         fontSize: "17px",
                       }}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       Submit
                     </Button>
                   </div>
