@@ -83,32 +83,32 @@ const Addnew = () => {
   let navigate = useNavigate();
   const [document, setdocument] = useState();
   const [error, seterror] = useState();
-  const [closetimings, setclosetimings] = useState();
-  const [opentimings, setopentimings] = useState();
+  const [closetimings, setclosetimings] = useState(null);
+  const [opentimings, setopentimings] = useState(null);
 
-  const [name, setownername] = useState();
+  const [name, setownername] = useState('');
   const handlenameChange = (e) => {
     setownername(e.target.value);
   };
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState('');
   const handlepasswordonChange = (e) => {
     setPassword(e.target.value);
   };
-  const [email, setemail] = useState();
+  const [email, setemail] = useState('');
   const handleEmailChange = (e) => {
     setemail(e.target.value);
   };
 
-  const [phone_no, setphoneno] = useState();
+  const [phone_no, setphoneno] = useState('');
   const handleContactChange = (e) => {
     setphoneno(e.target.value);
   };
 
-  const [sports_center, setsportcenter] = useState();
+  const [sports_center, setsportcenter] = useState('');
   const handlesportcenterChange = (e) => {
     setsportcenter(e.target.value);
   };
-  const [location, setlocation] = useState();
+  const [location, setlocation] = useState('');
   const handlelocationChange = (e) => {
     setlocation(e.target.value);
   };
@@ -124,7 +124,7 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = (e) => {
-    console.log(formik.isValid, "isValid---");
+    console.log(formik,formik.isValid,opentimings,closetimings, "isValid---");
     if (formik.isValid) {
       axios
         .post(
@@ -142,7 +142,7 @@ const Addnew = () => {
             opentimings: opentimings,
             closetimings: closetimings,
             location: location,
-            speciallsation: "strength",
+            // speciallsation: "strength"÷s,
             sports_center: { center_name: sports_center },
           },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -151,8 +151,9 @@ const Addnew = () => {
           // setMessage(res.data.message);
           swal("Sports Owner Added Successfully.", "", "success", {
             button: "OK",
+          }).then(d=>{
+            navigate("/sportscenterowner/");
           });
-          navigate("/sportscenterowner/");
         })
 
         .catch((error) => {
@@ -175,28 +176,22 @@ const Addnew = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone_no: "",
-      sports_center: "",
-      location: "",
-      opentimings: "",
-      closetimings: "",
-      password: "",
+      name: '',
+      email: '',
+      phone_no: '',
+      sports_center: '',
+      location: '',
+      opentimings: '',
+      closetimings: '',
+      password: '',
     },
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
-  useEffect(() => {
-    //
-  }, []);
+  console.log(formik,closetimings,opentimings,'opentimings-==');
   const classes = useStyles();
-
-  useEffect(() => {
-    //document.title = "Add New";
-  });
   return (
     <AppLayout style={{ marginBottom: "50px" }}>
       <Container>
@@ -396,12 +391,14 @@ const Addnew = () => {
                     type="time"
                     variant="outlined"
                     fullWidth
-                    onChange={handleopentimingsChange}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={handleopentimingsChange}
+                    onChange={(e)=>{formik.handleChange(e);handleopentimingsChange(e)}}
                     id="opentimings"
                     name="opentimings"
+                    defaultValue={closetimings}
                     min="00:00"
                     max="12:00"
-                    defaultValue="00:00"
                     required
                   ></TextField>
                 </Grid>
@@ -430,11 +427,13 @@ const Addnew = () => {
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onChange={handlefirstnameChange}
+                    onBlur={formik.handleBlur}
+                    onChange={(e)=>{formik.handleChange(e);handlefirstnameChange(e)}}
+                    onKeyUp={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
                     min={opentimings}
-                    defaultValue="00:00"
+                    defaultValue={closetimings}
                     max="23:59"
                     required
                   ></TextField>

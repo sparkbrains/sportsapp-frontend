@@ -121,6 +121,8 @@ const Editnew = () => {
         setMessage(res.data.message);
         swal("Sports Owner Edited Successfully.", "", "success", {
           button: "OK",
+        }).then(d=>{
+            navigate("/sportscenterowner/");
         });
       })
       .catch((error) => {
@@ -128,7 +130,6 @@ const Editnew = () => {
           button: "OK",
         });
       });
-    navigate("/sportscenterowner/");
   };
 }
 
