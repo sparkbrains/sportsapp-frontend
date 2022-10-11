@@ -89,7 +89,7 @@ export default function Setting() {
         }
         swal.fire({
           // title: 'Error!',
-          text: 'Something went Wrong!!',
+          text: 'Something went wrong!!',
           icon: 'error',
           confirmButtonText: 'OK'
         })
@@ -189,7 +189,7 @@ export default function Setting() {
               <div style={{ padding: "14px 30px", color: "#111944" }}>
                 <div className={classes.root}>
                   <Typography id="discrete-slider-always" gutterBottom style={{marginBottom:"35px"}}>
-                    Sport Center Owner
+                    Sports Center Owner
                   </Typography>
 
                   <div className="sliderbox">
@@ -230,7 +230,7 @@ export default function Setting() {
                 </div>
                 <div className={classes.root}>
                   <Typography id="discrete-slider-always" gutterBottom style={{marginBottom:"35px"}}>
-                    End User
+                    User
                   </Typography>
                   <div className="sliderbox">
                     <Slider

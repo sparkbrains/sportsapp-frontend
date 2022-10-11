@@ -61,8 +61,9 @@ const validationSchema = yup.object({
   email: yup.string().email("Please enter a valid email address.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
-    .max(12, "Contact number must be at least 12 number.")
-    .required("Contact number is required.")
+    .min(10, "Contact number must have at least 10 number.")
+    .max(10, "Contact number must have at least 10 number.")
+    .required("Phone number is required.")
     .matches(phoneRegExp, "Only numbers are allowed."),
   password: yup
     .string()
@@ -322,9 +323,8 @@ export default function SignInSide() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     name="contactno"
-                    type="number"
+                    type="tel"
                     onKeyUp={handleContactnoChange}
-                    autoComplete="number"
                   />
                 </Grid>
               </Grid>

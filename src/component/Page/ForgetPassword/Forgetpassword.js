@@ -125,7 +125,7 @@ export default function SignInSide() {
                         }}
                       />
                     </Typography>
-                    <h4 style={{ color: "white", fontSize: "20px" }}>
+                    {/* <h4 style={{ color: "white", fontSize: "20px" }}>
                       {" "}
                       Lorem lpsum ddummycontent
                     </h4>
@@ -133,7 +133,7 @@ export default function SignInSide() {
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       <br />
                       Mauris ac ornare enim{" "}
-                    </p>
+                    </p> */}
                   </div>
                 </Grid>
 

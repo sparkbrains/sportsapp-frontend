@@ -70,18 +70,18 @@ const validationSchema = yup.object({
     .required("Email is required."),
   contactno: yup
     .string()
-    .min(10, "Please enter your 10 digit Mobile Number.")
-    .max(10, "Please enter only 10 digit Mobile Number.")
-    .required("Contact number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
-  gender: yup.string("Please Select A Gender").required("Gender is required"),
+    .matches(phoneRegExp, "Phone number must contains only digits.")
+    .min(10, "Phone number should not be less than 10 digits.")
+    .max(10, "Phone number should not be more than 10 digits.")
+    .required("Phone number is required."),
+  gender: yup.string().required("Gender is required"),
   password: yup
     .string()
     .matches(
       PASSWORD_REGEX,
       " Password must have at least 8 characters and the combination of the following: uppercase letter, lowercase letter, numbers, and symbols."
     )
-    .required("Password is a required."),
+    .required("Password is required."),
   confirmPassword: yup
     .string()
     .required("Confirm Password is required.")
@@ -144,10 +144,13 @@ export default function SignInSide() {
   //         confirmButtonText: "OK",
   //       });
   // }
+  const [visible, setVisible] = useState(false);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
     // e.preventDefault();
-    const res = await axios
+
+    if(formik.isValid){
+        await axios
       .post(baseURL + "users/register/", {
         name: name,
         email: email,
@@ -158,6 +161,7 @@ export default function SignInSide() {
       })
 
       .then((res) => {
+        setVisible(false)
         setMessage(res.data.message);
         swal("Account successfully registered!!", "", "success", {
           button: "OK",
@@ -167,6 +171,7 @@ export default function SignInSide() {
       .catch((error) => {
         setMessage(error.response);
         if (error.response) {
+          setVisible(true)
           setMessage(error.response.data.message);
           setMes(error.response.data.gender);
           setErr(error?.response?.data?.error);
@@ -183,6 +188,7 @@ export default function SignInSide() {
         // });
       });
   };
+}
 
   const formik = useFormik({
     initialValues: {
@@ -239,7 +245,7 @@ export default function SignInSide() {
                   gutterBottom
                   style={{ fontSize: "15px" }}
                 >
-                  Fill Below Details To Sign Up
+                  Fill the details below to Sign Up / Create a new account
                 </Typography>
               </Grid>
               <Stack
@@ -341,7 +347,8 @@ export default function SignInSide() {
                 type="email"
                 value={formik.values.email}
               />
-              <p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{err}</p>
+              {visible ? (<p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{err}</p>) : ""}
+              
 
               <Grid container spacing={3}>
                 <Grid item sm={12} md={6}>
@@ -373,6 +380,7 @@ export default function SignInSide() {
                     onOpen={handleOpen}
                     name="gender"
                     value={gender}
+                    style={{marginTop: "16px"}}
                     // onChange={(item)=>{console.log("Selected item",item.target.value)}}
                     onChange={onChange}
                     // defaultValue="Gender"
@@ -381,7 +389,7 @@ export default function SignInSide() {
                     onKeyUp={handleGenderonChange}
                   >
                     <MenuItem disabled value="">
-                      <em>--Gender--</em>
+                      <em>--Select--</em>
                     </MenuItem>
                     <MenuItem value="MALE">Male</MenuItem>
                     <MenuItem value="FEMALE">Female</MenuItem>
@@ -403,7 +411,7 @@ export default function SignInSide() {
                     }}
                   >
                     <Phone style={{ fontSize: "18px", marginRight: "4px" }} />
-                    CONTACT NO.
+                    CONTACT NUMBER
                   </InputLabel>
 
                   <TextField
@@ -411,6 +419,7 @@ export default function SignInSide() {
                     error={Boolean(
                       formik.touched.contactno && formik.errors.contactno
                     )}
+                    margin="normal"
                     required
                     fullWidth
                     helperText={
@@ -419,7 +428,7 @@ export default function SignInSide() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     name="contactno"
-                    // type="number"
+                    type="tel"
                     onKeyUp={handleContactChange}
                     autoComplete="number"
                   />

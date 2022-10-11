@@ -49,7 +49,7 @@ const validationSchema = yup.object({
     .min(10, "Phone number should not be less than 10 digits.")
     .max(10, "Phone number should not be more than 10 digits.")
     .required("Phone number is required.")
-    .matches(phoneRegExp, "Phone number must contains only number."),
+    .matches(phoneRegExp, "Phone number must contains only digits."),
   location: yup
     .string()
     .max(50, "Must be 50 characters or less.")
@@ -57,7 +57,7 @@ const validationSchema = yup.object({
     .required("Location is required."),
   password: yup
     .string()
-    .matches(PASSWORD_REGEX, "Invalid password...")
+    .matches(PASSWORD_REGEX, " Password must have at least 8 characters and the combination of the following: uppercase letter, lowercase letter, numbers, and symbols.")
     .required("Password is required."),
   gender: yup.string().required("Gender is required."),
 });
@@ -95,7 +95,8 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     // e.preventDefault();
-    const res = await axios
+    if (formik.isValid) {
+     axios
       .post(
         baseURL + "sports/user/",
         {
@@ -114,7 +115,7 @@ export default function AddUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        swal("User Created Successfully.", "", "success", {
+        swal("User added successfully.", "", "success", {
           button: "OK",
         });
         navigate("/usermanagement");
@@ -135,6 +136,7 @@ export default function AddUser() {
         });
       });
   };
+}
 
   const formik = useFormik({
     initialValues: {
@@ -327,7 +329,7 @@ export default function AddUser() {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No
+                    Phone Number
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
@@ -344,7 +346,7 @@ export default function AddUser() {
                     onChange={formik.handleChange}
                     onKeyUp={handlephonenoChange}
                     name="phone_no"
-                    type="number"
+                    type="tel"
                     variant="outlined"
                     label="Phone No"
                   />

@@ -114,7 +114,8 @@ const AddCoach = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    const res = await axios
+    if (formik.isValid) {
+      axios
       .post(
         baseURL + "sports/coach/",
         {
@@ -135,8 +136,8 @@ const AddCoach = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((f) => {
-        swal("Coach Created Successfully.", "", "success", {
-          button: "ok",
+        swal("Coach Added Successfully.", "", "success", {
+          button: "OK",
         });
         navigate("/coachmanagement");
       })
@@ -151,11 +152,12 @@ const AddCoach = () => {
         } else {
           console.log("Error", error.message);
         }
-        swal("Something went wrong!", "Oops...", error, {
-          button: "ok",
+        swal("Something went wrong!", "", error, {
+          button: "OK",
         });
       });
   };
+}
 
   const [sports, setSports] = useState([]);
 
@@ -273,7 +275,7 @@ const AddCoach = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No
+                    Phone Number
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
@@ -290,10 +292,10 @@ const AddCoach = () => {
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
                     name="phone_no"
-                    type="number"
+                    type="tel"
                     autoComplete="number"
                     variant="outlined"
-                    label="Phone No."
+                    label="Phone Number"
                   />
                 </Grid>
               </Grid>

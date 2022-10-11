@@ -39,9 +39,10 @@ const validationSchema = yup.object({
     // .required("Timings is required"),
   phoneno: yup
     .string()
-    .max(12, "phone number must be at least 12 number.")
-    .required("phone number is required.")
-    .matches(phoneRegExp, 'Only numbers are allowed.'),
+    .min(10, "Contact number must have at least 10 number.")
+    .max(10, "Contact number must have at least 10 number.")
+    .required("Phone number is required.")
+    .matches(phoneRegExp, "Only numbers are allowed."),
   location: yup.string().required("Location is required."),
   lastname: yup.string()
   .max(25, "Must be 25 characters or less")
@@ -291,6 +292,7 @@ export default function AddUser() {
                         name="phoneno"
                         autoComplete="number"
                         variant="outlined"
+                        type="tel"
                       />
                     </Grid>
                     <Grid item sm={12} md={4}>

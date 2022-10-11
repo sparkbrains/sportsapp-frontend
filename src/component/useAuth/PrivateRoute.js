@@ -4,6 +4,7 @@ import Sportscenterowner from "../Page/Super_Adimin/Sportscenterowner/Sportscent
 
 export const PrivateRoutes = ({children, ...rest}) => {
     let auth = localStorage.token
+    console.log(auth,"authhhhhh");
     return (
         auth?.length ? <Outlet /> : <Navigate to ="/" element={<Login />} />
     )

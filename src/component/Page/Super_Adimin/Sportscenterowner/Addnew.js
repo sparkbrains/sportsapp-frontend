@@ -14,7 +14,9 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import swal from "sweetalert";
 import AppLayout from "../../../../layout/appLayout";
-// import { Datepicker } from "@mobiscroll";
+// import { Datepicker } from '@mobiscroll/react-lite';
+// import '@mobiscroll/react-lite/dist/css/mobiscroll.min.css';
+// import Datepicker from "@mobiscroll/react-lite";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,13 +33,13 @@ const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
 
-const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 const validationSchema = yup.object().shape({
   name: yup
     .string()
     .max(25, "Must be 25 characters or less.")
-    .required("Owner name is required.")
+    .required("Name is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   email: yup
     .string()
@@ -58,7 +60,7 @@ const validationSchema = yup.object().shape({
     .matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
-    .matches(phoneRegExp, "Phone number must contains only number.")
+    .matches(phoneRegExp, "Phone number must contains only digits.")
     .min(10, "Phone number should not be less than 10 digits.")
     .max(10, "Phone number should not be more than 10 digits.")
     .required("Phone number is required."),
@@ -122,52 +124,52 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = (e) => {
-    console.log(formik.isValid,'isValid---');
-    if(formik.isValid){
-    axios
-      .post(
-        baseURL + "sports/owner/",
-        {
-          user: {
-            email: email,
-            name: name,
-            password: password,
+    console.log(formik.isValid, "isValid---");
+    if (formik.isValid) {
+      axios
+        .post(
+          baseURL + "sports/owner/",
+          {
+            user: {
+              email: email,
+              name: name,
+              password: password,
+            },
+            profile: {
+              role: "owner",
+              phone_no: phone_no,
+            },
+            opentimings: opentimings,
+            closetimings: closetimings,
+            location: location,
+            speciallsation: "strength",
+            sports_center: { center_name: sports_center },
           },
-          profile: {
-            role: "owner",
-            phone_no: phone_no,
-          },
-          opentimings: opentimings,
-          closetimings: closetimings,
-          location: location,
-          speciallsation: "strength",
-          sports_center: { center_name: sports_center },
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((res) => {
-        // setMessage(res.data.message);
-        swal("Owner Created Successfully.", "", "success", {
-          button: "OK",
-        });
-        navigate("/sportscenterowner/");
-      })
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((res) => {
+          // setMessage(res.data.message);
+          swal("Sports Owner Added Successfully.", "", "success", {
+            button: "OK",
+          });
+          navigate("/sportscenterowner/");
+        })
 
-      .catch((error) => {
-        if (error.response) {
-          // Request made and server responded
-          seterror(error?.response?.data?.error);
-          console.log(error.response.status);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        swal("Something went wrong!", "", "error", {
-          button: "OK",
+        .catch((error) => {
+          if (error.response) {
+            // Request made and server responded
+            seterror(error?.response?.data?.error);
+            console.log(error.response.status);
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          swal("Something went wrong!", "", "error", {
+            button: "OK",
+          });
         });
-      });
     }
   };
 
@@ -182,7 +184,7 @@ const Addnew = () => {
       closetimings: "",
       password: "",
     },
-    validateOnChange:true,
+    validateOnChange: true,
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
@@ -382,6 +384,7 @@ const Addnew = () => {
                     display="inline"
                     touchUi={true}
                   /> */}
+                  
                   <TextField
                     error={Boolean(
                       formik.touched.opentimings && formik.errors.opentimings
@@ -589,7 +592,7 @@ const Addnew = () => {
                       }}
                       onClick={(e) => onSubmit(e)}
                     >
-                      ADD SPORT CENTER OWNER
+                      ADD SPORTS CENTER OWNER
                     </Button>
                   </div>
                 </Grid>

@@ -35,9 +35,10 @@ const validationSchema = yup.object({
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   email: yup.string().email("Email is invalid.").required("Email is required.").matches(emailRegx, "Invalid Email ID..."),
   phoneno: yup.string()
-    .min(10, "phone number must be at least 12 number.")
-    .required("Phone number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
+  .min(10, "Contact number must have at least 10 number.")
+  .max(10, "Contact number must have at least 10 number.")
+  .required("Phone number is required.")
+  .matches(phoneRegExp, "Only numbers are allowed."),
   location: yup.string().required("Location is required."),
   sportscenter: yup.string()
     .required("Sport center  is required.")

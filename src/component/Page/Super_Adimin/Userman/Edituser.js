@@ -52,7 +52,7 @@ const validationSchema = yup.object({
     .min(10, "Phone number should not be less than 10 digits.")
     .max(10, "Phone number should not be more than 10 digits.")
     .required("Phone number is required.")
-    .matches(phoneRegExp, "Phone number must contains only number."),
+    .matches(phoneRegExp, "Phone number must contains only digits."),
   location: yup
     .string()
     .max(50, "Must be 50 characters or less.")
@@ -90,7 +90,8 @@ const EditUser = () => {
     }, [])
     const onSubmit = async () => {
         // e.preventDefault();
-        await axios.patch(baseURL+`sports/user/?id=${id}`,
+        if (formik.isValid) {
+            axios.patch(baseURL+`sports/user/?id=${id}`,
         {
             user: {
                 email: admin.email,
@@ -108,7 +109,7 @@ const EditUser = () => {
          )
         .then((res) => {
             // setMessage(res.data.message);
-            swal("User Edit Successfully", "", "success", {
+            swal("User Edited Successfully", "", "success", {
               button: "OK",
             });
           })
@@ -130,6 +131,7 @@ const EditUser = () => {
           });
          navigate("/usermanagement");
     };
+}
 
    
     const loadAdmin = async () => {
@@ -321,7 +323,7 @@ variant="outlined"
                                                     display: "flex", fontSize: "15px", fontWeight: "bold",
                                                 }}>
 
-                                                Phone No
+                                                Phone Number
                                             </InputLabel>
                                             <TextField
                                                 error={Boolean(formik.touched.phone_no && formik.errors.phone_no)}
@@ -336,7 +338,8 @@ variant="outlined"
                                                 name="phone_no"
                                                 variant="outlined"
                                                 value={admin?.phone_no}
-                                                type="number"
+                                                type="tel"
+                                                label="Phone Number"
                                             />
                                         </Grid>
                                         

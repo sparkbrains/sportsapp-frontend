@@ -45,14 +45,14 @@ const validationSchema = yup.object({
     .matches(emailRegx, "Invalid Email ID..."),
   contact: yup
     .string()
-    .min(10, "Phone number not less than 10 character.")
-    .max(15, "Phone number not more than 15 character.")
+    .min(10, "Phone number not less than 10 digits.")
+    .max(10, "Phone number not more than 10 digits.")
     .required("Phone number is required.")
     .matches(phoneRegExp, "Only numbers are allowed."),
   location: yup.string().required("Location is required."),
   sports_center: yup
     .string()
-    .required("Sport center  is required.")
+    .required("Sports center is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
 });
 
@@ -82,7 +82,8 @@ export default function Editcoach() {
 
   const onSubmit = async (e) => {
     // e.preventDefault();
-    await axios
+    if (formik.isValid) {
+      axios
       .patch(baseURL + `sports/coach/?id=${id}`, {
         user: {
           email: editcoach.email,
@@ -111,6 +112,7 @@ export default function Editcoach() {
       });
     navigate("/coachmanagement");
   };
+}
 
   const loadUser = async (e) => {
     const result = await axios.get(baseURL + `sports/coach/?id=${id}`);
@@ -340,7 +342,7 @@ export default function Editcoach() {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No.
+                    Phone Number
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
@@ -354,8 +356,9 @@ export default function Editcoach() {
                     onClick={formik.handleChange}
                     margin="normal"
                     required
-                    type="number"
+                    type="tel"
                     fullWidth
+                    label="Phone Number"
                     onChange={(e) => onInputChange(e)}
                     name="contact"
                     variant="outlined"

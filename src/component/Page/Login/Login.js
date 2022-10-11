@@ -147,7 +147,8 @@ export default function SignInSide(props) {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
     setIsLoading(true);
-    const res = await axios
+    if (formik.isValid) {
+      axios
       .post(
         baseURL + "users/login/",
         {
@@ -190,14 +191,14 @@ export default function SignInSide(props) {
           // const user = JSON.stringify(res?.data?.user);
           // localStorage.user = user;
           // props?.context.getProfile();
-          navigate("/sportscenterowner");
+          // navigate("/sportscenterowner");
           
         }
       })
       .catch((error) => {
         setIsLoading(false);
         if (error.response) {
-          setErr(error?.response?.data?.error);
+          // setErr(error?.response?.data?.error);
           setMessage(error.response.data.message);
         } else if (error.request) {
           // The request was made but no response was received
@@ -214,12 +215,13 @@ export default function SignInSide(props) {
         // });
         swal.fire({
           // title: 'Success!',
-          text: "please enter valid email or password or both!",
+          text: "Please enter valid email or password or both!",
           icon: 'error',
           confirmButtonText: 'OK'
         })
       });
   };
+}
 
   const parseJwt = (token) => {
     var base64Url = token.split(".")[1];
@@ -269,7 +271,7 @@ export default function SignInSide(props) {
                         }}
                       />
                     </Typography>
-                    <h4 style={{ color: "white" }}>
+                    {/* <h4 style={{ color: "white" }}>
                       {" "}
                       Lorem lpsum ddummycontent
                     </h4>
@@ -277,7 +279,7 @@ export default function SignInSide(props) {
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       <br />
                       Mauris ac ornare enim{" "}
-                    </p>
+                    </p> */}
                   </div>
                 </Grid>
                 <Grid item md={6} lg={6}>

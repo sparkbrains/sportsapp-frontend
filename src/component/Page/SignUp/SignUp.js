@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       <CssBaseline />
       <Grid md={12}>
         <div className="bgimg1">
-            <Container maxWidth="false">
+            <Container maxWidth="true">
               <div className="main">
                 <Grid container spacing={2} style={{ margin: "0" }}>
                   <Grid item md={6} lg={6}>
@@ -71,15 +71,7 @@ const useStyles = makeStyles((theme) => ({
                           }}
                         />
                       </Typography>
-                      <h4 style={{ color: "white", fontSize: "20px" }}>
-                        {" "}
-                        Lorem lpsum ddummycontent
-                      </h4>
-                      <p className="pp" style={{ color: "white" }}>
-                        Lorem ipsun dolor sit, consectetur adipiscing elit.
-                        <br />
-                        Mauris ac ornare enim{" "}
-                      </p>
+                      
                     </div>
                   </Grid>
 

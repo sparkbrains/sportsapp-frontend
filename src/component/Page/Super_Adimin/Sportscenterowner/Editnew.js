@@ -98,7 +98,8 @@ const Editnew = () => {
 
   const onSubmit = async (e) => {
     // e.preventDefault();
-    await axios
+    if (formik.isValid) {
+      axios
       .patch(baseURL + `sports/owner/?id=${id}`, {
         profile: {
           role: "owner",
@@ -119,7 +120,7 @@ const Editnew = () => {
       })
       .then((res) => {
         setMessage(res.data.message);
-        swal("Owner Edit Successfully.", "", "success", {
+        swal("Sports Owner Edited Successfully.", "", "success", {
           button: "OK",
         });
       })
@@ -130,6 +131,7 @@ const Editnew = () => {
       });
     navigate("/sportscenterowner/");
   };
+}
 
   const loadUser = async () => {
     const result = await axios.get(baseURL + `sports/owner/?id=${id}`);
@@ -254,7 +256,7 @@ const Editnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No
+                    Phone Number
                   </InputLabel>
                   <TextField
                     error={Boolean(
@@ -264,13 +266,14 @@ const Editnew = () => {
                       formik.touched.phone_no && formik.errors.phone_no
                     }
                     margin="normal"
+                    type="tel"
+                    label="Phone Number"
                     required
                     fullWidth
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
                     name="phone_no"
-                    autoComplete="number"
                     variant="outlined"
                     value={editnew?.phone_no}
                   />

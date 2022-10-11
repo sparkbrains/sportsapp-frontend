@@ -17,6 +17,7 @@ import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../useAuth/useAuth";
+import "./Header.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -146,8 +147,8 @@ export default function Header(history) {
       {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
-      <a style={{ textDecoration: "none" }} href="/">
-        <MenuItem onClick={signOut}>Log Out</MenuItem>
+      <a className="button" style={{ textDecoration: "none" }} href="/">
+        <MenuItem  onClick={signOut}>Log Out</MenuItem>
       </a>
       {/* /    </Link> */}
     </Menu>

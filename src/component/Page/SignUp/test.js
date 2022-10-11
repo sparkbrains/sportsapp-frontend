@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
                           }}
                         />
                       </Typography>
-                      <h4 style={{ color: "white", fontSize: "20px" }}>
+                      {/* <h4 style={{ color: "white", fontSize: "20px" }}>
                         {" "}
                         Lorem lpsum ddummycontent
                       </h4>
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
                         Lorem ipsun dolor sit, consectetur adipiscing elit.
                         <br />
                         Mauris ac ornare enim{" "}
-                      </p>
+                      </p> */}
                     </div>
                   </Grid>
 

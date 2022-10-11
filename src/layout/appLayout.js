@@ -1,12 +1,13 @@
 import Footer from "../component/Page/Header/Footer";
 import Header from "../component/Page/Header/Header";
 import { Grid, ListItem, Toolbar, AppBar, ListItemText, makeStyles } from "@material-ui/core";
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
+import SportsIcon from '@mui/icons-material/Sports';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import CategoryIcon from '@mui/icons-material/Category';
+import "./AppLayout.css";
 import {
-    PermIdentity,
     SettingsOutlined,
-    WidgetsOutlined,
-    ScreenLockPortraitOutlined,
-    Navigation,
 } from "@material-ui/icons";
 import LoadingBar from "react-top-loading-bar";
 import {
@@ -48,13 +49,13 @@ export default function AppLayout({ children }) {
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item style={{ alignSelf: "center" }}>
                             <Link
-                                className="id"
+                                className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/sportscenterowner`}
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"sports-center-owners"}>
-                                    <WidgetsOutlined style={{ color: "#3a2e2e" }} />
+                                    <DomainAddIcon style={{ color: "#3a2e2e" }} />
                                     <ListItemText
                                         primary={"SC Owner Management"}
                                         style={{
@@ -68,13 +69,13 @@ export default function AppLayout({ children }) {
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
                             <Link
-                                className="id"
+                                className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/coachmanagement`}
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"coach-anagement"}>
-                                    <PermIdentity style={{ color: "#3a2e2e" }} />
+                                    <SportsIcon style={{ color: "#3a2e2e" }} />
                                     <ListItemText
                                         primary={"Coach Management"}
                                         style={{
@@ -88,13 +89,13 @@ export default function AppLayout({ children }) {
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
                             <Link
-                                className="id"
+                                className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/usermanagement`}
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"user-management"}>
-                                    <ScreenLockPortraitOutlined style={{ color: "#3a2e2e" }} />
+                                    <PersonAddAltIcon style={{ color: "#3a2e2e" }} />
                                     <ListItemText
                                         primary={"User Management"}
                                         style={{ color: "#3a2e2e", marginLeft: "6px" }}
@@ -104,13 +105,13 @@ export default function AppLayout({ children }) {
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
                             <Link
-                                className="id"
+                                className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/categorymanagement`}
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"category-management"}>
-                                    <Navigation style={{ color: "#3a2e2e" }} />
+                                    <CategoryIcon style={{ color: "#3a2e2e" }} />
                                     <ListItemText
                                         primary={"Category Management"}
                                         style={{ color: "#3a2e2e", marginLeft: "6px" }}
@@ -120,7 +121,7 @@ export default function AppLayout({ children }) {
                         </Grid>
                         <Grid item style={{ alignSelf: "center" }}>
                             <Link
-                                className="id"
+                                className="id button"
                                 onClick={() => setProgress(100)}
                                 to={`/setting`}
                                 style={{ textDecoration: "none" }}

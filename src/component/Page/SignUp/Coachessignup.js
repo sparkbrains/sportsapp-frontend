@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const phoneRegExp =
 /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-const countryNameRegex = /^[a-zA-Z]{1,40}( [a-zA-Z]{1,40})+$/;
+const countryNameRegex = /^[a-zA-Z]{1,25}( [a-zA-Z]{1,25})+$/;
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
 
@@ -58,17 +58,17 @@ const validationSchema = yup.object({
     .string()
     .min(3, "Please Enter Your Name...")
     .required("Full Name Is Required...")
-    .matches(/^[A-Za-z ]*$/, 'Only Alphabets Are Required.'),
-    // .matches(countryNameRegex, "Only alphabets are required."),
-  email: yup.string().email("Please Enter a Valid Email Address.").matches(emailRegx, "Invalid Email ID...").required(),
+    .matches(countryNameRegex, "Only alphabets are required."),
+  email: yup.string().email("Please enter a valid email.").matches(emailRegx, "Invalid Email ID...").required(),
   contactno: yup
     .string()
-    .max(12, "Contact Number Must Be At Least 12 Number.")
-    .required("Contact Number Is Required.")
+    .min(10, "Phone number must have at least 10 digits ")
+    .max(10, "Contact number must have at least 10 digits.")
+    .required("Phone number is required.")
     .matches(phoneRegExp, "Only Numbers Are Allowed."),
   password: yup
     .string()
-    .matches(PASSWORD_REGEX, "Please Enter A Strong Password.")
+    .matches(PASSWORD_REGEX, "Invalid password...")
     .required(),
   confirmPassword: yup
     .string()
@@ -325,7 +325,7 @@ export default function SignInSide() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     name="contactno"
-                    type="number"
+                    type="tel"
                     onKeyUp={handleContactnoChange}
                     autoComplete="number"
                   />
