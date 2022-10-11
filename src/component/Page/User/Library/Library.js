@@ -103,7 +103,6 @@ export default function TitlebarImageList() {
                                     autoFocus
                                     margin="dense"
                                     id="name"
-                                    label="Username"
                                     type="text"
                                     fullWidth
                                     variant="outlined"

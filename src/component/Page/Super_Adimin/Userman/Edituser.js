@@ -345,7 +345,6 @@ variant="outlined"
                                                 variant="outlined"
                                                 value={admin?.phone_no}
                                                 type="tel"
-                                                label="Phone Number"
                                             />
                                         </Grid>
                                         

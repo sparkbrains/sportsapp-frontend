@@ -92,7 +92,7 @@ const Editcategory = () => {
         swal.fire({
           // title: 'Error!',
           text: 'Category Edited Successfully',
-          icon: 'Success',
+          icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
           navigate("/categorymanagement");

@@ -116,9 +116,7 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("User Deleted Successfully.", "", "success", {
-          button: "OK",
-        });
+        
         swal.fire({
           // title: 'Error!',
           text: 'User Deleted Successfully.',
@@ -229,7 +227,7 @@ export default function WidgetLg() {
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
                   <TableCell align="center"> Email Address</TableCell>
-                  <TableCell align="center"> Contact.No</TableCell>
+                  <TableCell align="center"> Contact </TableCell>
                   <TableCell align="center"> Actions</TableCell>
                 </TableRow>
               </TableHead>

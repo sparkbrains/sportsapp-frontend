@@ -101,12 +101,10 @@ export default function Editcoach() {
       })
       .then((res) => {
         setMessage(res.firstname);
-        // swal("Coach Edit Successfully.", "", "success", {
-        //   button: "OK",
-        // })
+        
         swal.fire({
           // title: 'Error!',
-          text: 'Coach Edit Successfully.',
+          text: 'Coach Edited Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
@@ -362,7 +360,6 @@ export default function Editcoach() {
                     required
                     type="tel"
                     fullWidth
-                    label="Phone Number"
                     onChange={(e) => onInputChange(e)}
                     name="contact"
                     variant="outlined"

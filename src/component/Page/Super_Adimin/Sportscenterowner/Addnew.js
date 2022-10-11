@@ -155,10 +155,7 @@ const Addnew = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((res) => {
-          // setMessage(res.data.message);
-          // swal("Sports Owner Added Successfully.", "", "success", {
-          //   button: "OK",
-          // });
+         
 
           swal
             .fire({

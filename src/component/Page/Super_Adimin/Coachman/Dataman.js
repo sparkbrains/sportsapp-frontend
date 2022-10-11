@@ -111,9 +111,7 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("Coach Deleted Successfully.", "", "success", {
-          button: "OK",
-        });
+        
 
         swal.fire({
           // title: 'Error!',
@@ -225,11 +223,11 @@ export default function WidgetLg() {
               <TableHead>
                 <TableRow>
                   <TableCell align="center"> S.No.</TableCell>
-                  <TableCell align="left"> Name</TableCell>
-                  <TableCell align="left"> Location</TableCell>
-                  <TableCell align="left">Sport Center</TableCell>
-                  <TableCell align="left">Email</TableCell>
-                  <TableCell align="center"> Actions</TableCell>
+                  <TableCell align="left"> Name </TableCell>
+                  <TableCell align="left"> Location </TableCell>
+                  <TableCell align="left">Sports Center</TableCell>
+                  <TableCell align="left">Email Address</TableCell>
+                  <TableCell align="center"> Actions </TableCell>
                 </TableRow>
               </TableHead>
 

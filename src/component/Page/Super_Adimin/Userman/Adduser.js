@@ -219,7 +219,6 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     onKeyUp={handlefirstnameChange}
-                    label="Name"
                     variant="outlined"
                     type="text"
                   />
@@ -254,7 +253,6 @@ export default function AddUser() {
                     name="location"
                     type="text"
                     variant="outlined"
-                    label="Location"
                   />
                 </Grid>
 
@@ -287,7 +285,6 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     value={gender}
                     onChange={(e)=>{formik.handleChange(e);handleGenderonChange(e) }}
-                    // label="Gender"
                     name="gender"
                     displayEmpty
                   >
@@ -324,7 +321,6 @@ export default function AddUser() {
                     onChange={formik.handleChange}
                     onKeyUp={handleEmailChange}
                     type="email"
-                    label="Email"
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
@@ -360,7 +356,6 @@ export default function AddUser() {
                     name="phone_no"
                     type="tel"
                     variant="outlined"
-                    label="Phone No"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>
@@ -394,7 +389,6 @@ export default function AddUser() {
                     type="password"
                     autoComplete="password"
                     variant="outlined"
-                    label="Password"
                   />
                 </Grid>
               </Grid>

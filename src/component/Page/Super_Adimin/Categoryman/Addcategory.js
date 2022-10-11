@@ -82,7 +82,7 @@ export default function Addcategory() {
         swal.fire({
           // title: 'Error!',
           text: 'Category Added Succesfully.',
-          icon: 'Success',
+          icon: 'success',
           confirmButtonText: 'OK'
         }).then(d=>{
         navigate("/categorymanagement");
@@ -166,7 +166,6 @@ export default function Addcategory() {
                     name="category"
                     variant="outlined"
                     onBlur={formik.handleBlur}
-                    label="Category"
                     onChange={(e)=>{handlecategoryChange(e);formik.handleChange(e)}}
                   />
                 </Grid>
@@ -236,7 +235,6 @@ export default function Addcategory() {
                     Location
                   </InputLabel>
                   <TextField
-                    label="Location"
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
                       formik.touched.location && formik.errors.location

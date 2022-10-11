@@ -242,7 +242,6 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
-                    label="Coach Name"
                     type="text"
                   />
                 </Grid>
@@ -270,7 +269,6 @@ const AddCoach = () => {
                     onChange={formik.handleChange}
                     type="email"
                     variant="outlined"
-                    label="Email"
                   />
                   <p style={{ color: "red", margin: "0px" }}>{error}</p>
                 </Grid>
@@ -304,7 +302,6 @@ const AddCoach = () => {
                     type="tel"
                     autoComplete="number"
                     variant="outlined"
-                    label="Phone Number"
                   />
                 </Grid>
               </Grid>
@@ -386,7 +383,6 @@ const AddCoach = () => {
                     name="location"
                     autoComplete="location"
                     variant="outlined"
-                    label="Location"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>

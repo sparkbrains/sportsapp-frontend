@@ -129,7 +129,6 @@ export default function CenteredGrid() {
                     onChange={formik.handleChange}
                     autoComplete="name"
                     variant="outlined"
-                    label="Coach Name"
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>

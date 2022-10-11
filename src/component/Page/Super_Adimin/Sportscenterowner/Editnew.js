@@ -266,7 +266,6 @@ const Editnew = () => {
                     }
                     margin="normal"
                     type="tel"
-                    label="Phone Number"
                     required
                     fullWidth
                     onBlur={formik.handleBlur}

@@ -246,10 +246,10 @@ export default function Sportscenterowner() {
               <TableHead>
                 <TableRow>
                   <TableCell align="center"> S.No.</TableCell>
-                  <TableCell align="left"> Name</TableCell>
-                  <TableCell align="left"> Location</TableCell>
-                  <TableCell align="left"> Sport Center</TableCell>
-                  <TableCell align="left"> Contact No.</TableCell>
+                  <TableCell align="left"> Name </TableCell>
+                  <TableCell align="left"> Location </TableCell>
+                  <TableCell align="left"> Sports Center</TableCell>
+                  <TableCell align="left"> Contact </TableCell>
                   <TableCell align="center"> Actions</TableCell>
                 </TableRow>
               </TableHead>
