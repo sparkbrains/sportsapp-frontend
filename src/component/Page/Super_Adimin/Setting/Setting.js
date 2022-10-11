@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import Tooltip from '@mui/material/Tooltip';
 import PropTypes from 'prop-types';
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,13 +62,18 @@ export default function Setting() {
 
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (e) => {
     // e.preventDefault();
+    if (formik.isValid) {
+      setIsLoading(true);
     axios
       .patch(baseURL+`sports/setting/1/`,
       edit
       )
       .then((res) => {
+        setIsLoading(false);
         setMessage(res.data.message);
         swal.fire({
           confirmButtonColor: '#232B58',
@@ -78,6 +84,8 @@ export default function Setting() {
         })
       })
       .catch((error) => {
+        setIsLoading(false);
+
         if (error.response) {
           // Request made and server responded
           seterror(error?.response?.data?.error);
@@ -97,6 +105,7 @@ export default function Setting() {
         })
       });
   };
+}
 
   const [edit, setEdit] = useState({
     sportcenterowner: 0,
@@ -272,6 +281,8 @@ export default function Setting() {
                       fontWeight: "bold",
                       padding: "26px 95px",
                     }}
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                     onClick={(e) => handleSubmit(e)}
                   >
                     SAVE
