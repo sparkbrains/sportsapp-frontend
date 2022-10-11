@@ -147,8 +147,8 @@ export default function Header(history) {
       {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       {/* <Link href="/" style={{ textDecoration: "none" }}> */}
-      <a className="button" style={{ textDecoration: "none" }} href="/">
-        <MenuItem  onClick={signOut}>Log Out</MenuItem>
+      <a style={{ textDecoration: "none" }} href="/">
+        <MenuItem   className="button" onClick={signOut}>Log Out</MenuItem>
       </a>
       {/* /    </Link> */}
     </Menu>

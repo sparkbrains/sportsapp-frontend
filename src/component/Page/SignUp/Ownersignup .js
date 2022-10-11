@@ -156,6 +156,7 @@ export default function SignInSide() {
 
         .then((res) => {
           setMessage(res.data.message);
+          setIsLoading(false);
           swal.fire({
             // title: 'Error!',
             confirmButtonColor: '#232B58',
@@ -165,7 +166,6 @@ export default function SignInSide() {
           }).then((d) => {
 
             navigate("/");
-            setIsLoading(false);
             setVisible(false);
           })
         })
