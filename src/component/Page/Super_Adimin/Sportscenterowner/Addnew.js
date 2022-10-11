@@ -115,6 +115,7 @@ const Addnew = () => {
 
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
+    console.log(e.target.value,"timeeee");
   };
 
   const handlefirstnameChange = (e) => {
@@ -123,10 +124,10 @@ const Addnew = () => {
   };
 
   const token = localStorage.getItem("token");
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     console.log(formik,formik.isValid,opentimings,closetimings, "isValid---");
     if (formik.isValid) {
-      axios
+      await axios
         .post(
           baseURL + "sports/owner/",
           {
@@ -201,7 +202,7 @@ const Addnew = () => {
             className={classes.root}
             style={{ padding: "20px", marginBottom: "80px" }}
           >
-            <form noValidate onSubmit={formik.handleSubmit}>
+            <form noValidate onSubmit={formik.handleSubmit} autocomplete="off">
               {/* <form method="POST" noValidate onSubmit={} >  */}
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
@@ -256,6 +257,7 @@ const Addnew = () => {
                     onKeyUp={handleEmailChange}
                     onChange={formik.handleChange}
                     type="email"
+                    autocomplete='off'
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
@@ -289,6 +291,7 @@ const Addnew = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
+                    autocomplete='off'
                     name="phone_no"
                     variant="outlined"
                     type="tel"
@@ -423,7 +426,7 @@ const Addnew = () => {
                       formik.touched.closetimings && formik.errors.closetimings
                     }
                     type="time"
-                    format="12-hour"
+                    // format="12-hour"
                     fullWidth
                     variant="outlined"
                     margin="normal"
@@ -589,7 +592,7 @@ const Addnew = () => {
                         padding: "13px",
                         fontSize: "17px",
                       }}
-                      onClick={(e) => onSubmit(e)}
+                      // onClick={(e) => onSubmit(e)}
                     >
                       ADD SPORTS CENTER OWNER
                     </Button>

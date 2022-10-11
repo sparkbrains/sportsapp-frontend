@@ -55,11 +55,11 @@ export default function AppLayout({ children }) {
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"sports-center-owners"}>
-                                    <DomainAddIcon style={{ color: "#3a2e2e" }} />
+                                    <DomainAddIcon style={{  }} />
                                     <ListItemText
                                         primary={"SC Owner Management"}
                                         style={{
-                                            color: "#3a2e2e",
+                                            
                                             fontSize: "20px",
                                             marginLeft: "6px",
                                         }}
@@ -75,11 +75,11 @@ export default function AppLayout({ children }) {
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"coach-anagement"}>
-                                    <SportsIcon style={{ color: "#3a2e2e" }} />
+                                    <SportsIcon style={{  }} />
                                     <ListItemText
                                         primary={"Coach Management"}
                                         style={{
-                                            color: "#3a2e2e",
+                                            
                                             textDecoration: "nome",
                                             marginLeft: "6px",
                                         }}
@@ -95,10 +95,10 @@ export default function AppLayout({ children }) {
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"user-management"}>
-                                    <PersonAddAltIcon style={{ color: "#3a2e2e" }} />
+                                    <PersonAddAltIcon style={{  }} />
                                     <ListItemText
                                         primary={"User Management"}
-                                        style={{ color: "#3a2e2e", marginLeft: "6px" }}
+                                        style={{  marginLeft: "6px" }}
                                     />
                                 </ListItem>
                             </NavLink>
@@ -111,10 +111,10 @@ export default function AppLayout({ children }) {
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"category-management"}>
-                                    <CategoryIcon style={{ color: "#3a2e2e" }} />
+                                    <CategoryIcon style={{  }} />
                                     <ListItemText
                                         primary={"Category Management"}
-                                        style={{ color: "#3a2e2e", marginLeft: "6px" }}
+                                        style={{  marginLeft: "6px" }}
                                     />
                                 </ListItem>
                             </NavLink>
@@ -127,10 +127,10 @@ export default function AppLayout({ children }) {
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"Setting"}>
-                                    <SettingsOutlined style={{ color: "#3a2e2e" }} />
+                                    <SettingsOutlined style={{  }} />
                                     <ListItemText
                                         primary={"Settings"}
-                                        style={{ color: "#3a2e2e", marginLeft: "6px" }}
+                                        style={{  marginLeft: "6px" }}
                                     />
                                 </ListItem>
                             </NavLink>

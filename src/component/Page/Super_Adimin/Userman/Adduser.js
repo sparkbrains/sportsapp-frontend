@@ -95,6 +95,7 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     // e.preventDefault();
+    console.log(gender,"gennnnnn");
     if (formik.isValid) {
      axios
       .post(
@@ -272,8 +273,8 @@ export default function AddUser() {
                     variant="outlined"
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    onKeyUp={handleGenderonChange}
-                    value={gender}
+                    // onKeyUp={handleGenderonChange}
+                    value={age}
                     onChange={onChange}
                     // label="Gender"
                     name="gender"

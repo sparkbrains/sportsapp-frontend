@@ -65,11 +65,11 @@ const validationSchema = yup.object({
   sports_center: Yup.string().required("Sport center is required."),
   password: yup.string().required("Password is required."),
   speciallsation: yup.string().required("Specialization is required."),
-  specialization: yup.string().required("Specialization is required."),
+  // specialization: yup.string().required("Specialization is required."),
 });
 const AddCoach = () => {
   let navigate = useNavigate();
-  const [speciallsation, setspecialisation] = useState("");
+  const [speciallsation, setspecialisation] = useState();
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
@@ -115,7 +115,7 @@ const AddCoach = () => {
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     if (formik.isValid) {
-      axios
+      await axios
       .post(
         baseURL + "sports/coach/",
         {
@@ -182,7 +182,7 @@ const AddCoach = () => {
     onSubmit,
     validationSchema: validationSchema,
   });
-
+  console.log(formik,'formik==');
   useEffect(() => {
     document.title = "Add Coach";
     handleSports();
@@ -327,9 +327,8 @@ const AddCoach = () => {
                     margin="normal"
                     required
                     fullWidth
-                    // onBlur={formik.handleBlur}
-                    onKeyUp={handlesportcenterChange}
-                    onChange={onChange}
+                    onBlur={formik.handleBlur}
+                    onChange={(e)=>{formik.handleChange(e);handlesportcenterChange(e)}}
                     name="sports_center"
                     variant="outlined"
                     value={sportsCenter}
@@ -397,8 +396,10 @@ const AddCoach = () => {
                     onBlur={formik.handleBlur}
                     fullWidth
                     variant="outlined"
-                    onChange={onChangeSpecialization}
+                    // onChange={onChangeSpecialization}
                     onKeyUp={handlespecialisationonChange}
+                    onChange={(e)=>{formik.handleChange(e);handlespecialisationonChange(e)}}
+                    // onBlur={formik.handleBlur}
                     onOpen={handleOpen}
                     value={speciallsation}
                     required

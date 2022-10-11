@@ -58,10 +58,10 @@ const validationSchema = yup.object({
     .max(50, "Must be 50 characters or less.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
     .required("Location is required."),
-  password: yup
-    .string()
-    .matches(PASSWORD_REGEX, "Invalid password...")
-    .required("Password is required."),
+//   password: yup
+//     .string()
+//     .matches(PASSWORD_REGEX, "Invalid password...")
+//     .required("Password is required."),
   gender: yup.string().required("Gender is required."),
 });
 
