@@ -27,7 +27,7 @@
   }
 
   .active {     
-    background-color:rgb(219, 219, 15);
+    background-color: #4f8d2c;
+    color:rgb(255, 255, 255); 
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    color:rgb(20, 17, 17); 
 }

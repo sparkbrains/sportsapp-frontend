@@ -115,6 +115,7 @@ const Addnew = () => {
 
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
+    console.log(e.target.value,"timeeee");
   };
 
   const handlefirstnameChange = (e) => {
@@ -124,7 +125,8 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = (e) => {
-    console.log(formik.isValid, "isValid---");
+    console.log(opentimings, closetimings, "isValid---");
+    console.log(formik, "isValid---");
     if (formik.isValid) {
       axios
         .post(
@@ -142,7 +144,7 @@ const Addnew = () => {
             opentimings: opentimings,
             closetimings: closetimings,
             location: location,
-            speciallsation: "strength",
+            // speciallsation: "strength",
             sports_center: { center_name: sports_center },
           },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -396,7 +398,9 @@ const Addnew = () => {
                     type="time"
                     variant="outlined"
                     fullWidth
-                    onChange={handleopentimingsChange}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={handleopentimingsChange}
+                    onChange={formik.handleChange}
                     id="opentimings"
                     name="opentimings"
                     min="00:00"
@@ -426,11 +430,13 @@ const Addnew = () => {
                       formik.touched.closetimings && formik.errors.closetimings
                     }
                     type="time"
-                    format="12-hour"
+                    // format="12-hour"
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onChange={handlefirstnameChange}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={handlefirstnameChange}
+                    onChange={formik.handleChange}
                     id="closetimings"
                     name="closetimings"
                     min={opentimings}

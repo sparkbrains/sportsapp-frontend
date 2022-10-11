@@ -69,7 +69,7 @@ const validationSchema = yup.object({
 });
 const AddCoach = () => {
   let navigate = useNavigate();
-  const [speciallsation, setspecialisation] = useState("");
+  const [speciallsation, setspecialisation] = useState();
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
@@ -327,7 +327,7 @@ const AddCoach = () => {
                     margin="normal"
                     required
                     fullWidth
-                    // onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
                     onKeyUp={handlesportcenterChange}
                     onChange={onChange}
                     name="sports_center"
@@ -399,6 +399,7 @@ const AddCoach = () => {
                     variant="outlined"
                     onChange={onChangeSpecialization}
                     onKeyUp={handlespecialisationonChange}
+                    // onBlur={formik.handleBlur}
                     onOpen={handleOpen}
                     value={speciallsation}
                     required
