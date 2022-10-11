@@ -19,6 +19,7 @@ import {
   VpnKeyOutlined,
   Wc,
 } from "@material-ui/icons";
+import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -124,8 +125,8 @@ export default function SignInSide() {
   const handleContactChange = (e) => {
     setcontact(e.target.value);
   };
+  const [isLoading, setIsLoading] = useState(false);
 
-  
   const handleGenderonChange = (e) => {
     setGender(e.target.value);
   };
@@ -148,47 +149,58 @@ export default function SignInSide() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
     // e.preventDefault();
+    if (formik.isValid) {
+      setIsLoading(true);
+      await axios
+        .post(baseURL + "users/register/", {
+          name: name,
+          email: email,
+          gender: gender,
+          contact: contact,
+          password: password,
+          role: role,
+        })
 
-    if(formik.isValid){
-        await axios
-      .post(baseURL + "users/register/", {
-        name: name,
-        email: email,
-        gender: gender,
-        contact: contact,
-        password: password,
-        role: role,
-      })
+        .then((res) => {
+          setMessage(res.data.message);
+          swal.fire({
+            // title: 'Error!',
+            text: 'Account Created Successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((d) => {
 
-      .then((res) => {
-        setVisible(false)
-        setMessage(res.data.message);
-        swal("Account successfully registered!!", "", "success", {
-          button: "OK",
+            navigate("/");
+            setIsLoading(false);
+            setVisible(false);
+          })
+        })
+        .catch((error) => {
+          setIsLoading(false);
+
+          setMessage(error.response);
+          if (error.response) {
+            setVisible(true);
+            setMessage(error.response.data.message);
+            setMes(error.response.data.gender);
+            setErr(error?.response?.data?.error);
+            // Request made and server responded
+            console.log(error.response.status);
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          swal.fire({
+            // title: 'Error!',
+            text: 'Something is wrong!!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
         });
-        navigate("/");
-      })
-      .catch((error) => {
-        setMessage(error.response);
-        if (error.response) {
-          setVisible(true)
-          setMessage(error.response.data.message);
-          setMes(error.response.data.gender);
-          setErr(error?.response?.data?.error);
-          // Request made and server responded
-          console.log(error.response.status);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        // swal("message", "", "error", {
-        //   button: "OK",
-        // });
-      });
+    }
   };
-}
 
   const formik = useFormik({
     initialValues: {
@@ -348,7 +360,6 @@ export default function SignInSide() {
                 value={formik.values.email}
               />
               {/* {visible ? (<p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{err}</p>) : ""} */}
-              
 
               <Grid container spacing={3}>
                 <Grid item sm={12} md={6}>
@@ -380,11 +391,13 @@ export default function SignInSide() {
                     onOpen={handleOpen}
                     name="gender"
                     value={gender}
-                    style={{marginTop: "16px"}}
+                    style={{ marginTop: "16px" }}
                     // onChange={(item)=>{console.log("Selected item",item.target.value)}}
                     onKeyUp={handleGenderonChange}
-                    onChange={(e)=>{formik.handleChange(e);handleGenderonChange(e) }}
-
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      handleGenderonChange(e);
+                    }}
                     onBlur={formik.handleBlur}
                     // defaultValue="Gender"
                     displayEmpty
@@ -397,7 +410,9 @@ export default function SignInSide() {
                     <MenuItem value="OTHER">Other</MenuItem>
                   </Select>
                   {/* {mes && <div style={{ color: "red" }}>{mes}</div>} */}
-                  {mes && <div style={{ color: "red" }}>{"Gender is required."}</div>}
+                  {mes && (
+                    <div style={{ color: "red" }}>{"Gender is required."}</div>
+                  )}
                 </Grid>
 
                 <Grid item sm={12} md={6}>
@@ -516,10 +531,11 @@ export default function SignInSide() {
                   variant="outlined"
                   size="medium"
                   // onClick={showAlert}
-                  onClick={(e) => onSubmit(e)}
+                  // onClick={(e) => onSubmit(e)}
                   color="primary"
                   className={classes.margin}
                 >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
                   Sign Up
                 </Button>
               </Grid>

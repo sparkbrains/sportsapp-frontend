@@ -15,6 +15,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router";
 import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,6 +96,8 @@ export default function AddUser() {
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     // e.preventDefault();
+    setIsLoading(true);
+
     if (formik.isValid) {
      axios
       .post(
@@ -117,16 +121,20 @@ export default function AddUser() {
         // swal("User added successfully.", "", "success", {
         //   button: "OK",
         // })
+        
+        setIsLoading(false);
         swal.fire({
           // title: 'Error!',
           text: 'User added successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(D=>{
-        navigate("/usermanagement");
+          navigate("/usermanagement");
         });
       })
       .catch((error) => {
+        setIsLoading(false);
+
         if (error.response) {
           // Request made and server responded
           seterror(error?.response?.data?.error);
@@ -146,6 +154,7 @@ export default function AddUser() {
       });
   };
 }
+const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -402,6 +411,7 @@ export default function AddUser() {
                       padding: "20px",
                     }}
                   >
+
                     <Button
                       variant="contained"
                       //   disabled={isSubmitting}
@@ -418,6 +428,11 @@ export default function AddUser() {
                         fontSize: "17px",
                       }}
                     >
+                      {isLoading === true ? (
+                            <CircularProgress Shrink />
+                          ) : (
+                            ""
+                          )}
                       Submit
                     </Button>
                   </div>

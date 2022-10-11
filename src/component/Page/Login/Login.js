@@ -210,9 +210,6 @@ export default function SignInSide(props) {
 
           console.log("Error", error.message);
         }
-        // swal("please enter valid email or password or both!", "", "error", {
-        //   button: "OK",
-        // });
         swal.fire({
           // title: 'Success!',
           text: "Please enter valid email or password or both!",
