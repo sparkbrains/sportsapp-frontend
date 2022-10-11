@@ -81,8 +81,9 @@ export default function Addcategory() {
       .then((res) => {
         swal("Category Created Successfully.", "", "success", {
           button: "OK",
-        });
+        }).then(d=>{
         navigate("/categorymanagement");
+        });
       })
       .catch((error) => {
         swal("Something went wrong!", "", "error", {
@@ -159,8 +160,7 @@ export default function Addcategory() {
                     name="category"
                     variant="outlined"
                     onBlur={formik.handleBlur}
-                    onKeyUp={handlecategoryChange}
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{handlecategoryChange(e);formik.handleChange(e)}}
                   />
                 </Grid>
                 <Grid item sm={12} md={6}>
@@ -198,7 +198,7 @@ export default function Addcategory() {
                     }
                     onKeyUp={formik.dirty}
                     onBlur={formik.handleBlur}
-                    onChange={handlesportcenterChange}
+                    onChange={(e)=>{handlesportcenterChange(e);formik.handleChange(e)}}
                     value={sportsCenter}
                   >
                     <MenuItem disabled value="">
@@ -267,10 +267,9 @@ export default function Addcategory() {
                     variant="outlined"
                     name="sport"
                     onClose={handleClose}
-                    onKeyUp={formik.handleChange}
                     onOpen={handleOpen}
                     value={sport}
-                    onChange={onChange}
+                    onChange={(e)=>{onChange(e);formik.handleChange(e)}}
                     defaultValue="Select"
                     displayEmpty
                     style={{ marginTop: "13px" }}
@@ -311,7 +310,6 @@ export default function Addcategory() {
                         padding: "11px",
                         fontSize: "17px",
                       }}
-                      onClick={(e) => {onSubmit(e)}}
                     >
                       ADD CATEGORY
                     </Button>

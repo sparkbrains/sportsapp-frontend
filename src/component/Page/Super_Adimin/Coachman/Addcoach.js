@@ -138,8 +138,10 @@ const AddCoach = () => {
       .then((f) => {
         swal("Coach Added Successfully.", "", "success", {
           button: "OK",
+        }).then(d=>{
+          navigate("/coachmanagement");
         });
-        navigate("/coachmanagement");
+        
       })
       .catch((error) => {
         if (error.response) {
@@ -455,8 +457,8 @@ const AddCoach = () => {
                       formik.touched.password && formik.errors.password
                     }
                     onBlur={formik.handleBlur}
-                    onKeyUp={handlepasswordonChange}
-                    onChange={formik.handleChange}
+                    // onKeyUp={}
+                    onChange={(e) => {formik.handleChange(e); handlepasswordonChange(e)}}
                     name="password"
                     type="password"
                     autoComplete="password"
@@ -477,9 +479,6 @@ const AddCoach = () => {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
-                      onClick={(e) => {
-                        onSubmit(e);
-                      }}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",

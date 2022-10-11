@@ -33,10 +33,10 @@ const validationSchema = yup.object({
     .max(25, "Must be 25 characters or less.")
     .required("Category is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  sportcenter: yup
+    sport: yup
     .string()
     .max(25, "Must be 25 characters or less.")
-    .required("Sportcenter is required.")
+    .required("sport is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
   location: yup.string().required("Location is required."),
 });
@@ -75,11 +75,11 @@ const Editcategory = () => {
     loadUser();
     handleSports();
   }, []);
+  console.log(user, "eeeee");
   
   const onSubmit = async (e) => {
-    // e.preventDefault();
-    console.log(center, "eeeee");
-
+    console.log(formik,'formik-==');
+    if(formik.isValid){
     await axios
       .patch(baseURL + `sports/categories/?id=${id}`, {
         category: user.category,
@@ -91,6 +91,8 @@ const Editcategory = () => {
         setMessage(res.data.message);
         swal("Category Edit Successfully.", "", "success", {
           button: "OK",
+        }).then(d=>{
+          navigate("/categorymanagement");
         });
       })
       // .catch((err) => { });
@@ -99,7 +101,7 @@ const Editcategory = () => {
           button: "OK",
         });
       });
-    navigate("/categorymanagement");
+    }
   };
 
   const loadUser = async () => {
@@ -146,7 +148,7 @@ const Editcategory = () => {
   const handleOpen = () => {
     setOpen(true);
   };
-  console.log(user,'user==');
+  console.log(user,formik,'user==');
   return (
     <AppLayout>
       <Container>
@@ -168,21 +170,21 @@ const Editcategory = () => {
                     Category:
                   </InputLabel>
                   <TextField
-                    // error={Boolean(
-                    //   formik.touched.category && formik.errors.category
-                    // )}
+                    error={Boolean(
+                      formik.touched.category && formik.errors.category
+                    )}
                     fullWidth
-                    // helperText={
-                    //   formik.touched.category && formik.errors.category
-                    // }
+                    helperText={
+                      formik.touched.category && formik.errors.category
+                    }
                     required
                     margin="normal"
                     category="category"
                     autoComplete="name"
                     name="category"
                     variant="outlined"
-                    // onBlur={formik.handleBlur}
-                    onChange={(e) => onInputChange(e)}
+                    onBlur={formik.handleBlur}
+                    onChange={(e) => {onInputChange(e);formik.handleChange(e)}}
                     // onClick={formik.handleChange}
                     value={user.category}
                   />
@@ -218,8 +220,7 @@ const Editcategory = () => {
                       formik.errors.sports_center
                     }
                     onBlur={formik.handleBlur}
-                    onClick={formik.handleChange}
-                    onChange={(e) => onCenterChange(e)}
+                    onChange={(e) => {onCenterChange(e);formik.handleChange(e)}}
                     type="text"
                     disabled
                     value={user?.sports_center}
@@ -249,21 +250,21 @@ const Editcategory = () => {
                     Location:
                   </InputLabel>
                   <TextField
-                    // error={Boolean(
-                    //   formik.touched.location && formik.errors.location
-                    // )}
+                    error={Boolean(
+                      formik.touched.location && formik.errors.location
+                    )}
                     margin="normal"
                     required
                     fullWidth
                     name="location"
                     variant="outlined"
-                    // helperText={
-                    //   formik.touched.location && formik.errors.location
-                    // }
+                    helperText={
+                      formik.touched.location && formik.errors.location
+                    }
                     sportcenter="location"
-                    // onBlur={formik.handleBlur}
-                    onChange={(e) => onInputChange(e)}
-                    // onClick={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={(e) => onInputChange(e)}
+                    onChange={(e)=>{formik.handleChange(e);onInputChange(e)}}
                     autoComplete="location "
                     value={user.location}
                   />
@@ -287,10 +288,10 @@ const Editcategory = () => {
                     variant="outlined"
                     name="Sport"
                     onClose={handleClose}
-                    onKeyUp={handlesportnoChange}
+                    // onKeyUp={handlesportnoChange}
                     onOpen={handleOpen}
                     value={(user.sport?.length > 1 && user.sport) || "none"}
-                    onChange={onChange}
+                    onChange={(e)=>{onChange(e);formik.handleChange(e)}}
                     style={{ marginTop: "13px" }}
                   >
                     <MenuItem value="none">
@@ -328,7 +329,7 @@ const Editcategory = () => {
                         width: "165Px",
                         padding: "11px",
                       }}
-                      onClick={(e) => onSubmit(e)}
+                      // onClick={(e) => onSubmit(e)}
                     >
                       SAVE
                     </Button>

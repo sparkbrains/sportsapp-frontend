@@ -111,6 +111,8 @@ const EditUser = () => {
             // setMessage(res.data.message);
             swal("User Edited Successfully", "", "success", {
               button: "OK",
+            }).then(d=>{
+         navigate("/usermanagement");
             });
           })
           .catch((error) => {
@@ -129,7 +131,6 @@ const EditUser = () => {
               button: "OK",
             });
           });
-         navigate("/usermanagement");
     };
 }
 
@@ -301,6 +302,7 @@ variant="outlined"
                                                 margin="normal"
                                                 id="email"
                                                 name="email"
+                                                disabled
                                                 onBlur={formik.handleBlur}
                                                 onChange={e => onInputChange(e)}
                                                 onClick={formik.handleChange}

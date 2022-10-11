@@ -103,6 +103,8 @@ export default function Editcoach() {
         setMessage(res.firstname);
         swal("Coach Edit Successfully.", "", "success", {
           button: "OK",
+        }).then(d=>{
+    navigate("/coachmanagement");
         });
       })
       .catch((error) => {
@@ -110,7 +112,6 @@ export default function Editcoach() {
           button: "OK",
         });
       });
-    navigate("/coachmanagement");
   };
 }
 
@@ -174,7 +175,7 @@ export default function Editcoach() {
           <div className={classes.root} style={{ padding: "20px" }}>
             <form
               method="POST"
-              Validate
+              noValidate
               autoComplete="off"
               onSubmit={formik.handleSubmit}
             >
