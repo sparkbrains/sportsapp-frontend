@@ -63,7 +63,7 @@ export default function Setting() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const handleSubmit = (e) => {
     // e.preventDefault();
     if (formik.isValid) {
@@ -281,10 +281,10 @@ export default function Setting() {
                       fontWeight: "bold",
                       padding: "26px 95px",
                     }}
-                  {isLoading === true ? <CircularProgress Shrink /> : ""}
-
+                    
                     onClick={(e) => handleSubmit(e)}
-                  >
+                    >
+                    {isLoading === true ? <CircularProgress Shrink /> : ""}
                     SAVE
                   </Button>
                 </div>
