@@ -65,7 +65,7 @@ const validationSchema = yup.object({
   sports_center: Yup.string().required("Sport center is required."),
   password: yup.string().required("Password is required."),
   speciallsation: yup.string().required("Specialization is required."),
-  specialization: yup.string().required("Specialization is required."),
+  // specialization: yup.string().required("Specialization is required."),
 });
 const AddCoach = () => {
   let navigate = useNavigate();
@@ -114,7 +114,9 @@ const AddCoach = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    if (formik.isValid) {
+        console.log(formik,"logggg");
+        e.preventDefault();
+        if (formik.isValid) {
       axios
       .post(
         baseURL + "sports/coach/",
@@ -455,8 +457,8 @@ const AddCoach = () => {
                       formik.touched.password && formik.errors.password
                     }
                     onBlur={formik.handleBlur}
-                    onKeyUp={handlepasswordonChange}
-                    onChange={formik.handleChange}
+                    // onKeyUp={}
+                    onChange={(e) => {formik.handleChange(e); handlepasswordonChange(e)}}
                     name="password"
                     type="password"
                     autoComplete="password"

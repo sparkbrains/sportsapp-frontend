@@ -92,10 +92,8 @@ export default function AddUser() {
   };
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const token = localStorage.getItem("token");
-
   const onSubmit = async (e) => {
     // e.preventDefault();
-    console.log(gender,"gennnnnn");
     if (formik.isValid) {
      axios
       .post(
@@ -149,18 +147,20 @@ export default function AddUser() {
       gender: "",
     },
     validateOnBlur: true,
-    validationSchema: validationSchema,
     onSubmit,
+    validationSchema: validationSchema,
   });
-
-  const [gender, setgender] = useState("");
+  
+  
+  const [gender, setgender] = useState();
   const handleGenderonChange = (e) => {
     setgender(e.target.value);
   };
+  console.log(formik,gender,"gennnnnn");
   const classes = useStyles();
   const [age, setAge] = useState("");
   const [open, setOpen] = useState(false);
-  const onChange = (event, gender) => {
+  const onChange = (event) => {
     setgender(event.target.value);
     setAge(event.target.value);
   };
@@ -209,7 +209,7 @@ export default function AddUser() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     onKeyUp={handlefirstnameChange}
-                    label="User Name"
+                    label="Name"
                     variant="outlined"
                     type="text"
                   />
@@ -273,9 +273,10 @@ export default function AddUser() {
                     variant="outlined"
                     onClose={handleClose}
                     onOpen={handleOpen}
-                    // onKeyUp={handleGenderonChange}
-                    value={age}
-                    onChange={onChange}
+                    onKeyUp={handleGenderonChange}
+                    onBlur={formik.handleBlur}
+                    value={gender}
+                    onChange={(e)=>{formik.handleChange(e);handleGenderonChange(e) }}
                     // label="Gender"
                     name="gender"
                     displayEmpty
@@ -283,9 +284,9 @@ export default function AddUser() {
                     <MenuItem disabled value="">
                       <em>--- Gender ---</em>
                     </MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
+                    <MenuItem value={"Male"}>Male</MenuItem>
+                    <MenuItem value={"Female"}>Female</MenuItem>
+                    <MenuItem value={"Other"}>Other</MenuItem>
                   </Select>
                 </Grid>
               </Grid>
@@ -401,9 +402,9 @@ export default function AddUser() {
                       variant="contained"
                       //   disabled={isSubmitting}
                       type="submit"
-                      onClick={(e) => {
-                        onSubmit(e);
-                      }}
+                      // onClick={(e) => {
+                      //   onSubmit(e);
+                      // }}
                       style={{
                         backgroundColor: "#232b58",
                         color: "#fff",
