@@ -97,7 +97,8 @@ const Editnew = () => {
   }, []);
 
   const onSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    console.log(formik,"testtt");
     if (formik.isValid) {
       axios
       .patch(baseURL + `sports/owner/?id=${id}`, {
@@ -108,7 +109,6 @@ const Editnew = () => {
         opentimings: editnew.opentimings,
         closetimings: editnew.closetimings,
         location: editnew.location,
-        speciallsation: "strength",
         sports_center: {
           center_name: editnew.sports_center,
         },
@@ -174,10 +174,10 @@ const Editnew = () => {
       // name: "",
       // email: "",
       // phone_no: "",
-      // sportcenter: "",
+      // sports_center: "",
       // location: "",
-      //   opentimings: "",
-      //   closetimings: "",
+      // opentimings: "",
+      // closetimings: "",
     },
     validateOnBlur: true,
     onSubmit,
@@ -189,7 +189,7 @@ const Editnew = () => {
     <AppLayout style={{ marginBottom: "80px" }}>
       {/* <SportsCenterOwners /> */}
       <Container>
-        <h3 style={{ padding: "10px" }}>Edit Sport Center Owner</h3>
+        <h3 style={{ padding: "10px" }}>Edit Sports Center Owner</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
             <form method="POST" noValidate onSubmit={formik.handleSubmit}>
@@ -241,7 +241,7 @@ const Editnew = () => {
                     name="email"
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    onKeyUp={formik.handleChange}
                     value={editnew?.email}
                     variant="outlined"
                   />
@@ -272,7 +272,7 @@ const Editnew = () => {
                     fullWidth
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
-                    onClick={formik.handleChange}
+                    onKeyUp={formik.handleChange}
                     name="phone_no"
                     variant="outlined"
                     value={editnew?.phone_no}

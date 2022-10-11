@@ -313,6 +313,7 @@ const AddCoach = () => {
                   >
                     Sport Center
                   </InputLabel>
+                  {console.log(formik,'formik==')}
                   <Select
                     id="sports_center"
                     style={{
@@ -322,15 +323,11 @@ const AddCoach = () => {
                       formik.touched.sports_center &&
                         formik.errors.sports_center
                     )}
-                    helperText={
-                      formik.touched.sports_center &&
-                      formik.errors.sports_center
-                    }
                     inputProps={{ maxLength: 50 }}
                     margin="normal"
                     required
                     fullWidth
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onKeyUp={handlesportcenterChange}
                     onChange={onChange}
                     name="sports_center"

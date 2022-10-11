@@ -81,7 +81,7 @@ export default function Editcoach() {
   }, []);
 
   const onSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (formik.isValid) {
       axios
       .patch(baseURL + `sports/coach/?id=${id}`, {
@@ -224,7 +224,7 @@ export default function Editcoach() {
                   >
                     Sport Center
                   </InputLabel>
-                  <Select
+                  <TextField
                   style={{
                     marginTop: "16px",
                   }}
@@ -238,6 +238,7 @@ export default function Editcoach() {
                     margin="normal"
                     required
                     fullWidth
+                    select
                     name="sports_center"
                     onChange={(e) => onInputChange(e)}
                     variant="outlined"
@@ -254,7 +255,7 @@ export default function Editcoach() {
                         </MenuItem>
                       );
                     })}
-                  </Select>
+                  </TextField>
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -353,7 +354,7 @@ export default function Editcoach() {
                       formik.touched.phone_no && formik.errors.phone_no
                     }
                     onBlur={formik.handleBlur}
-                    onClick={formik.handleChange}
+                    onKeyUp={formik.handleChange}
                     margin="normal"
                     required
                     type="tel"
