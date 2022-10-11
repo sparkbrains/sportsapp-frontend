@@ -212,6 +212,7 @@ export default function SignInSide(props) {
         }
         swal.fire({
           // title: 'Success!',
+          confirmButtonColor: '#232B58',
           text: "Please enter valid email or password or both!",
           icon: 'error',
           confirmButtonText: 'OK'

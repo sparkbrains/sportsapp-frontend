@@ -130,6 +130,7 @@ export default function Sportscenterowner() {
         
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Owner Deleted Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
@@ -150,6 +151,7 @@ export default function Sportscenterowner() {
 
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Something went wrong!!',
           icon: 'error',
           confirmButtonText: 'OK'

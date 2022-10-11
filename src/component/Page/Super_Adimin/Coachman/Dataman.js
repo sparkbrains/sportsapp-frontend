@@ -115,6 +115,7 @@ export default function WidgetLg() {
 
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Coach Deleted Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
@@ -135,6 +136,7 @@ export default function WidgetLg() {
         }
 
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',

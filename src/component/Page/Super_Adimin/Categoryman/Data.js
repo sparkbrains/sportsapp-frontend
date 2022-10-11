@@ -120,6 +120,7 @@ export default function WidgetLg() {
         setOpen(false);
        
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Category Deleted Successfully.',
           icon: 'success',
@@ -137,6 +138,7 @@ export default function WidgetLg() {
         }
 
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',

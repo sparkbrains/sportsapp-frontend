@@ -118,12 +118,10 @@ export default function AddUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        // swal("User added successfully.", "", "success", {
-        //   button: "OK",
-        // })
         
         setIsLoading(false);
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'User added successfully.',
           icon: 'success',
@@ -147,6 +145,7 @@ export default function AddUser() {
         }
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Something went wrong!!',
           icon: 'error',
           confirmButtonText: 'OK'

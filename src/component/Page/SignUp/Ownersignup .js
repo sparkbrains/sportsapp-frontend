@@ -137,14 +137,7 @@ export default function SignInSide() {
   const handlePasswordonChange = (e) => {
     setPassword(e.target.value);
   };
-  //  const showAlert = () => {
-  //     Swal.fire({
-  //         title: "Success",
-  //         text: "Alert successful",
-  //         icon: "success",
-  //         confirmButtonText: "OK",
-  //       });
-  // }
+
   const [visible, setVisible] = useState(false);
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   const onSubmit = async (e) => {
@@ -165,6 +158,7 @@ export default function SignInSide() {
           setMessage(res.data.message);
           swal.fire({
             // title: 'Error!',
+            confirmButtonColor: '#232B58',
             text: 'Account Created Successfully.',
             icon: 'success',
             confirmButtonText: 'OK'
@@ -193,6 +187,7 @@ export default function SignInSide() {
             console.log("Error", error.message);
           }
           swal.fire({
+            confirmButtonColor: '#232B58',
             // title: 'Error!',
             text: 'Something is wrong!!',
             icon: 'error',

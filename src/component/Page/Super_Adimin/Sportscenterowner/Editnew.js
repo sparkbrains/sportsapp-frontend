@@ -17,6 +17,8 @@ import swal from "sweetalert2";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import AppLayout from "../../../../layout/appLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,10 +97,15 @@ const Editnew = () => {
     loadUser();
     handleSports();
   }, []);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    
     if (formik.isValid) {
+      setIsLoading(true);
+      
       axios
       .patch(baseURL + `sports/owner/?id=${id}`, {
         profile: {
@@ -118,9 +125,12 @@ const Editnew = () => {
         },
       })
       .then((res) => {
+    setIsLoading(false);
+
         setMessage(res.data.message);
         swal.fire({
           // title: 'Error!',
+          confirmButtonColor: '#232B58',
           text: 'Sports Owner Edited Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
@@ -129,7 +139,10 @@ const Editnew = () => {
         });
       })
       .catch((error) => {
+    setIsLoading(false);
+
         swal.fire({
+          confirmButtonColor: '#232B58',
           // title: 'Error!',
           text: 'Something went wrong!!',
           icon: 'error',
@@ -522,6 +535,8 @@ const Editnew = () => {
                         onSubmit(e);
                       }}
                     >
+                  {isLoading === true ? <CircularProgress Shrink /> : ""}
+
                       SAVE
                     </Button>
                   </div>
