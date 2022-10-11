@@ -116,7 +116,7 @@ export default function BasicTable() {
                     <table className="WidgetLgTable">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="right"> S.No</TableCell>
+                                <TableCell align="right"> S.No.</TableCell>
                                 <TableCell align="right">Sport Center</TableCell>
                                 <TableCell align="right">Category</TableCell>
                                 <TableCell align="right">Amount</TableCell>

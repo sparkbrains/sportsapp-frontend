@@ -21,7 +21,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import Paper from '@mui/material/Paper';
 
 
@@ -116,9 +116,15 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("User Deleted Successfully", "", "success", {
-          button: "ok",
+        swal("User Deleted Successfully.", "", "success", {
+          button: "OK",
         });
+        swal.fire({
+          // title: 'Error!',
+          text: 'User Deleted Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       })
       // .catch((err) => { });
       .catch((error) => {
@@ -133,9 +139,12 @@ export default function WidgetLg() {
           console.log("Error", error.message);
         }
 
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
     loadUsers();
   };
@@ -216,7 +225,7 @@ export default function WidgetLg() {
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">S.No</TableCell>
+                  <TableCell align="center">S.No.</TableCell>
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
                   <TableCell align="center"> Email Address</TableCell>

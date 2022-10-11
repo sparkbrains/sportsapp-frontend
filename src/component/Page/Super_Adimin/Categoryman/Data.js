@@ -18,7 +18,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import "./category.css";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -118,9 +118,15 @@ export default function WidgetLg() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("Category Deleted Successfully.", "", "success", {
-          button: "ok",
+        swal("", "", "", {
+          button: "OK",
         });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Category Deleted Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       })
       // .catch((err) => { });
       .catch((error) => {
@@ -132,9 +138,12 @@ export default function WidgetLg() {
           console.log("Error", error.message);
         }
 
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
     loadUsers();
   };
@@ -215,7 +224,7 @@ export default function WidgetLg() {
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center"> S.No</TableCell>
+                  <TableCell align="center"> S.No.</TableCell>
                   <TableCell align="left"> Category</TableCell>
                   <TableCell align="left"> Location</TableCell>
                   <TableCell align="left"> Sport Center</TableCell>

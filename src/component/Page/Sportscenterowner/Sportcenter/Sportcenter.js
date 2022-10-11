@@ -137,7 +137,7 @@ export default function BasicTable() {
                 <Table aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left"> S.No</TableCell>
+                                <TableCell align="left"> S.No.</TableCell>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Location</TableCell>
                                 <TableCell align="left">Time From</TableCell>

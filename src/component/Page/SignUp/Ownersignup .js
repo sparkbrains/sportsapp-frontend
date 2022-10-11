@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import axios from "axios";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import "./Signup.css";
 import {
   PersonRounded,
@@ -245,7 +245,7 @@ export default function SignInSide() {
                   gutterBottom
                   style={{ fontSize: "15px" }}
                 >
-                  Fill the details below to Sign Up / Create a new account
+                  Fill the details below to SignUp
                 </Typography>
               </Grid>
               <Stack
@@ -347,7 +347,7 @@ export default function SignInSide() {
                 type="email"
                 value={formik.values.email}
               />
-              {visible ? (<p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{err}</p>) : ""}
+              {/* {visible ? (<p style={{ color: "red", margin: "0px",fontSize: "12px" }}>{err}</p>) : ""} */}
               
 
               <Grid container spacing={3}>
@@ -382,11 +382,12 @@ export default function SignInSide() {
                     value={gender}
                     style={{marginTop: "16px"}}
                     // onChange={(item)=>{console.log("Selected item",item.target.value)}}
-                    onChange={onChange}
+                    onKeyUp={handleGenderonChange}
+                    onChange={(e)=>{formik.handleChange(e);handleGenderonChange(e) }}
+
+                    onBlur={formik.handleBlur}
                     // defaultValue="Gender"
                     displayEmpty
-                    onBlur={formik.handleBlur}
-                    onKeyUp={handleGenderonChange}
                   >
                     <MenuItem disabled value="">
                       <em>--Select--</em>

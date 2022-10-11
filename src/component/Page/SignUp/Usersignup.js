@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import "./Signup.css";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import {
   PersonRounded,

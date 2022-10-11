@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Forgetpassword.css";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {

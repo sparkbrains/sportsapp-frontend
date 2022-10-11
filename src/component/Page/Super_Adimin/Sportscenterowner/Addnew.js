@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
 // import { Datepicker } from '@mobiscroll/react-lite';
 // import '@mobiscroll/react-lite/dist/css/mobiscroll.min.css';
@@ -86,36 +86,36 @@ const Addnew = () => {
   const [closetimings, setclosetimings] = useState(null);
   const [opentimings, setopentimings] = useState(null);
 
-  const [name, setownername] = useState('');
+  const [name, setownername] = useState("");
   const handlenameChange = (e) => {
     setownername(e.target.value);
   };
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const handlepasswordonChange = (e) => {
     setPassword(e.target.value);
   };
-  const [email, setemail] = useState('');
+  const [email, setemail] = useState("");
   const handleEmailChange = (e) => {
     setemail(e.target.value);
   };
 
-  const [phone_no, setphoneno] = useState('');
+  const [phone_no, setphoneno] = useState("");
   const handleContactChange = (e) => {
     setphoneno(e.target.value);
   };
 
-  const [sports_center, setsportcenter] = useState('');
+  const [sports_center, setsportcenter] = useState("");
   const handlesportcenterChange = (e) => {
     setsportcenter(e.target.value);
   };
-  const [location, setlocation] = useState('');
+  const [location, setlocation] = useState("");
   const handlelocationChange = (e) => {
     setlocation(e.target.value);
   };
 
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
-    console.log(e.target.value,"timeeee");
+    console.log(e.target.value, "timeeee");
   };
 
   const handlefirstnameChange = (e) => {
@@ -125,7 +125,13 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    console.log(formik,formik.isValid,opentimings,closetimings, "isValid---");
+    console.log(
+      formik,
+      formik.isValid,
+      opentimings,
+      closetimings,
+      "isValid---"
+    );
     if (formik.isValid) {
       await axios
         .post(
@@ -150,11 +156,20 @@ const Addnew = () => {
         )
         .then((res) => {
           // setMessage(res.data.message);
-          swal("Sports Owner Added Successfully.", "", "success", {
-            button: "OK",
-          }).then(d=>{
-            navigate("/sportscenterowner/");
-          });
+          // swal("Sports Owner Added Successfully.", "", "success", {
+          //   button: "OK",
+          // });
+
+          swal
+            .fire({
+              // title: 'Error!',
+              text: "Sports Owner Added Successfully.",
+              icon: "success",
+              confirmButtonText: "OK",
+            })
+            .then((d) => {
+              navigate("/sportscenterowner/");
+            });
         })
 
         .catch((error) => {
@@ -168,8 +183,12 @@ const Addnew = () => {
           } else {
             console.log("Error", error.message);
           }
-          swal("Something went wrong!", "", "error", {
-            button: "OK",
+
+          swal.fire({
+            // title: 'Error!',
+            text: "Something went wrong!!",
+            icon: "error",
+            confirmButtonText: "OK",
           });
         });
     }
@@ -177,21 +196,21 @@ const Addnew = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      phone_no: '',
-      sports_center: '',
-      location: '',
-      opentimings: '',
-      closetimings: '',
-      password: '',
+      name: "",
+      email: "",
+      phone_no: "",
+      sports_center: "",
+      location: "",
+      opentimings: "",
+      closetimings: "",
+      password: "",
     },
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
-  console.log(formik,closetimings,opentimings,'opentimings-==');
+  console.log(formik, closetimings, opentimings, "opentimings-==");
   const classes = useStyles();
   return (
     <AppLayout style={{ marginBottom: "50px" }}>
@@ -257,7 +276,7 @@ const Addnew = () => {
                     onKeyUp={handleEmailChange}
                     onChange={formik.handleChange}
                     type="email"
-                    autocomplete='off'
+                    autocomplete="off"
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
@@ -291,7 +310,7 @@ const Addnew = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
-                    autocomplete='off'
+                    autocomplete="off"
                     name="phone_no"
                     variant="outlined"
                     type="tel"
@@ -382,7 +401,7 @@ const Addnew = () => {
                     display="inline"
                     touchUi={true}
                   /> */}
-                  
+
                   <TextField
                     error={Boolean(
                       formik.touched.opentimings && formik.errors.opentimings
@@ -396,7 +415,10 @@ const Addnew = () => {
                     fullWidth
                     onBlur={formik.handleBlur}
                     onKeyUp={handleopentimingsChange}
-                    onChange={(e)=>{formik.handleChange(e);handleopentimingsChange(e)}}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      handleopentimingsChange(e);
+                    }}
                     id="opentimings"
                     name="opentimings"
                     defaultValue={closetimings}
@@ -431,7 +453,10 @@ const Addnew = () => {
                     variant="outlined"
                     margin="normal"
                     onBlur={formik.handleBlur}
-                    onChange={(e)=>{formik.handleChange(e);handlefirstnameChange(e)}}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      handlefirstnameChange(e);
+                    }}
                     onKeyUp={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
@@ -594,7 +619,7 @@ const Addnew = () => {
                       }}
                       // onClick={(e) => onSubmit(e)}
                     >
-                      ADD SPORTS CENTER OWNER
+                      Submit
                     </Button>
                   </div>
                 </Grid>

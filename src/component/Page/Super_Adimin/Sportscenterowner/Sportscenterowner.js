@@ -22,7 +22,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import zIndex from "@material-ui/core/styles/zIndex";
 import AppLayout from "../../../../layout/appLayout";
 
@@ -127,9 +127,13 @@ export default function Sportscenterowner() {
       .then((res) => {
         setMessage(res.data.message);
         setOpen(false);
-        swal("Owner Deleted Successfully.", "", "success", {
-          button: "ok",
-        });
+        
+        swal.fire({
+          // title: 'Error!',
+          text: 'Owner Deleted Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        })
       })
       // .catch((err) => { });
       .catch((error) => {
@@ -144,9 +148,12 @@ export default function Sportscenterowner() {
           console.log("Error", error.message);
         }
 
-        swal("Something went wrong!", "Oops...", "error", {
-          button: "ok",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
     loadUsers();
   };
@@ -238,7 +245,7 @@ export default function Sportscenterowner() {
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center"> S.No</TableCell>
+                  <TableCell align="center"> S.No.</TableCell>
                   <TableCell align="left"> Name</TableCell>
                   <TableCell align="left"> Location</TableCell>
                   <TableCell align="left"> Sport Center</TableCell>

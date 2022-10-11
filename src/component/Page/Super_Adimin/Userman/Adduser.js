@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as yup from "yup";
 import { useNavigate } from "react-router";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
@@ -114,8 +114,14 @@ export default function AddUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        swal("User added successfully.", "", "success", {
-          button: "OK",
+        // swal("User added successfully.", "", "success", {
+        //   button: "OK",
+        // })
+        swal.fire({
+          // title: 'Error!',
+          text: 'User added successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
         }).then(D=>{
         navigate("/usermanagement");
         });
@@ -131,9 +137,12 @@ export default function AddUser() {
         } else {
           console.log("Error", error.message);
         }
-        swal("Something went wrong!", "", error, {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 }
@@ -415,7 +424,7 @@ export default function AddUser() {
                         fontSize: "17px",
                       }}
                     >
-                      ADD USER
+                      Submit
                     </Button>
                   </div>
                 </Grid>

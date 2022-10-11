@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import AppLayout from "../../../../layout/appLayout";
@@ -119,16 +119,22 @@ const Editnew = () => {
       })
       .then((res) => {
         setMessage(res.data.message);
-        swal("Sports Owner Edited Successfully.", "", "success", {
-          button: "OK",
+        swal.fire({
+          // title: 'Error!',
+          text: 'Sports Owner Edited Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
         }).then(d=>{
             navigate("/sportscenterowner/");
         });
       })
       .catch((error) => {
-        swal("Something went wrong!", "", "error", {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 }

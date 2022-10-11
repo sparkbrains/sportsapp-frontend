@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import AppLayout from "../../../../layout/appLayout";
 
@@ -89,17 +89,23 @@ const Editcategory = () => {
       })
       .then((res) => {
         setMessage(res.data.message);
-        swal("Category Edit Successfully.", "", "success", {
-          button: "OK",
+        swal.fire({
+          // title: 'Error!',
+          text: 'Category Edited Successfully',
+          icon: 'Success',
+          confirmButtonText: 'OK'
         }).then(d=>{
           navigate("/categorymanagement");
         });
       })
       // .catch((err) => { });
       .catch((error) => {
-        swal("Something went wrong!", "", "error", {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
     }
   };
@@ -297,15 +303,15 @@ const Editcategory = () => {
                     <MenuItem value="none">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={"badminton"}>badminton</MenuItem>
-                    <MenuItem value={"football"}>football</MenuItem>
-                    <MenuItem value={"shooting"}>shooting</MenuItem>
-                    <MenuItem value={"wrestling"}>wrestling</MenuItem>
-                    <MenuItem value={"boxing"}>boxing</MenuItem>
-                    <MenuItem value={"tennis"}>tennis</MenuItem>
-                    <MenuItem value={"squash"}>squash</MenuItem>
-                    <MenuItem value={"weightlifting"}>weightlifting</MenuItem>
-                    <MenuItem value={"gymnastics"}>gymnastics</MenuItem>
+                    <MenuItem value={"badminton"}>Badminton</MenuItem>
+                    <MenuItem value={"football"}>Football</MenuItem>
+                    <MenuItem value={"shooting"}>Shooting</MenuItem>
+                    <MenuItem value={"wrestling"}>Wrestling</MenuItem>
+                    <MenuItem value={"boxing"}>Boxing</MenuItem>
+                    <MenuItem value={"tennis"}>Tennis</MenuItem>
+                    <MenuItem value={"squash"}>Squash</MenuItem>
+                    <MenuItem value={"weightlifting"}>Weightlifting</MenuItem>
+                    <MenuItem value={"gymnastics"}>Gymnastics</MenuItem>
                   </Select>
                 </Grid>
               </Grid>

@@ -147,7 +147,7 @@ export default function AddUser() {
   return (
     <div>
       <Container>
-        <h3 style={{ padding: "10px" }}>Sport Center Detail </h3>
+        <h3 style={{ padding: "10px" }}>Sports Center Detail </h3>
         <Paper elevation={3}>
               <div className={classes.root} style={{ padding: "20px" }}>
                 <form method="POST" noValidate onSubmit={formik.handleSubmit}>

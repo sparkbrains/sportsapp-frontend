@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import AppLayout from "../../../../layout/appLayout";
@@ -101,16 +101,26 @@ export default function Editcoach() {
       })
       .then((res) => {
         setMessage(res.firstname);
-        swal("Coach Edit Successfully.", "", "success", {
-          button: "OK",
+        // swal("Coach Edit Successfully.", "", "success", {
+        //   button: "OK",
+        // })
+        swal.fire({
+          // title: 'Error!',
+          text: 'Coach Edit Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
         }).then(d=>{
     navigate("/coachmanagement");
         });
       })
       .catch((error) => {
-        swal("Something went wrong!", "", "error", {
-          button: "OK",
-        });
+      
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 }
@@ -290,12 +300,12 @@ export default function Editcoach() {
                     <MenuItem disabled value="none">
                       <em>--- Specialization ---</em>
                     </MenuItem>
-                    <MenuItem value="cardio">cardio</MenuItem>
-                    <MenuItem value="strength">strength</MenuItem>
-                    <MenuItem value="shooting">shooting</MenuItem>
-                    <MenuItem value="wrestling">wrestling</MenuItem>
-                    <MenuItem value="boxing">boxing</MenuItem>
-                    <MenuItem value="tennis">tennis</MenuItem>
+                    <MenuItem value="cardio">Cardio</MenuItem>
+                    <MenuItem value="strength">Strength</MenuItem>
+                    <MenuItem value="shooting">Shooting</MenuItem>
+                    <MenuItem value="wrestling">Wrestling</MenuItem>
+                    <MenuItem value="boxing">Boxing</MenuItem>
+                    <MenuItem value="tennis">Tennis</MenuItem>
                   </Select>
                 </Grid>
               </Grid>

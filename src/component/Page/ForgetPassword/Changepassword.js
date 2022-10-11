@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Forgetpassword.css";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import { VpnKeyOutlined } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
 

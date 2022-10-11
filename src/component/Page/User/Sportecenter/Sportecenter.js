@@ -144,7 +144,7 @@ export default function WidgetLg() {
             <Table aria-label="customized table">
             <TableHead>
               <TableRow>
-                <TableCell align="right"> S.No</TableCell>
+                <TableCell align="right"> S.No.</TableCell>
                 <TableCell align="right">User Name</TableCell>
                 <TableCell align="right"> Sport</TableCell>
                 <TableCell align="right">Sports Center</TableCell>

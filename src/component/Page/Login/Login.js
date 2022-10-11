@@ -304,13 +304,13 @@ export default function SignInSide(props) {
                           color: "rgba(12,11,69,255)",
                           padding: "5px",
                           display: "flex",
-                          fontSize: "18px",
+                          fontSize: "20px",
                           letterSpacing: "2px",
                           fontWeight: "bold",
                           marginTop: "80px",
                         }}
                       >
-                        <Email className="icon" />
+                        <Email className="icon" style={{fontSize: "18px"}} />
                         EMAIL
                       </InputLabel>
                       <TextField

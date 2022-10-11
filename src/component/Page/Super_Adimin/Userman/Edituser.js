@@ -15,7 +15,7 @@ import { useFormik } from "formik";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import AppLayout from '../../../../layout/appLayout';
 
 const useStyles = makeStyles((theme) => ({
@@ -109,9 +109,15 @@ const EditUser = () => {
          )
         .then((res) => {
             // setMessage(res.data.message);
-            swal("User Edited Successfully", "", "success", {
+            swal("User Edited Successfully.", "", "success", {
               button: "OK",
-            }).then(d=>{
+            })
+            swal.fire({
+                // title: 'Error!',
+                text: 'User Edited Successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              }).then(d=>{
          navigate("/usermanagement");
             });
           })
@@ -127,9 +133,12 @@ const EditUser = () => {
             }
             //{message && <div>{message}</div>}
       
-            swal("Something went wrong!", "", "error", {
-              button: "OK",
-            });
+            swal.fire({
+                // title: 'Error!',
+                text: 'Something went wrong!!',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
           });
     };
 }

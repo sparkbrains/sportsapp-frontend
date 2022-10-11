@@ -134,7 +134,7 @@ export default function WidgetLg() {
           <table className="WidgetLgTable">
             <TableHead>
               <TableRow>
-                <TableCell align="right"> S.No</TableCell>
+                <TableCell align="right"> S.No.</TableCell>
                 <TableCell align="right">User Name</TableCell>
                 <TableCell align="right"> Sport</TableCell>
                 <TableCell align="right">Sports Center</TableCell>

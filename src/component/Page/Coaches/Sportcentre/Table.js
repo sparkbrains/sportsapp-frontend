@@ -111,7 +111,7 @@ export default function FloatingActionButtonZoom() {
               <table className="WidgetLgTable">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right"> S.No</TableCell>
+                    <TableCell align="right"> S.No.</TableCell>
                     <TableCell align="right"> Name</TableCell>
                     <TableCell align="right"> Location</TableCell>
                     <TableCell align="right"> Email</TableCell>
@@ -190,7 +190,7 @@ export default function FloatingActionButtonZoom() {
               <table className="WidgetLgTable">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right"> S.No</TableCell>
+                    <TableCell align="right"> S.No.</TableCell>
                     <TableCell align="right"> Name</TableCell>
                     <TableCell align="right"> Location</TableCell>
                     <TableCell align="right"> Email</TableCell>

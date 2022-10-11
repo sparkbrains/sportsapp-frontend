@@ -14,7 +14,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
@@ -136,8 +136,12 @@ const AddCoach = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((f) => {
-        swal("Coach Added Successfully.", "", "success", {
-          button: "OK",
+        
+        swal.fire({
+          // title: 'Error!',
+          text: 'Coach Added Successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
         }).then(d=>{
           navigate("/coachmanagement");
         });
@@ -154,9 +158,12 @@ const AddCoach = () => {
         } else {
           console.log("Error", error.message);
         }
-        swal("Something went wrong!", "", error, {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
 }
@@ -422,12 +429,12 @@ const AddCoach = () => {
                       --- Select Specialization ---
                       </em>
                     </MenuItem>
-                    <MenuItem value="cardio">cardio</MenuItem>
-                    <MenuItem value="strength">strength</MenuItem>
-                    <MenuItem value="shooting">shooting</MenuItem>
-                    <MenuItem value="wrestling">wrestling</MenuItem>
-                    <MenuItem value="boxing">boxing</MenuItem>
-                    <MenuItem value="tennis">tennis</MenuItem>
+                    <MenuItem value="cardio">Cardio</MenuItem>
+                    <MenuItem value="strength">Strength</MenuItem>
+                    <MenuItem value="shooting">Shooting</MenuItem>
+                    <MenuItem value="wrestling">Wrestling</MenuItem>
+                    <MenuItem value="boxing">Boxing</MenuItem>
+                    <MenuItem value="tennis">Tennis</MenuItem>
                   </Select>
                 </Grid>
               </Grid>
@@ -488,7 +495,7 @@ const AddCoach = () => {
                         fontSize: "17px",
                       }}
                     >
-                      ADD COACH
+                      Submit
                     </Button>
                   </div>
                 </Grid>

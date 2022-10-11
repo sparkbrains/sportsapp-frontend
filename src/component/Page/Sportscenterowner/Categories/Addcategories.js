@@ -13,7 +13,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {

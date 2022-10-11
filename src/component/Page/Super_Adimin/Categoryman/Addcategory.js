@@ -13,7 +13,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
 
 const useStyles = makeStyles((theme) => ({
@@ -79,16 +79,22 @@ export default function Addcategory() {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
-        swal("Category Created Successfully.", "", "success", {
-          button: "OK",
+        swal.fire({
+          // title: 'Error!',
+          text: 'Category Added Succesfully.',
+          icon: 'Success',
+          confirmButtonText: 'OK'
         }).then(d=>{
         navigate("/categorymanagement");
         });
       })
       .catch((error) => {
-        swal("Something went wrong!", "", "error", {
-          button: "OK",
-        });
+        swal.fire({
+          // title: 'Error!',
+          text: 'Something went wrong!!',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       });
   };
   const formik = useFormik({
@@ -160,6 +166,7 @@ export default function Addcategory() {
                     name="category"
                     variant="outlined"
                     onBlur={formik.handleBlur}
+                    label="Category"
                     onChange={(e)=>{handlecategoryChange(e);formik.handleChange(e)}}
                   />
                 </Grid>
@@ -229,6 +236,7 @@ export default function Addcategory() {
                     Location
                   </InputLabel>
                   <TextField
+                    label="Location"
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
                       formik.touched.location && formik.errors.location
@@ -277,15 +285,15 @@ export default function Addcategory() {
                     <MenuItem disabled value="">
                       <em>---Select Sport---</em>
                     </MenuItem>
-                    <MenuItem value="badminton">badminton</MenuItem>
-                    <MenuItem value="football">football</MenuItem>
-                    <MenuItem value="shooting">shooting</MenuItem>
-                    <MenuItem value="wrestling">wrestling</MenuItem>
-                    <MenuItem value="boxing">boxing</MenuItem>
-                    <MenuItem value="tennis">tennis</MenuItem>
-                    <MenuItem value="squash">squash</MenuItem>
-                    <MenuItem value="weightlifting">weightlifting</MenuItem>
-                    <MenuItem value="gymnastics">gymnastics</MenuItem>
+                    <MenuItem value="badminton">Badminton</MenuItem>
+                    <MenuItem value="football">Football</MenuItem>
+                    <MenuItem value="shooting">Shooting</MenuItem>
+                    <MenuItem value="wrestling">Wrestling</MenuItem>
+                    <MenuItem value="boxing">Boxing</MenuItem>
+                    <MenuItem value="tennis">Tennis</MenuItem>
+                    <MenuItem value="squash">Squash</MenuItem>
+                    <MenuItem value="weightlifting">Weightlifting</MenuItem>
+                    <MenuItem value="gymnastics">Gymnastics</MenuItem>
                   </Select>
                 </Grid>
               </Grid>
@@ -311,7 +319,7 @@ export default function Addcategory() {
                         fontSize: "17px",
                       }}
                     >
-                      ADD CATEGORY
+                      Submit
                     </Button>
                   </div>
                 </Grid>

@@ -71,7 +71,7 @@ export default function Setting() {
         setMessage(res.data.message);
         swal.fire({
           // title: 'Success!',
-          text: 'Settings Saved Successfully!!',
+          text: 'Settings Saved Successfully.',
           icon: 'success',
           confirmButtonText: 'OK'
         })
