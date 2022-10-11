@@ -98,7 +98,6 @@ const Editnew = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formik,"testtt");
     if (formik.isValid) {
       axios
       .patch(baseURL + `sports/owner/?id=${id}`, {
@@ -170,20 +169,13 @@ const Editnew = () => {
   };
 
   const formik = useFormik({
-    initialValues: {
-      // name: "",
-      // email: "",
-      // phone_no: "",
-      // sports_center: "",
-      // location: "",
-      // opentimings: "",
-      // closetimings: "",
-    },
+    initialValues: editnew,
     validateOnBlur: true,
+    enableReinitialize: true,
     onSubmit,
     validationSchema: validationSchema,
   });
-
+  console.log(formik,editnew,"testtt");
   const classes = useStyles();
   return (
     <AppLayout style={{ marginBottom: "80px" }}>
