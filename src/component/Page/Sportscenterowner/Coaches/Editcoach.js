@@ -293,7 +293,7 @@ export default function CenteredGrid() {
                   <div
                     style={{
                       textAlign: "center",
-                      marginTop: "180px",
+                      marginTop: "100px",
                       padding: "20px",
                     }}
                   >

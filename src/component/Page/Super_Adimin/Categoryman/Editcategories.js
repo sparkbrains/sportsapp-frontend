@@ -114,12 +114,9 @@ const Editcategory = () => {
   };
 
   const formik = useFormik({
-    initialValues: {
-      // category: "",
-      // sportcenter: "",
-      // location: "",
-    },
+    initialValues: user,
     validateOnBlur: true,
+    enableReinitialize:true,
     onSubmit,
     validationSchema: validationSchema,
   });
@@ -316,7 +313,7 @@ const Editcategory = () => {
                   <div
                     style={{
                       textAlign: "center",
-                      marginTop: "180px",
+                      marginTop: "100px",
                       padding: "20px",
                     }}
                   >

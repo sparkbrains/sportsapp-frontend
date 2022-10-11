@@ -47,13 +47,12 @@ const validationSchema = yup.object({
     .string()
     .min(10, "Phone number not less than 10 digits.")
     .max(10, "Phone number not more than 10 digits.")
-    .required("Phone number is required.")
-    .matches(phoneRegExp, "Only numbers are allowed."),
+    .matches(phoneRegExp, "Only numbers are allowed.")
+    .required("Phone number is required."),
   location: yup.string().required("Location is required."),
   sports_center: yup
     .string()
-    .required("Sports center is required.")
-    .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
+    .required("Sports center is required."),
 });
 
 export default function Editcoach() {
@@ -81,20 +80,21 @@ export default function Editcoach() {
   }, []);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+  console.log(editcoach,"user====");
+  console.log(formik,"user====");
+    
     if (formik.isValid) {
       axios
       .patch(baseURL + `sports/coach/?id=${id}`, {
         user: {
           email: editcoach.email,
           name: editcoach.name,
-          password: editcoach.password,
         },
         profile: {
           role: "coach",
           phone_no: editcoach.contact,
         },
-        name: editcoach.name,
         location: editcoach.location,
         speciallsation: editcoach.speciallsation,
         sports_center: editcoach.sports_center,
@@ -159,19 +159,13 @@ export default function Editcoach() {
     setOpen(true);
   };
   const formik = useFormik({
-    initialValues: {
-      // name: "",
-      // email: "",
-      // contact: "",
-      // sports_center: "",
-      // location: "",
-    },
+    initialValues: editcoach,
     validateOnBlur: true,
+    enableReinitialize: true,
     onSubmit,
     validationSchema: validationSchema,
   });
 
-  console.log(editcoach,"user====");
   return (
     <AppLayout>
       <Container>
@@ -274,31 +268,29 @@ export default function Editcoach() {
                       formik.touched.speciallsation &&
                         formik.errors.speciallsation
                     )}
-                    helperText={formik.touched.name && formik.errors.name}
+                    helperText={formik.touched.speciallsation && formik.errors.speciallsation}
                     onClick={formik.handleChange}
                     fullWidth
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
                     open={open}
                     variant="outlined"
                     onClose={handleClose}
                     onOpen={handleOpen}
                     onBlur={formik.handleBlur}
-                    onKeyUp={(e) => handlespecialisationonChange(e)}
+                    onKeyUp={handlespecialisationonChange}
                     name="speciallsation"
                     value={
                       (editcoach.speciallsation?.length > 1 &&
                         editcoach.speciallsation) ||
                       "none"
                     }
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => onInputChange(e)}
                     style={{ marginTop: "13px" }}
                   >
                     <MenuItem disabled value="none">
                       <em>--- Specialization ---</em>
                     </MenuItem>
-                    <MenuItem value={"cardio"}>cardio</MenuItem>
-                    <MenuItem value={"strength"}>strength</MenuItem>
+                    <MenuItem value="cardio">cardio</MenuItem>
+                    <MenuItem value="strength">strength</MenuItem>
                     <MenuItem value="shooting">shooting</MenuItem>
                     <MenuItem value="wrestling">wrestling</MenuItem>
                     <MenuItem value="boxing">boxing</MenuItem>
@@ -348,10 +340,10 @@ export default function Editcoach() {
                   <TextField
                     inputProps={{ maxLength: 13 }}
                     error={Boolean(
-                      formik.touched.phone_no && formik.errors.phone_no
+                      formik.touched.contact && formik.errors.contact
                     )}
                     helperText={
-                      formik.touched.phone_no && formik.errors.phone_no
+                      formik.touched.contact && formik.errors.contact
                     }
                     onBlur={formik.handleBlur}
                     onKeyUp={formik.handleChange}
@@ -402,7 +394,7 @@ export default function Editcoach() {
                   <div
                     style={{
                       textAlign: "center",
-                      marginTop: "80px",
+                      marginTop: "100px",
                       padding: "20px",
                     }}
                   >

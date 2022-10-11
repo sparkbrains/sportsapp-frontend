@@ -175,13 +175,8 @@ const EditUser = () => {
 
 
     const formik = useFormik({
-        initialValues: {
-        //   name: "",
-        //   email: "",
-        //   phone_no: "",
-        //   lastname: "",
-        //   location: "",
-        },
+        initialValues: admin,
+        enableReinitialize:true,
         validateOnBlur: true,
         validationSchema: validationSchema,
         onSubmit,
@@ -346,7 +341,7 @@ variant="outlined"
                                     </Grid>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={12}>
-                                            <div style={{ textAlign: "center", marginTop: "100px", padding: "20px" }}>
+                                            <div style={{ textAlign: "center", marginTop: "80px", padding: "20px" }}>
                                                 <Button
                                                     onClick={(e) => onSubmit(e)}
                                                     variant="contained"

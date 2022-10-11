@@ -500,7 +500,7 @@ const Editnew = () => {
                 {/* </div>
                 </Grid> */}
                 <Grid item xs={12} sm={12}>
-                  <div style={{ textAlign: "center", marginTop: "100px" }}>
+                  <div style={{ textAlign: "center", marginTop: "80px" }}>
                     <Button
                       variant="contained"
                       // disabled={isSubmitting}
