@@ -334,10 +334,13 @@ const AddCoach = () => {
                     style={{
                       marginTop: "16px",
                     }}
-                    error={Boolean(
-                      formik.touched.sports_center &&
+                    error={
+                      formik.touched.sports_center && Boolean( 
                         formik.errors.sports_center
                     )}
+                    helperText={
+                      formik.touched.sports_center && formik.errors.sports_center
+                    }
                     inputProps={{ maxLength: 50 }}
                     margin="normal"
                     required

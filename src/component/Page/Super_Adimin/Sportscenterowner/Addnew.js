@@ -301,7 +301,7 @@ const Addnew = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Phone No
+                    Phone Number
                   </InputLabel>
                   <TextField
                     inputProps={{ maxLength: 13 }}
