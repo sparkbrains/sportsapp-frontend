@@ -8,6 +8,9 @@
     margin-right: 16px;
     border-radius: 25px;
 }
+.MuiFormHelperText-root.Mui-error{
+    margin: 0 !important;
+}
 .searchIcon {
 top: 0px;
 height: 100%;

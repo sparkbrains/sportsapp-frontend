@@ -35,6 +35,7 @@ const baseURL = process.env.REACT_APP_API_ENDPOINT;
 const phoneRegExp = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
 
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -75,7 +76,13 @@ const validationSchema = yup.object().shape({
     .max(25, "Must be 25 characters or less.")
     .required("Sports center is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
-  password: yup.string().required("Password is required."),
+  password: yup
+    .string()
+    .matches(
+      PASSWORD_REGEX,
+      " Password must have at least 8 characters and the combination of the following: uppercase letter, lowercase letter, numbers, and symbols."
+    )
+    .required("Password is required."),
   opentimings: yup.string().required("Time is required."),
   closetimings: yup.string().required("Time is required."),
 });
@@ -304,7 +311,7 @@ const Addnew = () => {
                     Phone No
                   </InputLabel>
                   <TextField
-                    inputProps={{ maxLength: 13 }}
+                    inputProps={{ maxLength: 10 }}
                     error={Boolean(
                       formik.touched.phone_no && formik.errors.phone_no
                     )}

@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-import { Button } from "@material-ui/core";
+import { Button, FormHelperText } from "@material-ui/core";
 import { useEffect } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -36,6 +36,7 @@ const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 const validationSchema = yup.object({
   name: Yup.string()
@@ -64,13 +65,19 @@ const validationSchema = yup.object({
     .matches(phoneRegExp, "Only numbers are allowed."),
   location: Yup.string().required("Location is required."),
   sports_center: Yup.string().required("Sport center is required."),
-  password: yup.string().required("Password is required."),
+  password: yup
+    .string()
+    .matches(
+      PASSWORD_REGEX,
+      " Password must have at least 8 characters and the combination of the following: uppercase letter, lowercase letter, numbers, and symbols."
+    )
+    .required("Password is required."),
   speciallsation: yup.string().required("Specialization is required."),
   // specialization: yup.string().required("Specialization is required."),
 });
 const AddCoach = () => {
   let navigate = useNavigate();
-  const [speciallsation, setspecialisation] = useState();
+  const [speciallsation, setspecialisation] = useState('');
   const handlespecialisationonChange = (e) => {
     setspecialisation(e.target.value);
   };
@@ -183,7 +190,8 @@ const AddCoach = () => {
     const resp = await axios.get(
       baseURL + "sports/sports-center/sports-center-owner/"
     );
-    setSports(resp.data);
+    console.log(resp,'resp===');
+    setSports(resp?.data?.length?resp?.data:[]);
   };
 
   const formik = useFormik({
@@ -217,7 +225,7 @@ const AddCoach = () => {
   const handleOpen = () => {
     setOpen(true);
   };
-
+  console.log(speciallsation,'speciallsation==');
   return (
     <AppLayout>
       <Container>
@@ -328,7 +336,6 @@ const AddCoach = () => {
                   >
                     Sport Center
                   </InputLabel>
-                  {console.log(formik,'formik==')}
                   <Select
                     id="sports_center"
                     style={{
@@ -361,6 +368,12 @@ const AddCoach = () => {
                       );
                     })}
                   </Select>
+                  {formik.touched.sports_center &&
+                        formik.errors.sports_center && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.sports_center}
+                        </FormHelperText>
+                      )}
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -441,6 +454,11 @@ const AddCoach = () => {
                     <MenuItem value="boxing">Boxing</MenuItem>
                     <MenuItem value="tennis">Tennis</MenuItem>
                   </Select>
+                  {formik.touched.speciallsation && formik.errors.speciallsation && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.speciallsation}
+                        </FormHelperText>
+                      )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>

@@ -123,7 +123,7 @@ export default function AppLayout({ children }) {
                             <NavLink
                                 className="id button"
                                 onClick={() => setProgress(100)}
-                                to={`/setting`}
+                                to={`/settings`}
                                 style={{ textDecoration: "none" }}
                             >
                                 <ListItem button key={"Setting"}>

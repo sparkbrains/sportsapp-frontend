@@ -40,7 +40,7 @@ function App() {
             <Route path={`/coachmanagement`} element={<Coachmanagement />} />
             <Route path={`/usermanagement`} element={<Usermanagement />} />
             <Route path={`/categorymanagement`} element={<Categorymanagement />} />
-            <Route path={`/setting`} element={<Setting />} />
+            <Route path={`/settings`} element={<Setting />} />
             <Route path={`/addcategory`} element={<Addcategory />} />
             <Route path={`/addcoach`} element={<AddCoach />} />
             <Route path={`/addnew`} element={<Addnew />} />

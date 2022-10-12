@@ -55,7 +55,6 @@ const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 const validationSchema = yup.object({
   name: yup
     .string()
-    .min(3, "Please enter your name")
     .required("Full name is required.")
     .matches(countryNameRegex, "Only alphabets are required."),
   email: yup.string().email("Please enter a valid email address.").matches(emailRegx, "Invalid Email ID...").required(),
