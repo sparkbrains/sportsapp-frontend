@@ -336,6 +336,7 @@ export default function Editcoach() {
                     onClick={formik.handleChange}
                     fullWidth
                     margin="normal"
+                    disabled
                     name="email"
                     onChange={(e) => onInputChange(e)}
                     value={editcoach?.email}

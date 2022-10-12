@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-import { Button } from "@material-ui/core";
+import { Button, FormHelperText } from "@material-ui/core";
 import { useEffect } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -303,6 +303,12 @@ const [isLoading, setIsLoading] = useState(false);
                     <MenuItem value={"Female"}>Female</MenuItem>
                     <MenuItem value={"Other"}>Other</MenuItem>
                   </Select>
+                  {formik.touched.gender &&
+                        formik.errors.gender && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.gender}
+                        </FormHelperText>
+                      )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>

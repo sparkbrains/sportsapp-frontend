@@ -475,7 +475,7 @@ export default function SignInSide(props) {
                           style={{ display: "flex" }}
                         >
                           <p style={{ marginRight: "6px", marginTop: "0px" }}>
-                            Don't have an account?
+                          Fill the details below to
                           </p>
                           <Link
                             style={{
@@ -485,7 +485,7 @@ export default function SignInSide(props) {
                             to="/signup"
                             variant="body2"
                           >
-                            {" Sign Up Here!"}
+                            {"  Sign Up / Create a new account"}
                           </Link>
                         </Grid>
                       </Grid>

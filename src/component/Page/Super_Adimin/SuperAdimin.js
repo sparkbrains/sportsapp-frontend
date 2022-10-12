@@ -149,7 +149,7 @@ function ButtonAppBar() {
                 <Link
                   className="id"
                   onClick={() => setProgress(100)}
-                  to={`${match.path}/setting`}
+                  to={`${match.path}/settings`}
                   style={{ textDecoration: "none" }}
                 >
                   <ListItem button key={"Setting"}>
