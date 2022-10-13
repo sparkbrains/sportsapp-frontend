@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-import { Button } from "@material-ui/core";
+import { Button, FormHelperText } from "@material-ui/core";
 import { useEffect } from "react";
 import { MdFileUpload } from "react-icons/md";
 import * as yup from "yup";
@@ -18,6 +18,9 @@ import AppLayout from "../../../../layout/appLayout";
 // import '@mobiscroll/react-lite/dist/css/mobiscroll.min.css';
 // import Datepicker from "@mobiscroll/react-lite";
 import CircularProgress from "@mui/material/CircularProgress";
+import moment from "moment";
+import { DropzoneArea } from "material-ui-dropzone";
+// import {useDropZone} from 'react-dropzone';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,29 +124,52 @@ const Addnew = () => {
     setlocation(e.target.value);
   };
 
+  const [minTime, setMinTime] = useState("");
+  const [openStamp, setOpenStamp] = useState("");
+
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
-    console.log(e.target.value, "timeeee");
+    minTime(opentimings);
+    setOpenStamp(Date.parse(opentimings));
+    setMinTime(timeStringToFloat(opentimings));
   };
-
+  function timeStringToFloat(opentimings) {
+    var hoursMinutes = opentimings.split(/[.:]/);
+    var hours = parseInt(hoursMinutes[0], 10);
+    var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+    return hours + minutes / 60;
+  }
+  // const openDeci = timeStringToFloat(opentimings);
+  // setOpenStamp()
+  // console.log(, "timeeee");
+  // console.log(opentimings, "timeeee");
+  var closeDeci;
   const handlefirstnameChange = (e) => {
-    setclosetimings(e.target.value);
+    closeDeci = timeStringToFloat(e.target.value);
+    if (closeDeci - minTime >= 0) {
+      setclosetimings(e.target.value);
+    } else {
+      setclosetimings("");
+      swal.fire({
+        confirmButtonColor: "#232B58",
+        // title: 'Error!',
+        text: "Wrong Time Selected!!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+    //  const bool =  moment(e.target.value).isAfter(opentimings) ? setclosetimings(e.target.value) : "00:00";
+
     // (e.target.value) >= opentimings ? " " : setclosetimings(e.target.value);
   };
+  console.log(closeDeci, minTime, "checkkkk");
 
   const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
-    console.log(
-      formik,
-      formik.isValid,
-      opentimings,
-      closetimings,
-      "isValid---"
-    );
     if (formik.isValid) {
-    setIsLoading(true);
+      setIsLoading(true);
 
       await axios
         .post(
@@ -167,12 +193,11 @@ const Addnew = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((res) => {
-        setIsLoading(false);
-         
+          setIsLoading(false);
 
           swal
             .fire({
-              confirmButtonColor: '#232B58',
+              confirmButtonColor: "#232B58",
               // title: 'Error!',
               text: "Sports Owner Added Successfully.",
               icon: "success",
@@ -184,7 +209,7 @@ const Addnew = () => {
         })
 
         .catch((error) => {
-        setIsLoading(false);
+          setIsLoading(false);
 
           if (error.response) {
             // Request made and server responded
@@ -198,7 +223,7 @@ const Addnew = () => {
           }
 
           swal.fire({
-            confirmButtonColor: '#232B58',
+            confirmButtonColor: "#232B58",
             // title: 'Error!',
             text: "Something went wrong!!",
             icon: "error",
@@ -206,6 +231,21 @@ const Addnew = () => {
           });
         });
     }
+  };
+
+  const [uploadedFile, setUploadedFile] = useState();
+  const [uploadedImage, setUploadedImage] = useState();
+
+  // const {getRootProps, getInputProps, isdragActive} = useDropZone({onDrop, accept: {'image/*':[]}})
+
+  const handleImage = (e) => {
+    setUploadedImage(e);
+    console.log(e.target);
+  };
+
+  const handleDocuments = (e) => {
+    setUploadedFile(e);
+    console.log(e.target);
   };
 
   const formik = useFormik({
@@ -221,10 +261,10 @@ const Addnew = () => {
     },
     validateOnChange: true,
     validateOnBlur: true,
+    validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
-  console.log(formik, closetimings, opentimings, "opentimings-==");
   const classes = useStyles();
   return (
     <AppLayout style={{ marginBottom: "50px" }}>
@@ -235,7 +275,7 @@ const Addnew = () => {
             className={classes.root}
             style={{ padding: "20px", marginBottom: "80px" }}
           >
-            <form noValidate onSubmit={formik.handleSubmit} autocomplete="off">
+            <form noValidate onSubmit={formik.handleSubmit} autoComplete="off">
               {/* <form method="POST" noValidate onSubmit={} >  */}
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
@@ -290,7 +330,7 @@ const Addnew = () => {
                     onKeyUp={handleEmailChange}
                     onChange={formik.handleChange}
                     type="email"
-                    autocomplete="off"
+                    autoComplete="off"
                     variant="outlined"
                   />
                   <p style={{ color: "red", margin: "0px", fontSize: "12px" }}>
@@ -324,7 +364,7 @@ const Addnew = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={handleContactChange}
                     onChange={formik.handleChange}
-                    autocomplete="off"
+                    autoComplete="off"
                     name="phone_no"
                     variant="outlined"
                     type="tel"
@@ -474,8 +514,8 @@ const Addnew = () => {
                     onKeyUp={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
-                    min={opentimings}
-                    defaultValue={closetimings}
+                    min={minTime}
+                    // defaultValue={opentimings}
                     max="23:59"
                     required
                   ></TextField>
@@ -515,8 +555,8 @@ const Addnew = () => {
                     variant="outlined"
                   />
                 </Grid>
-                {/* <Grid item sm={12} md={4}> */}
-                {/* <InputLabel
+                <Grid item sm={12} md={4}>
+                  <InputLabel
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -528,7 +568,7 @@ const Addnew = () => {
                   >
                     Logo:
                   </InputLabel>
-                  <div
+                  {/* <div
                     style={{
                       height: "100px",
                       padding: "45px",
@@ -536,32 +576,42 @@ const Addnew = () => {
                       borderStyle: "dotted",
                       textAlign: "center",
                     }}
-                  >
-                    <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{marginTop:"5px"}}>Upload Sports Logo</p>  */}
+                  > */}
+                  {/* <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */}
+                  <DropzoneArea
+                    acceptedFiles={["image/*"]}
+                    filesLimit={3}
+                    maxFileSize={1048576} //1 MB
+                    showFileNames={true}
+                    onChange={(e) => handleImage(e)}
+                    dropzoneText={"Upload Sports Logo"}
+                    style={{
+                      color: "rgba(12,11,69,255)",
+                      display: "flex",
+                      fontSize: "15px",
+                      fontWeight: "bold",
+                      paddingBottom: "15px",
+                    }}
+                  ></DropzoneArea>
+                  <em>(Only *.jpeg and *.png images will be accepted)</em>
+                  {/* <MdFileUpload style={{ fontSize: "40px" }} /> */}
 
-                {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "white",
-                                                        borderRadius: "25px", width: "156px",padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                              
-                                                   dropzoneText={"Upload Sports Logo"}
-                                                </Button> */}
+                  {/* <Button
+                      variant="contained"
+                      component="label"
+                      style={{
+                        backgroundColor: "#232b58",
+                        textTransform: "capitalize",
+                        color: "white",
+                        borderRadius: "25px",
+                        width: "156px",
+                        padding: "8px",
+                      }}
+                    >
+                      Browse File
+                    </Button> */}
 
-                {/* <DropzoneArea
-                      acceptedFiles={["image/*"]}
-                      filesLimit={3}
-                      maxFileSize={1048576} //1 MB
-                      showFileNames={true}
-                      onChange={onDropzoneAreaChange}
-                      dropzoneText={"Upload Sports Logo"}
-                    /> */}
-                {/* </div>
+                  {/* </div> */}
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -576,47 +626,47 @@ const Addnew = () => {
                   >
                     Supporting Documents:
                   </InputLabel>
-                  <div
-                        style={{
-                          height: "100px",
-                          padding: "45px",
-                          border: "1px solid ",
-                          borderStyle: "dotted",
-                          textAlign: "center",
-                        }}
-                      >
-                        <MdFileUpload style={{ fontSize: "40px" }} />
-                        <p style={{ marginTop: "5px" }}>
-                          Upload Supporting Documents
-                        </p> 
-                        </div>
-                    */}
-
-                {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "#fff",
-                                                        borderRadius: "25px", width: "156px", padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                                                    <input
-                                                        type="file"
-                                                        hidden
-                                                    />
-                                                </Button> */}
-                {/* </div> */}
-                {/* <DropzoneArea
-                    acceptedFiles={["image/*"]}
+                  {/* <div
+                    style={{
+                      height: "100px",
+                      padding: "45px",
+                      border: "1px solid ",
+                      borderStyle: "dotted",
+                      textAlign: "center",
+                    }}
+                  > */}
+                  {/* <MdFileUpload style={{ fontSize: "40px" }} /> */}
+                  <DropzoneArea
+                    acceptedFiles={["/*"]}
                     filesLimit={3}
-                    maxFileSize={1048576} //1 MB
+                    maxFileSize={5048576} //5 MB
                     showFileNames={true}
-                    onChange={DropzoneAreaChange}
-                    dropzoneText={"Upload Supporting Documents"}
-                  /> */}
+                    onChange={(e) => handleDocuments(e)}
+                    dropzoneText={"Upload Documents"}
+                  >
+                  </DropzoneArea>
+                    <em>(Only *.pdf and *.docx, *.ods images will be accepted)</em>
 
-                {/* </Grid> */}
+                  {/* <Button
+                    variant="contained"
+                    component="label"
+                    style={{
+                      backgroundColor: "#232b58",
+                      textTransform: "capitalize",
+                      color: "#fff",
+                      borderRadius: "25px",
+                      width: "156px",
+                      padding: "8px",
+                    }}
+                  >
+                    Browse File
+                    <input type="file" hidden />
+                  </Button> */}
+                  {/* </div> */}
+                  {/* <p style={{ marginTop: "5px" }}>
+                      Supporting Documents
+                    </p> */}
+                </Grid>
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button
@@ -633,8 +683,7 @@ const Addnew = () => {
                       }}
                       // onClick={(e) => onSubmit(e)}
                     >
-                  {isLoading === true ? <CircularProgress Shrink /> : ""}
-
+                      {isLoading === true ? <CircularProgress Shrink /> : ""}
                       Submit
                     </Button>
                   </div>

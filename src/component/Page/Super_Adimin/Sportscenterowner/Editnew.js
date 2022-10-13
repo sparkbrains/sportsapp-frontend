@@ -19,7 +19,6 @@ import Select from "@material-ui/core/Select";
 import AppLayout from "../../../../layout/appLayout";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const phoneRegExp =   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const emailRegx = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
 
@@ -53,8 +52,11 @@ const validationSchema = yup.object({
     .min(10, "Phone number should not be less than 10 digits.")
     .max(10, "Phone number should not be more than 10 digits.")
     .matches(phoneRegExp, "Phone number must contains only number."),
-  location: yup.string().max(50, "Must be 50 characters or less.")
-  .matches(/^[A-Za-z ]*$/, "Only alphabets are required.").required("Location is required."),
+  location: yup
+    .string()
+    .max(50, "Must be 50 characters or less.")
+    .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
+    .required("Location is required."),
   sports_center: yup
     .string()
     .required("Sport Center  is required.")
@@ -99,58 +101,59 @@ const Editnew = () => {
   }, []);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const onSubmit = async (e) => {
     // e.preventDefault();
-    
+
     if (formik.isValid) {
       setIsLoading(true);
-      
+
       axios
-      .patch(baseURL + `sports/owner/?id=${id}`, {
-        profile: {
-          role: "owner",
-          phone_no: editnew.phone_no,
-        },
-        opentimings: editnew.opentimings,
-        closetimings: editnew.closetimings,
-        location: editnew.location,
-        sports_center: {
-          center_name: editnew.sports_center,
-        },
-        user: {
-          email: editnew.email,
-          name: editnew.name,
-          password: editnew.password,
-        },
-      })
-      .then((res) => {
-    setIsLoading(false);
-
-        setMessage(res.data.message);
-        swal.fire({
-          // title: 'Error!',
-          confirmButtonColor: '#232B58',
-          text: 'Sports Owner Edited Successfully.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(d=>{
-            navigate("/sportscenterowner/");
-        });
-      })
-      .catch((error) => {
-    setIsLoading(false);
-
-        swal.fire({
-          confirmButtonColor: '#232B58',
-          // title: 'Error!',
-          text: 'Something went wrong!!',
-          icon: 'error',
-          confirmButtonText: 'OK'
+        .patch(baseURL + `sports/owner/?id=${id}`, {
+          profile: {
+            role: "owner",
+            phone_no: editnew.phone_no,
+          },
+          opentimings: editnew.opentimings,
+          closetimings: editnew.closetimings,
+          location: editnew.location,
+          sports_center: {
+            center_name: editnew.sports_center,
+          },
+          user: {
+            email: editnew.email,
+            name: editnew.name,
+            password: editnew.password,
+          },
         })
-      });
+        .then((res) => {
+          setIsLoading(false);
+
+          setMessage(res.data.message);
+          swal
+            .fire({
+              // title: 'Error!',
+              confirmButtonColor: "#232B58",
+              text: "Sports Owner Edited Successfully.",
+              icon: "success",
+              confirmButtonText: "OK",
+            })
+            .then((d) => {
+              navigate("/sportscenterowner/");
+            });
+        })
+        .catch((error) => {
+          setIsLoading(false);
+
+          swal.fire({
+            confirmButtonColor: "#232B58",
+            // title: 'Error!',
+            text: "Something went wrong!!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        });
+    }
   };
-}
 
   const loadUser = async () => {
     const result = await axios.get(baseURL + `sports/owner/?id=${id}`);
@@ -192,10 +195,11 @@ const Editnew = () => {
     initialValues: editnew,
     validateOnBlur: true,
     enableReinitialize: true,
+    validateOnChange: true,
     onSubmit,
     validationSchema: validationSchema,
   });
-  console.log(formik,editnew,"testtt");
+  console.log(formik, editnew, "testtt");
   const classes = useStyles();
   return (
     <AppLayout style={{ marginBottom: "80px" }}>
@@ -306,16 +310,20 @@ const Editnew = () => {
                   </InputLabel>
                   <TextField
                     error={Boolean(
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sports_center &&
+                        formik.errors.sports_center
                     )}
                     helperText={
-                      formik.touched.sports_center && formik.errors.sports_center
+                      formik.touched.sports_center &&
+                      formik.errors.sports_center
                     }
                     margin="normal"
                     fullWidth
                     style={{
                       marginTop: "16px",
                     }}
+                    onBlur={formik.handleBlur}
+                    onKeyUp={formik.handleChange}
                     type="text"
                     name="sports_center"
                     onChange={(e) => onInputChange(e)}
@@ -379,12 +387,12 @@ const Editnew = () => {
                     Opening Time
                   </InputLabel>
                   <TextField
-                  error={Boolean(
-                    formik.touched.opentimings && formik.errors.opentimings
-                  )}
-                  helperText={
-                    formik.touched.opentimings && formik.errors.opentimings
-                  }
+                    error={Boolean(
+                      formik.touched.opentimings && formik.errors.opentimings
+                    )}
+                    helperText={
+                      formik.touched.opentimings && formik.errors.opentimings
+                    }
                     margin="normal"
                     type="time"
                     variant="outlined"
@@ -413,12 +421,12 @@ const Editnew = () => {
                     Closing Time
                   </InputLabel>
                   <TextField
-                  error={Boolean(
-                    formik.touched.closetimings && formik.errors.closetimings
-                  )}
-                  helperText={
-                    formik.touched.closetimings && formik.errors.closetimings
-                  }
+                    error={Boolean(
+                      formik.touched.closetimings && formik.errors.closetimings
+                    )}
+                    helperText={
+                      formik.touched.closetimings && formik.errors.closetimings
+                    }
                     type="time"
                     fullWidth
                     variant="outlined"
@@ -435,7 +443,7 @@ const Editnew = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                {/* <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -448,33 +456,35 @@ const Editnew = () => {
                   >
                     Logo:
                   </InputLabel>
-                  <div
+                  {/*</Grid>
+                  //   style={{
+                  //     height: "100px",
+                  //     padding: "45px",
+                  //     border: "1px solid ",
+                  //     borderStyle: "dotted",
+                  //     textAlign: "center",
+                  //   }}
+                  // >
+                    // <MdFileUpload style={{ fontSize: "40px" }} />
+                    // <p style={{ marginTop: "5px" }}>Upload Sports Logo</p>
+
+                                            
+                {/* </div> */}
+                  <Button
+                    variant="contained"
+                    component="label"
                     style={{
-                      height: "100px",
-                      padding: "45px",
-                      border: "1px solid ",
-                      borderStyle: "dotted",
-                      textAlign: "center",
+                      backgroundColor: "#232b58",
+                      textTransform: "capitalize",
+                      color: "white",
+                      borderRadius: "25px",
+                      width: "156px",
+                      padding: "8px",
                     }}
                   >
-                    <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */}
-
-                {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "white",
-                                                        borderRadius: "25px", width: "156px",padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                                                    <input
-                                                        type="file"
-                                                        hidden
-                                                    />
-                                                </Button> */}
-                {/* </div>
+                    Browse File
+                    <input type="file" hidden />
+                  </Button>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <InputLabel
@@ -501,24 +511,25 @@ const Editnew = () => {
                     <MdFileUpload style={{ fontSize: "40px" }} />
                     <p style={{ marginTop: "5px" }}>
                       Upload Supporting Documents
-                    </p> */}
+                    </p>
 
-                {/* <Button
-                                                    variant="contained"
-                                                    component="label"
-                                                    style={{
-                                                        backgroundColor: "#232b58", textTransform: "capitalize", color: "#fff",
-                                                        borderRadius: "25px", width: "156px", padding: "8px"
-                                                    }}
-                                                >
-                                                    Browse File
-                                                    <input
-                                                        type="file"
-                                                        hidden
-                                                    />
-                                                </Button> */}
-                {/* </div>
-                </Grid> */}
+                    <Button
+                      variant="contained"
+                      component="label"
+                      style={{
+                        backgroundColor: "#232b58",
+                        textTransform: "capitalize",
+                        color: "#fff",
+                        borderRadius: "25px",
+                        width: "156px",
+                        padding: "8px",
+                      }}
+                    >
+                      Browse File
+                      <input type="file" hidden />
+                    </Button>
+                  </div>
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   <div style={{ textAlign: "center", marginTop: "80px" }}>
                     <Button
@@ -536,8 +547,7 @@ const Editnew = () => {
                         onSubmit(e);
                       }}
                     >
-                  {isLoading === true ? <CircularProgress Shrink /> : ""}
-
+                      {isLoading === true ? <CircularProgress Shrink /> : ""}
                       SAVE
                     </Button>
                   </div>

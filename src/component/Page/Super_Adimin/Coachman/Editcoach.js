@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-import { Button } from "@material-ui/core";
+import { Button,FormHelperText } from "@material-ui/core";
 import { useEffect } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -268,6 +268,12 @@ export default function Editcoach() {
                       );
                     })}
                   </TextField>
+                  {formik.touched.sports_center &&
+                        formik.errors.sports_center && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.sports_center}
+                        </FormHelperText>
+                      )}
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -314,6 +320,11 @@ export default function Editcoach() {
                     <MenuItem value="boxing">Boxing</MenuItem>
                     <MenuItem value="tennis">Tennis</MenuItem>
                   </Select>
+                  {formik.touched.speciallsation && formik.errors.speciallsation && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.speciallsation}
+                        </FormHelperText>
+                      )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -342,7 +353,6 @@ export default function Editcoach() {
                     value={editcoach?.email}
                     variant="outlined"
                     type="email"
-                    disabled
                   />
                 </Grid>
                 <Grid item sm={12} md={4}>

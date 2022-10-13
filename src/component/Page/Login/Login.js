@@ -196,7 +196,6 @@ export default function SignInSide(props) {
         }
       })
       .catch((error) => {
-        setIsLoading(false);
         if (error.response) {
           // setErr(error?.response?.data?.error);
           setMessage(error.response.data.message);
@@ -210,6 +209,7 @@ export default function SignInSide(props) {
 
           console.log("Error", error.message);
         }
+        setIsLoading(false);
         swal.fire({
           // title: 'Success!',
           confirmButtonColor: '#232B58',

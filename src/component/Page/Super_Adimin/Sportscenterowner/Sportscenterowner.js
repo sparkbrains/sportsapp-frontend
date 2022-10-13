@@ -25,6 +25,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import swal from "sweetalert2";
 import zIndex from "@material-ui/core/styles/zIndex";
 import AppLayout from "../../../../layout/appLayout";
+import Pagination from "../../Pagination";
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -224,6 +226,7 @@ export default function Sportscenterowner() {
 
             <Link to="/addnew" style={{ textDecoration: "none" }}>
               <Button
+                className="add-btn"
                 variant="contained"
                 style={{
                   float: "right",
@@ -347,6 +350,7 @@ export default function Sportscenterowner() {
             </Table>
           </TableContainer>
         </div>
+        <Pagination data={data}/>
       </Container>
     </AppLayout>
   );

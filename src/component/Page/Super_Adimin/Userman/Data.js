@@ -199,7 +199,7 @@ export default function WidgetLg() {
 
             <Link to="/adduser" style={{ textDecoration: "none" }}>
               <Button
-                className="usermgbtn"
+                className="add-btn"
                 variant="contained"
                 type="submit"
                 style={{

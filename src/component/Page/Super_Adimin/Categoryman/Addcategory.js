@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-import { Button } from "@material-ui/core";
+import { Button, FormHelperText } from "@material-ui/core";
 import { useEffect } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -231,6 +231,12 @@ export default function Addcategory() {
                       );
                     })}
                   </Select>
+                  {formik.touched.sports_center &&
+                        formik.errors.sports_center && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.sports_center}
+                        </FormHelperText>
+                      )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
@@ -290,7 +296,7 @@ export default function Addcategory() {
                     onChange={(e)=>{onChange(e);formik.handleChange(e)}}
                     defaultValue="Select"
                     displayEmpty
-                    style={{ marginTop: "13px" }}
+                    style={{ marginTop: "16px" }}
                   >
                     <MenuItem disabled value="">
                       <em>---Select Sport---</em>
@@ -305,6 +311,11 @@ export default function Addcategory() {
                     <MenuItem value="weightlifting">Weightlifting</MenuItem>
                     <MenuItem value="gymnastics">Gymnastics</MenuItem>
                   </Select>
+                  {formik.touched.sport && formik.errors.sport && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.sport}
+                        </FormHelperText>
+                      )}
                 </Grid>
               </Grid>
               <Grid container spacing={2}>

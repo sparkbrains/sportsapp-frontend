@@ -1,3 +1,4 @@
+
 .WidgetLg {
     margin-bottom: 85px;
     background-color: white;
@@ -21,3 +22,35 @@ align-items: center;
 pointer-events: none;
 justify-content: end;
 }
+
+.btn-logout{
+    padding: 20px;
+}
+
+
+.btn-logout:hover{
+    background-color: #232b58 !important;
+    color: #fff;
+    padding: 20px;
+}
+
+.add-btn:hover{
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+  padding-right: 24px;
+  padding-left:8px;
+}
+
+.add-btn:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    top: 20px;
+    right: -20px;
+    transition: 0.5s;
+  }
+
+.add-btn:hover:after {
+    opacity: 1;
+    right: 10px;
+  }

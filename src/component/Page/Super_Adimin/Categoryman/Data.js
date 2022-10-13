@@ -199,7 +199,7 @@ export default function WidgetLg() {
               style={{ textDecoration: "none" }}
             >
               <Button
-                className="categorybtn"
+                className="add-btn"
                 variant="contained"
                 type="submit"
                 style={{

@@ -199,7 +199,7 @@ export default function WidgetLg() {
 
             <Link to="/addcoach" style={{ textDecoration: "none" }}>
               <Button
-                className="coachmgbtn"
+                className="add-btn"
                 variant="contained"
                 type="submit"
                 style={{

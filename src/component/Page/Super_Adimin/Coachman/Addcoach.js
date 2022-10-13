@@ -205,6 +205,8 @@ const AddCoach = () => {
       sports_center: "",
     },
     validateOnBlur: true,
+    validateOnChange:true,
+    validateOnBlur:true,
     onSubmit,
     validationSchema: validationSchema,
   });

@@ -334,7 +334,6 @@ variant="outlined"
                     margin="normal"
                     id="email"
                     name="email"
-                    disabled
                     onBlur={formik.handleBlur}
                     onChange={(e) => onInputChange(e)}
                     onClick={formik.handleChange}
