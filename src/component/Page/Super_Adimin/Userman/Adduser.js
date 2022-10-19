@@ -115,7 +115,7 @@ export default function AddUser() {
           gender: gender,
           location: location,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        // { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
         
@@ -432,6 +432,8 @@ const [isLoading, setIsLoading] = useState(false);
                         padding: "13px",
                         fontSize: "17px",
                       }}
+                  className="btn-submit"
+
                     >
                       {isLoading === true ? (
                             <CircularProgress Shrink />

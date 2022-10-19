@@ -271,6 +271,7 @@ export default function WidgetLg() {
               <TableCell align="center">5:00 AM to 6:00 PM</TableCell>
               <TableCell align="right">
                 <Button
+                  className="btn-submit"
                   variant="contained"
                   type="submit"
                   style={{

@@ -25,7 +25,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from '@mui/material/Paper';
-
+import Pagination from "../../Pagination";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 export default function WidgetLg() {
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [message, setMessage] = useState(null);
   const [setid, SetsetId] = useState();
   const [open, setOpen] = useState(false);
@@ -108,9 +108,9 @@ export default function WidgetLg() {
     loadUsers();
   }, []);
 
-  const loadUsers = async () => {
-    const result = await axios.get(baseURL + "sports/categories/");
-    setData(result.data.reverse());
+  const loadUsers = async (page) => {
+    const result = await axios.get(baseURL + `sports/categories/${page?'?page='+page:''}`);
+    setData(result.data);
   };
   const deleteUser = async (id) => {
     await axios
@@ -234,8 +234,7 @@ export default function WidgetLg() {
               </TableHead>
 
               <TableBody>
-                {data
-                  .filter((val) => {
+                {data?.results?.filter((val) => {
                     if (searchTerm === "") {
                       return val;
                     } else if (
@@ -310,6 +309,7 @@ export default function WidgetLg() {
                 </DialogActions>
               </Dialog>
             </Table>
+          <Pagination data={data} sendPageNumber={loadUsers}/>
           </TableContainer>
         </Paper>
       </div>

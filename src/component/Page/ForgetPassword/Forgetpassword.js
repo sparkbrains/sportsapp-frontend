@@ -42,7 +42,11 @@ const useStyles = makeStyles((theme) => ({
 const emailRegx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 const validationSchema = yup.object({
-  email: yup.string().email("Please enter a valid email address.").matches(emailRegx,"Invalid Email ID...").required("Email is required."),
+  email: yup
+    .string()
+    .email("Please enter a valid email address.")
+    .matches(emailRegx, "Invalid Email ID...")
+    .required("Email is required."),
 });
 
 export default function SignInSide() {
@@ -63,20 +67,23 @@ export default function SignInSide() {
   const onSubmit = (e) => {
     // e.preventDefault();
     axios
-      .post(baseURL+"users/forget-password/",
-        {
-          email: email,
-        }
-      )
+      .post(baseURL + "users/forget-password/", {
+        email: email,
+      })
       .then((res) => {
         setMessage(res.data.status);
-        swal("Reset Link has sent successfully on your registered Email.", "", "success", {
-          button: "OK",
-        });
+        swal(
+          "Reset Link has sent successfully on your registered Email.",
+          "",
+          "success",
+          {
+            button: "OK",
+          }
+        );
       })
       .catch((error) => {
         if (error.response) {
-          setError(error?.response?.data?.error)
+          setError(error?.response?.data?.error);
           setMessage(error.response.data.status);
           // setMes(error.response.data.gender)
           // Request made and server responded
@@ -143,7 +150,9 @@ export default function SignInSide() {
                     <Typography component="h1" variant="h4" className="Sign">
                       Forget Password
                     </Typography>
-                    <p className="p">Enter your registered email to reset your password</p>
+                    <p className="p">
+                      Enter your registered email to reset your password
+                    </p>
 
                     <form
                       className={classes.form}
@@ -184,6 +193,7 @@ export default function SignInSide() {
 
                       <Grid container justify="center">
                         <Button
+                          className="btn-submit"
                           style={{
                             backgroundColor: "rgba(12,11,69,255)",
                             color: "white",
@@ -198,7 +208,7 @@ export default function SignInSide() {
                           variant="outlined"
                           size="medium"
                           color="primary"
-                          className={classes.margin}
+                          // className={classes.margin}
                         >
                           SEND RESET LINK
                         </Button>

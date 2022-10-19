@@ -274,6 +274,8 @@ const Editcategory = () => {
                         width: "165Px",
                         padding: "11px",
                       }}
+                  className="btn-submit"
+
                     >
                       SAVE
                     </Button>

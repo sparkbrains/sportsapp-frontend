@@ -4,7 +4,34 @@
   display: flex;
   list-style: none;
   outline: none;
+  justify-content: center;
+  width: 80%;
+  height: 40px;
+  list-style: none;
 }
+
+
+.pagination a {
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 2px solid #232B58;
+  color: #fff;
+  cursor: pointer;
+}
+
+.pagination a:hover {
+  color:#fff;
+  background-color: #232B58;
+}
+
+.paginationActive a {
+  color:#fff;
+  background-color: #232B58;
+}
+
+
+
 .pagination > .active > a{
   background-color: #47ccde ;
   border-color: #47ccde ;
@@ -31,3 +58,4 @@
 /* Container{
   display: flex;
 } */
+

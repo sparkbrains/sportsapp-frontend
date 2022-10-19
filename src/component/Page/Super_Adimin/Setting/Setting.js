@@ -281,6 +281,7 @@ export default function Setting() {
                       fontWeight: "bold",
                       padding: "26px 95px",
                     }}
+                  className="btn-submit"
                     
                     onClick={(e) => handleSubmit(e)}
                     >

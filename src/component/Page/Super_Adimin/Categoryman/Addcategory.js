@@ -82,7 +82,7 @@ export default function Addcategory() {
           location: location,
           sports_center: sportsCenter,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        // { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
         setIsLoading(false);
@@ -339,6 +339,8 @@ export default function Addcategory() {
                         padding: "11px",
                         fontSize: "17px",
                       }}
+                  className="btn-submit"
+
                     >
                   {isLoading === true ? <CircularProgress Shrink /> : ""}
 

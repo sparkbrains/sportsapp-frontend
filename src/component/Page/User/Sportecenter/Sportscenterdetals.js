@@ -343,6 +343,8 @@ export default function AddUser() {
                             width: "250Px",
                             padding: "13px",
                           }}
+                        className="btn-submit"
+
                         >
                           PURCHASE SUBSCRIPTION
                         </Button>

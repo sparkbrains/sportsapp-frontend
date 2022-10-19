@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Sportscenterowner() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const classes = useStyles();
   const [searchTerm, setsearchTerm] = useState("");
   const [setid, SetsetId] = useState();
@@ -162,9 +162,10 @@ export default function Sportscenterowner() {
     loadUsers();
   };
 
-  const loadUsers = async () => {
-    const result = await axios.get(baseURL + "sports/owner/");
-    setData(result.data.reverse());
+  const loadUsers = async (page) => {
+    const result = await axios.get(baseURL + `sports/owner/${page?'?page='+page:''}`);
+    console.log(result,"resssss");
+    setData(result.data);
   };
 
   const downloadTxtFile = () => {
@@ -176,7 +177,7 @@ export default function Sportscenterowner() {
     element.download = "one.csv";
     element.click();
   };
-
+  console.log(data,'data===');
   return (
     <AppLayout>
       <Container maxWidth="lg">
@@ -259,8 +260,7 @@ export default function Sportscenterowner() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data
-                  .filter((val) => {
+                {data?.results?.filter((val) => {
                     if (searchTerm === "") {
                       return val;
                     } else if (
@@ -278,14 +278,14 @@ export default function Sportscenterowner() {
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="left">
-                          {data[i]?.user?.name}
+                          {admin?.user?.name}
                         </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="left">
                           {admin.sports_center.center_name}
                         </TableCell>
                         <TableCell align="left">
-                          {data[i]?.profile?.phone_no}
+                          {admin?.profile?.phone_no}
                         </TableCell>
                         <TableCell align="center">
                           <Link to={`/editnew/${admin.id}`}>
@@ -350,7 +350,7 @@ export default function Sportscenterowner() {
             </Table>
           </TableContainer>
         </div>
-        <Pagination data={data}/>
+        {/* <Pagination data={data}/> */}
       </Container>
     </AppLayout>
   );

@@ -53,4 +53,40 @@ justify-content: end;
 .add-btn:hover:after {
     opacity: 1;
     right: 10px;
-  }
+}
+
+.btn-submit:hover{
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+  padding-right: 24px;
+  padding-left:8px;
+}
+
+.add-submit:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    top: 20px;
+    right: -20px;
+    transition: 0.5s;
+}
+
+/* .profile-dummy-ico{
+    font-size: 50px;
+} */
+
+.chooseFileButton{
+    display: flex;
+    width: 250px;
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+}
+
+.chooseFileButton2{
+    display: flex;
+    width: 250px;
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+}

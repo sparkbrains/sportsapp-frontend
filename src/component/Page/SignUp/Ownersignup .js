@@ -528,6 +528,7 @@ export default function SignInSide() {
                   // onClick={showAlert}
                   // onClick={(e) => onSubmit(e)}
                   color="primary"
+                  
                   className={classes.margin}
                 >
                   {isLoading === true ? <CircularProgress Shrink /> : ""}
