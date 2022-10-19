@@ -84,12 +84,10 @@ export default function SignInSide() {
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
   useEffect(() => {
     axios
-      .post(baseURL+"users/forget-password/step2/",
-        {
-          query_string,
-          email,
-        }
-      )
+      .post(baseURL + "users/forget-password/step2/", {
+        query_string,
+        email,
+      })
       .then((res) => {
         setData(res.data);
       });
@@ -103,12 +101,10 @@ export default function SignInSide() {
   const onSubmit = async (e) => {
     // e.preventDefault();
     const res = await axios
-      .post(baseURL+"users/forget-password/step3/",
-        {
-          email,
-          password: password,
-        }
-      )
+      .post(baseURL + "users/forget-password/step3/", {
+        email,
+        password: password,
+      })
       .then((res) => {
         setMessage(res.data.success);
         swal("Password Changed Successfully", "", "success", {
@@ -247,6 +243,7 @@ export default function SignInSide() {
 
                       <Grid container justify="center">
                         <Button
+                          className="btn-submit"
                           style={{
                             backgroundColor: "rgba(12,11,69,255)",
                             color: "white",
@@ -261,7 +258,7 @@ export default function SignInSide() {
                           variant="outlined"
                           size="medium"
                           color="primary"
-                          className={classes.margin}
+                          // className={classes.margin}
                         >
                           Change Password
                         </Button>

@@ -108,7 +108,6 @@ export default function SignInSide(props) {
 
   const { login } = useAuth();
 
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -117,16 +116,12 @@ export default function SignInSide(props) {
     document.title = "Sign In";
   }, []);
 
-
-
   useEffect(() => {
     if (props?.match?.path === "/login-admin") {
     }
   }, [props?.match?.path]);
 
   const classes = useStyles();
-
-
 
   const [email, setEmail] = useState();
   const handleEmailChange = (e) => {
@@ -139,7 +134,6 @@ export default function SignInSide(props) {
     // setPassword({ e.target.value});
   };
 
-
   const [err, setErr] = useState();
   // var token = localStorage.getItem("token");
 
@@ -149,77 +143,79 @@ export default function SignInSide(props) {
     setIsLoading(true);
     if (formik.isValid) {
       axios
-      .post(
-        baseURL + "users/login/",
-        {
-          email: email,
-          password: password,
-        }
-        // { headers: { Authorization: `Bearer ${token}` } }
-      )
+        .post(
+          baseURL + "users/login/",
+          {
+            email: email,
+            password: password,
+          },
+          { headers: {  'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Credentials':true
+        } }
+        )
 
-      .then((res) => {
-        setIsLoading(false);
-        setMessage(res.data.message);
+        .then((res) => {
+          setIsLoading(false);
+          setMessage(res.data.message);
 
-        if (res.status === 200) {
-          // const { token } = res.data.token.access;
-          // localStorage.setItem("token", res.data.token.access);
-          // localStorage.getItem("token");
-          // if (res.data.role === "admin") {
-          //   setSuccess(res.data.message);
-          //   // navigate("/superadmin");
-          // } else if (res.data.role === "coach") {
-          //   setSuccess(res.data.message);
-          //   // navigate("/coaches");
-          // } else if (res.data.role === "user") {
-          //   setSuccess(res.data.message);
-          //   // navigate("/user");
-          // } else if (res.data.role === "") {
-          //   setSuccess(res.data.message);
-          //   // navigate("/sportscenterowner");
-          
-          // else {
-          //   navigate("/sportscenterowner");
-          // }
-          // // props?.context.authLogin(res?.data?.user?.role);
-          const token = res.data.token.access;
-          localStorage.refresh_token = res.data.token.refresh;
-          localStorage.setItem("token", token);
-          navigate(state?.path || "/sportscenterowner");
-          // localStorage.getItem("token");
-          // const user = JSON.stringify(res?.data?.user);
-          // localStorage.user = user;
-          // props?.context.getProfile();
-          // navigate("/sportscenterowner");
-          
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          // setErr(error?.response?.data?.error);
-          setMessage(error.response.data.message);
-        } else if (error.request) {
-          // The request was made but no response was received
-          setMessage(error.response.data.message);
+          if (res.status === 200) {
+            // const { token } = res.data.token.access;
+            // localStorage.setItem("token", res.data.token.access);
+            // localStorage.getItem("token");
+            // if (res.data.role === "admin") {
+            //   setSuccess(res.data.message);
+            //   // navigate("/superadmin");
+            // } else if (res.data.role === "coach") {
+            //   setSuccess(res.data.message);
+            //   // navigate("/coaches");
+            // } else if (res.data.role === "user") {
+            //   setSuccess(res.data.message);
+            //   // navigate("/user");
+            // } else if (res.data.role === "") {
+            //   setSuccess(res.data.message);
+            //   // navigate("/sportscenterowner");
 
-          console.log(error.request);
-        } else {
-          setMessage(error?.response?.data?.message);
-
-          console.log("Error", error.message);
-        }
-        setIsLoading(false);
-        swal.fire({
-          // title: 'Success!',
-          confirmButtonColor: '#232B58',
-          text: "Please enter valid email or password or both!",
-          icon: 'error',
-          confirmButtonText: 'OK'
+            // else {
+            //   navigate("/sportscenterowner");
+            // }
+            // // props?.context.authLogin(res?.data?.user?.role);
+            const token = res.data.token.access;
+            localStorage.refresh_token = res.data.token.refresh;
+            localStorage.setItem("token", token);
+            navigate(state?.path || "/sportscenterowner");
+            // localStorage.getItem("token");
+            // const user = JSON.stringify(res?.data?.user);
+            // localStorage.user = user;
+            // props?.context.getProfile();
+            // navigate("/sportscenterowner");
+          }
         })
-      });
+        .catch((error) => {
+          if (error.response) {
+            // setErr(error?.response?.data?.error);
+            setMessage(error.response.data.message);
+          } else if (error.request) {
+            // The request was made but no response was received
+            setMessage(error.response.data.message);
+
+            console.log(error.request);
+          } else {
+            setMessage(error?.response?.data?.message);
+
+            console.log("Error", error.message);
+          }
+          setIsLoading(false);
+          swal.fire({
+            // title: 'Success!',
+            confirmButtonColor: "#232B58",
+            text: "Please enter valid email or password or both!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        });
+    }
   };
-}
 
   const parseJwt = (token) => {
     var base64Url = token.split(".")[1];
@@ -308,7 +304,7 @@ export default function SignInSide(props) {
                           marginTop: "80px",
                         }}
                       >
-                        <Email className="icon" style={{fontSize: "18px"}} />
+                        <Email className="icon" style={{ fontSize: "18px" }} />
                         EMAIL
                       </InputLabel>
                       <TextField
@@ -409,6 +405,7 @@ export default function SignInSide(props) {
                       {/* <h3>{detail.message}</h3> */}
                       <Grid container justifyContent="center">
                         <Button
+                          className="btn-submit"
                           style={{
                             backgroundColor: "rgba(12,11,69,255)",
                             color: "white",
@@ -425,7 +422,6 @@ export default function SignInSide(props) {
                           // }}
                           size="medium"
                           color="primary"
-                          className={classes.margin}
                           onClick={(e) => {
                             onSubmit(e);
                           }}
@@ -475,7 +471,7 @@ export default function SignInSide(props) {
                           style={{ display: "flex" }}
                         >
                           <p style={{ marginRight: "6px", marginTop: "0px" }}>
-                          Fill the details below to
+                            Fill the details below to
                           </p>
                           <Link
                             style={{

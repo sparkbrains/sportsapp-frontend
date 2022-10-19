@@ -18,6 +18,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import AppLayout from "../../../../layout/appLayout";
 import CircularProgress from "@mui/material/CircularProgress";
+import { AccountCircle } from "@mui/icons-material";
+import CameraAlt from "@mui/icons-material/CameraAlt";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +60,7 @@ const validationSchema = yup.object({
     .max(50, "Must be 50 characters or less.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
     .required("Location is required."),
-  sports_center: yup
+  center_name: yup
     .string()
     .required("Sport Center  is required.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required."),
@@ -72,13 +75,23 @@ const Editnew = () => {
   const [closetimings, setclosetimings] = useState();
   const [opentimings, setopentimings] = useState();
   const [mes, setMes] = useState(null);
+  const formData = new FormData();
+
 
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
+    setEditnew({
+      ...editnew,
+      opentimings : e.target.value
+    })
   };
 
   const handleCloseChange = (e) => {
     setclosetimings(e.target.value);
+    setEditnew({
+      ...editnew,
+      closetimings : e.target.value
+    })
   };
   const baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -88,8 +101,11 @@ const Editnew = () => {
     opentimings: "",
     closetimings: "",
     phone_no: "",
-    sports_center: "",
+    center_name: "",
     location: "",
+    password : "",
+    logo : [],
+    document : []
   });
   const onInputChange = (e) => {
     setEditnew({ ...editnew, [e.target.name]: e.target.value });
@@ -101,30 +117,79 @@ const Editnew = () => {
   }, []);
   const [isLoading, setIsLoading] = useState(false);
 
+  const onimageListChange = (e) => {
+    //   var image = e.target.files[0];
+    //   console.log(e, "filesssss");
+    //   var readImg = new FileReader();
+    //   readImg.onload = function (event) {
+    //     setimageViewUrl(e.target.files[0]);
+    //     // setUploadSate({
+    //     //   ...uploadState,
+    //     //   logo: event.target.result,
+    //     // });
+    //   };
+    // formData.append("document", uploadState?.document);
+
+    //   readImg.readAsDataURL(image);
+    // setFileViewUrl(e.target.files[0]);
+    // formData.append('logo', e.target.files[0])
+    setEditnew({
+      ...editnew,
+      logo: e.target.files[0],
+    });
+  };
+
+  const onFileListChange = (e) => {
+    // var file = e.target.files[0];
+    // var readFile = new FileReader();
+
+    // readFile.onload = function (event) {
+    // setUploadSate({
+    //   ...uploadState,
+
+    // });
+
+    // formData.append("file", e.target.files[0]);
+    // };
+    // readFile.readAsDataURL(file);
+    // setFileViewUrl(e.target.files[0]);
+    // formData.append('documents', e.target.files[0])
+    setEditnew({
+      ...editnew,
+      document: e.target.files[0],
+    });
+  };
+
   const onSubmit = async (e) => {
     // e.preventDefault();
-
+    console.log(editnew,"formmmm");
     if (formik.isValid) {
       setIsLoading(true);
 
-      axios
-        .patch(baseURL + `sports/owner/?id=${id}`, {
-          profile: {
-            role: "owner",
-            phone_no: editnew.phone_no,
-          },
-          opentimings: editnew.opentimings,
-          closetimings: editnew.closetimings,
-          location: editnew.location,
-          sports_center: {
-            center_name: editnew.sports_center,
-          },
-          user: {
-            email: editnew.email,
-            name: editnew.name,
-            password: editnew.password,
-          },
-        })
+      for (let param in editnew){
+        formData.append(param, editnew[param]);
+      }
+      // formData.append("id",editnew.sports_id);
+      await axios
+        .patch(baseURL + `sports/owner/?id=${id}`,
+
+          formData,
+          // profile: {
+          //   role: "owner",
+          //   phone_no: editnew.phone_no,
+          // },
+          // opentimings: editnew.opentimings,
+          // closetimings: editnew.closetimings,
+          // location: editnew.location,
+          // sports_center: {
+          //   center_name: editnew.sports_center,
+          // },
+          // user: {
+          //   email: editnew.email,
+          //   name: editnew.name,
+          //   password: editnew.password,
+          // },
+        )
         .then((res) => {
           setIsLoading(false);
 
@@ -155,16 +220,17 @@ const Editnew = () => {
     }
   };
 
-  const loadUser = async () => {
+  const loadUser = async (e) => {
     const result = await axios.get(baseURL + `sports/owner/?id=${id}`);
-    console.log(result.data, "aaaaaa");
+    // console.log(result.data, "aaaaaa");
     setEditnew({
       name: result.data?.user?.name,
       email: result.data?.user?.email,
       opentimings: result.data?.opentimings,
       closetimings: result.data?.closetimings,
       phone_no: result.data?.profile?.phone_no,
-      sports_center: result.data?.sports_center.center_name,
+      center_name: result.data?.sports_center.center_name,
+      sports_id : result.data?.sports_center.id,
       location: result.data?.location,
     });
   };
@@ -199,7 +265,7 @@ const Editnew = () => {
     onSubmit,
     validationSchema: validationSchema,
   });
-  console.log(formik, editnew, "testtt");
+  // console.log(formik, editnew, "testtt");
   const classes = useStyles();
   return (
     <AppLayout style={{ marginBottom: "80px" }}>
@@ -208,7 +274,8 @@ const Editnew = () => {
         <h3 style={{ padding: "10px" }}>Edit Sports Center Owner</h3>
         <Paper elevation={3}>
           <div className={classes.root} style={{ padding: "20px" }}>
-            <form method="POST" noValidate onSubmit={formik.handleSubmit}>
+              
+            <form method="POST" noValidate onSubmit={formik.handleSubmit}  autoComplete="off">
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
                   <InputLabel
@@ -309,13 +376,14 @@ const Editnew = () => {
                     Sport Center
                   </InputLabel>
                   <TextField
+                    disabled
                     error={Boolean(
-                      formik.touched.sports_center &&
-                        formik.errors.sports_center
+                      formik.touched.center_name &&
+                        formik.errors.center_name
                     )}
                     helperText={
-                      formik.touched.sports_center &&
-                      formik.errors.sports_center
+                      formik.touched.center_name &&
+                      formik.errors.center_name
                     }
                     margin="normal"
                     fullWidth
@@ -325,10 +393,10 @@ const Editnew = () => {
                     onBlur={formik.handleBlur}
                     onKeyUp={formik.handleChange}
                     type="text"
-                    name="sports_center"
+                    name="center_name"
                     onChange={(e) => onInputChange(e)}
                     variant="outlined"
-                    value={editnew.sports_center}
+                    value={editnew.center_name}
                   />
                   {/* <MenuItem disabled value="">
                       <em>Select Sport Center</em>
@@ -443,7 +511,7 @@ const Editnew = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+              <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -456,37 +524,40 @@ const Editnew = () => {
                   >
                     Logo:
                   </InputLabel>
-                  {/*</Grid>
-                  //   style={{
-                  //     height: "100px",
-                  //     padding: "45px",
-                  //     border: "1px solid ",
-                  //     borderStyle: "dotted",
-                  //     textAlign: "center",
-                  //   }}
-                  // >
-                    // <MdFileUpload style={{ fontSize: "40px" }} />
-                    // <p style={{ marginTop: "5px" }}>Upload Sports Logo</p>
-
-                                            
-                {/* </div> */}
-                  <Button
-                    variant="contained"
-                    component="label"
+                  <div
                     style={{
-                      backgroundColor: "#232b58",
-                      textTransform: "capitalize",
-                      color: "white",
-                      borderRadius: "25px",
-                      width: "156px",
-                      padding: "8px",
+                      height: "100px",
+                      padding: "45px",
+                      border: "1px solid ",
+                      borderStyle: "dotted",
+                      textAlign: "center",
+                      backgroundColor: "#E8F0FE",
                     }}
                   >
-                    Browse File
-                    <input type="file" hidden />
-                  </Button>
+                    <div className="profile-image">
+                      <label htmlFor="fileProfile">
+                        {/* {imageViewUrl ? (
+                          <img src={imageViewUrl ? imageViewUrl : ""} />
+                        ) : (
+                        )} */}
+                        <AccountCircle className="profile-dummy-ico" />
+                        <button type="button" className="chooseFileButton ">
+                          <CameraAlt />
+                          <input
+                            type="file"
+                            id="fileProfile"
+                            name="fileProfile"
+                            // multiple=""
+                            accept="image/*"
+                            onChange={onimageListChange}
+                          ></input>
+                        </button>
+                      </label>
+                    </div>
+                  </div>
+                  <em>(Only *.jpeg and *.png images will be accepted)</em>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item sm={12} md={4}>
                   <InputLabel
                     className="Input"
                     style={{
@@ -506,32 +577,36 @@ const Editnew = () => {
                       border: "1px solid ",
                       borderStyle: "dotted",
                       textAlign: "center",
+                      backgroundColor: "#E8F0FE",
                     }}
                   >
-                    <MdFileUpload style={{ fontSize: "40px" }} />
-                    <p style={{ marginTop: "5px" }}>
-                      Upload Supporting Documents
-                    </p>
-
-                    <Button
-                      variant="contained"
-                      component="label"
-                      style={{
-                        backgroundColor: "#232b58",
-                        textTransform: "capitalize",
-                        color: "#fff",
-                        borderRadius: "25px",
-                        width: "156px",
-                        padding: "8px",
-                      }}
-                    >
-                      Browse File
-                      <input type="file" hidden />
-                    </Button>
+                    <div className="profile-Documents">
+                      <label htmlFor="fileDocs">
+                        {/* {fileViewUrl ? (
+                          <img src={fileViewUrl ? fileViewUrl : ""} />
+                          ) : (
+                            
+                          )} */}
+                        <AttachFileIcon className="profile-dummy-ico" />
+                        <button type="button" className="chooseFileButton2 ">
+                          <CameraAlt />
+                          <input
+                            type="file"
+                            id="fileDocs"
+                            name="fileDocs"
+                            // multiple=""
+                            accept="file_extension/*"
+                            onChange={onFileListChange}
+                          ></input>
+                        </button>
+                      </label>
+                    </div>
                   </div>
+
+                  <em>(Only *.pdf and *.docx, *.ods files will be accepted)</em>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <div style={{ textAlign: "center", marginTop: "80px" }}>
+                  <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button
                       variant="contained"
                       // disabled={isSubmitting}
@@ -543,9 +618,11 @@ const Editnew = () => {
                         width: "200Px",
                         padding: "13px",
                       }}
-                      onClick={(e) => {
-                        onSubmit(e);
-                      }}
+                      // onClick={(e) => {
+                      //   onSubmit(e);
+                      // }}
+                  className="btn-submit"
+
                     >
                       {isLoading === true ? <CircularProgress Shrink /> : ""}
                       SAVE

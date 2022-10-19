@@ -326,6 +326,8 @@ export default function CenteredGrid() {
                         padding: "11px",
                         fontSize: "17px",
                       }}
+                  className="btn-submit"
+
                     >
                       Add Coach
                     </Button>

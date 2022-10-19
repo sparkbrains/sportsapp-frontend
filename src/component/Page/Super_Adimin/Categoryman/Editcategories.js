@@ -353,6 +353,8 @@ const Editcategory = () => {
                         width: "165Px",
                         padding: "11px",
                       }}
+                  className="btn-submit"
+
                       // onClick={(e) => onSubmit(e)}
                     >
                   {isLoading === true ? <CircularProgress Shrink /> : ""}

@@ -23,6 +23,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import swal from "sweetalert2";
 import Paper from '@mui/material/Paper';
+import Pagination from "../../Pagination";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -151,7 +153,7 @@ export default function WidgetLg() {
 
   const loadUsers = async () => {
     const result = await axios.get(baseURL + "sports/user/");
-    setData(result.data.reverse());
+    setData(result.data);
   };
 
   return (
@@ -234,8 +236,7 @@ export default function WidgetLg() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data
-                  .filter((val) => {
+                {data?.results?.filter((val) => {
                     if (searchTerm === "") {
                       return val;
                     } else if (
@@ -249,14 +250,14 @@ export default function WidgetLg() {
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="left">
-                          {data[i]?.user?.name}
+                          {admin?.user?.name}
                         </TableCell>
                         <TableCell align="left">{admin.location}</TableCell>
                         <TableCell align="center">
-                          {data[i]?.user?.email}
+                          {admin?.user?.email}
                         </TableCell>
                         <TableCell align="center">
-                          {data[i]?.profile?.phone_no}
+                          {admin?.profile?.phone_no}
                         </TableCell>
                         <TableCell align="center">
                           <Link to={`/edituser/${admin.id}`}>
@@ -307,6 +308,7 @@ export default function WidgetLg() {
               </DialogActions>
             </Dialog>
           </TableContainer>
+          <Pagination data={data} />
         </Paper>
       </div>
     </>

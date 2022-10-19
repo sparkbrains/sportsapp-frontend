@@ -14,13 +14,10 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import swal from "sweetalert2";
 import AppLayout from "../../../../layout/appLayout";
-// import { Datepicker } from '@mobiscroll/react-lite';
-// import '@mobiscroll/react-lite/dist/css/mobiscroll.min.css';
-// import Datepicker from "@mobiscroll/react-lite";
 import CircularProgress from "@mui/material/CircularProgress";
-import moment from "moment";
-import { DropzoneArea } from "material-ui-dropzone";
-// import {useDropZone} from 'react-dropzone';
+import { AccountCircle } from "@mui/icons-material";
+import CameraAlt from "@mui/icons-material/CameraAlt";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,18 +47,6 @@ const validationSchema = yup.object().shape({
     .string()
     .email("Email is invalid.")
     .required("Email is required.")
-    // .test(
-    //   "email check",
-    //   "email déjà utiliser",
-    //   async (value) =>
-    //     await fetch(baseURL + `sports/coach/`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-type": "application/json",
-    //       },
-    //       body: JSON.stringify({ email: value }),
-    //     }).then((res) => res.json())
-    // )
     .matches(emailRegx, "Invalid Email ID..."),
   phone_no: yup
     .string()
@@ -74,7 +59,7 @@ const validationSchema = yup.object().shape({
     .max(50, "Must be 50 characters or less.")
     .matches(/^[A-Za-z ]*$/, "Only alphabets are required.")
     .required("Location is required."),
-  sports_center: yup
+  center_name: yup
     .string()
     .max(25, "Must be 25 characters or less.")
     .required("Sports center is required.")
@@ -88,6 +73,9 @@ const validationSchema = yup.object().shape({
     .required("Password is required."),
   opentimings: yup.string().required("Time is required."),
   closetimings: yup.string().required("Time is required."),
+  // logo:  yup.string().required("Required."),
+  // document: yup.string().required("Required."),
+
 });
 
 const Addnew = () => {
@@ -97,100 +85,139 @@ const Addnew = () => {
   const [closetimings, setclosetimings] = useState(null);
   const [opentimings, setopentimings] = useState(null);
 
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    phone_no: "",
+    center_name: "",
+    location: "",
+    opentimings: "",
+    closetimings: "",
+    password: "",
+    logo: [],
+    document: [],
+  });
+
+      const formData = new FormData();
+
+
   const [name, setownername] = useState("");
   const handlenameChange = (e) => {
     setownername(e.target.value);
+    setState({
+      ...state,
+      name : e.target.value
+    })
   };
   const [password, setPassword] = useState("");
   const handlepasswordonChange = (e) => {
     setPassword(e.target.value);
+    setState({
+      ...state,
+      password : e.target.value
+    })
   };
   const [email, setemail] = useState("");
   const handleEmailChange = (e) => {
     setemail(e.target.value);
+    setState({
+      ...state,
+      email : e.target.value
+    })
   };
 
   const [phone_no, setphoneno] = useState("");
   const handleContactChange = (e) => {
     setphoneno(e.target.value);
+    setState({
+      ...state,
+      phone_no : e.target.value
+    })
   };
 
-  const [sports_center, setsportcenter] = useState("");
+  const [center_name, setsportcenter] = useState("");
   const handlesportcenterChange = (e) => {
     setsportcenter(e.target.value);
+    setState({
+      ...state,
+      center_name : e.target.value
+    })
   };
   const [location, setlocation] = useState("");
   const handlelocationChange = (e) => {
     setlocation(e.target.value);
+    setState({
+      ...state,
+      location : e.target.value
+    })
   };
 
-  const [minTime, setMinTime] = useState("");
-  const [openStamp, setOpenStamp] = useState("");
+  const onimageListChange = (e) => {
+    setState({
+      ...state,
+      logo: e.target.files[0],
+    });
+  };
+
+  const onFileListChange = (e) => {
+    setState({
+      ...state,
+      document: e.target.files[0],
+    });
+  };
+
 
   const handleopentimingsChange = (e) => {
     setopentimings(e.target.value);
-    minTime(opentimings);
-    setOpenStamp(Date.parse(opentimings));
-    setMinTime(timeStringToFloat(opentimings));
+    setState({
+      ...state,
+      opentimings : e.target.value
+    })
   };
-  function timeStringToFloat(opentimings) {
-    var hoursMinutes = opentimings.split(/[.:]/);
-    var hours = parseInt(hoursMinutes[0], 10);
-    var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
-    return hours + minutes / 60;
-  }
-  // const openDeci = timeStringToFloat(opentimings);
-  // setOpenStamp()
-  // console.log(, "timeeee");
-  // console.log(opentimings, "timeeee");
-  var closeDeci;
+
   const handlefirstnameChange = (e) => {
-    closeDeci = timeStringToFloat(e.target.value);
-    if (closeDeci - minTime >= 0) {
-      setclosetimings(e.target.value);
-    } else {
-      setclosetimings("");
-      swal.fire({
-        confirmButtonColor: "#232B58",
-        // title: 'Error!',
-        text: "Wrong Time Selected!!",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+    // console.log(e.target.value, opentimings, "testttt");
+    // closeDeci = timeStringToFloat(e.target.value);
+    // if (closeDeci - minTime >= 0) {
+    //   setclosetimings(e.target.value);
+    // } else {
+    //   setclosetimings("");
+    //   swal.fire({
+    //     confirmButtonColor: "#232B58",
+    //     // title: 'Error!',
+    //     text: "Wrong Time Selected!!",
+    //     icon: "error",
+    //     confirmButtonText: "OK",
+    //   });
+
+    setclosetimings(e.target.value);
+    setState({
+      ...state,
+      closetimings : e.target.value
+    })
     }
     //  const bool =  moment(e.target.value).isAfter(opentimings) ? setclosetimings(e.target.value) : "00:00";
 
     // (e.target.value) >= opentimings ? " " : setclosetimings(e.target.value);
-  };
-  console.log(closeDeci, minTime, "checkkkk");
+  
 
   const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token");
   const onSubmit = async (e) => {
     if (formik.isValid) {
+      console.log(state,"stateeee");
       setIsLoading(true);
 
+      for (let param in state){
+        formData.append(param, state[param]);
+      }
+      formData.append("role", "owner");
       await axios
         .post(
-          baseURL + "sports/owner/",
-          {
-            user: {
-              email: email,
-              name: name,
-              password: password,
-            },
-            profile: {
-              role: "owner",
-              phone_no: phone_no,
-            },
-            opentimings: opentimings,
-            closetimings: closetimings,
-            location: location,
-            // speciallsation: "strength"÷s,
-            sports_center: { center_name: sports_center },
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
+          baseURL + "sports/owner/", 
+          formData,
+          // { headers: { Authorization: `Bearer ${token}` } }
         )
         .then((res) => {
           setIsLoading(false);
@@ -198,7 +225,6 @@ const Addnew = () => {
           swal
             .fire({
               confirmButtonColor: "#232B58",
-              // title: 'Error!',
               text: "Sports Owner Added Successfully.",
               icon: "success",
               confirmButtonText: "OK",
@@ -212,11 +238,9 @@ const Addnew = () => {
           setIsLoading(false);
 
           if (error.response) {
-            // Request made and server responded
             seterror(error?.response?.data?.error);
             console.log(error.response.status);
           } else if (error.request) {
-            // The request was made but no response was received
             console.log(error.request);
           } else {
             console.log("Error", error.message);
@@ -224,7 +248,6 @@ const Addnew = () => {
 
           swal.fire({
             confirmButtonColor: "#232B58",
-            // title: 'Error!',
             text: "Something went wrong!!",
             icon: "error",
             confirmButtonText: "OK",
@@ -233,37 +256,13 @@ const Addnew = () => {
     }
   };
 
-  const [uploadedFile, setUploadedFile] = useState();
-  const [uploadedImage, setUploadedImage] = useState();
-
-  // const {getRootProps, getInputProps, isdragActive} = useDropZone({onDrop, accept: {'image/*':[]}})
-
-  const handleImage = (e) => {
-    setUploadedImage(e);
-    console.log(e.target);
-  };
-
-  const handleDocuments = (e) => {
-    setUploadedFile(e);
-    console.log(e.target);
-  };
-
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone_no: "",
-      sports_center: "",
-      location: "",
-      opentimings: "",
-      closetimings: "",
-      password: "",
-    },
+    initialValues: state,
     validateOnChange: true,
-    validateOnBlur: true,
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
+    // removeValidValue: ["logo", "document"],
   });
   const classes = useStyles();
   return (
@@ -275,8 +274,7 @@ const Addnew = () => {
             className={classes.root}
             style={{ padding: "20px", marginBottom: "80px" }}
           >
-            <form noValidate onSubmit={formik.handleSubmit} autoComplete="off">
-              {/* <form method="POST" noValidate onSubmit={} >  */}
+            <form method="POST" noValidate onSubmit={formik.handleSubmit} autoComplete="off">
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -374,7 +372,7 @@ const Addnew = () => {
               <Grid container spacing={2}>
                 <Grid item sm={12} md={4}>
                   <InputLabel
-                    id="sports_center"
+                    id="center_name"
                     className="Input"
                     style={{
                       color: "rgba(12,11,69,255)",
@@ -389,16 +387,16 @@ const Addnew = () => {
                     id="sport_center"
                     inputProps={{ maxLength: 50 }}
                     error={Boolean(
-                      formik.touched.sports_center &&
-                        formik.errors.sports_center
+                      formik.touched.center_name &&
+                        formik.errors.center_name
                     )}
                     margin="normal"
                     fullWidth
                     helperText={
-                      formik.touched.sports_center &&
-                      formik.errors.sports_center
+                      formik.touched.center_name &&
+                      formik.errors.center_name
                     }
-                    name="sports_center"
+                    name="center_name"
                     onBlur={formik.handleBlur}
                     onKeyUp={handlesportcenterChange}
                     onChange={formik.handleChange}
@@ -457,6 +455,7 @@ const Addnew = () => {
                   /> */}
 
                   <TextField
+                    style={{cursor : "pointer"}}
                     error={Boolean(
                       formik.touched.opentimings && formik.errors.opentimings
                     )}
@@ -475,7 +474,7 @@ const Addnew = () => {
                     }}
                     id="opentimings"
                     name="opentimings"
-                    defaultValue={closetimings}
+                    defaultValue="05:00"
                     min="00:00"
                     max="12:00"
                     required
@@ -495,17 +494,19 @@ const Addnew = () => {
                     Closing Time
                   </InputLabel>
                   <TextField
+                  style={{cursor : "pointer"}}
                     error={Boolean(
                       formik.touched.closetimings && formik.errors.closetimings
                     )}
                     helperText={
                       formik.touched.closetimings && formik.errors.closetimings
                     }
+                    // InputProps={{ inputProps: { min: 0, max: 10 } }}
                     type="time"
-                    // format="12-hour"
                     fullWidth
                     variant="outlined"
                     margin="normal"
+                    defaultValue="12:00"
                     onBlur={formik.handleBlur}
                     onChange={(e) => {
                       formik.handleChange(e);
@@ -514,9 +515,6 @@ const Addnew = () => {
                     onKeyUp={handlefirstnameChange}
                     id="closetimings"
                     name="closetimings"
-                    min={minTime}
-                    // defaultValue={opentimings}
-                    max="23:59"
                     required
                   ></TextField>
                 </Grid>
@@ -539,13 +537,13 @@ const Addnew = () => {
                     error={Boolean(
                       formik.touched.password && formik.errors.password
                     )}
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
                     margin="normal"
                     required
                     fullWidth
                     location="password"
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
                     onBlur={formik.handleBlur}
                     onKeyUp={handlepasswordonChange}
                     onChange={formik.handleChange}
@@ -568,50 +566,45 @@ const Addnew = () => {
                   >
                     Logo:
                   </InputLabel>
-                  {/* <div
+                  <div
                     style={{
                       height: "100px",
                       padding: "45px",
                       border: "1px solid ",
                       borderStyle: "dotted",
                       textAlign: "center",
+                      backgroundColor: "#E8F0FE",
                     }}
-                  > */}
-                  {/* <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */}
-                  <DropzoneArea
-                    acceptedFiles={["image/*"]}
-                    filesLimit={3}
-                    maxFileSize={1048576} //1 MB
-                    showFileNames={true}
-                    onChange={(e) => handleImage(e)}
-                    dropzoneText={"Upload Sports Logo"}
-                    style={{
-                      color: "rgba(12,11,69,255)",
-                      display: "flex",
-                      fontSize: "15px",
-                      fontWeight: "bold",
-                      paddingBottom: "15px",
-                    }}
-                  ></DropzoneArea>
+                  >
+                    <div className="profile-image">
+                      <label htmlFor="fileProfile">
+                        {/* {imageViewUrl ? (
+                          <img src={imageViewUrl ? imageViewUrl : ""} />
+                        ) : (
+                        )} */}
+                        <AccountCircle className="profile-dummy-ico" />
+                        <button type="button" className="chooseFileButton " style={{cursor : "pointer"}}>
+                          <CameraAlt />
+                          <input
+                            type="file"
+                            id="fileProfile"
+                            name="fileProfile"
+                            // multiple=""
+                            accept="image/*"
+                            onChange={onimageListChange}
+                            onBlur={formik.handleBlur}
+                          ></input>
+                        </button>
+                      </label>
+                    </div>
+                  </div>
                   <em>(Only *.jpeg and *.png images will be accepted)</em>
-                  {/* <MdFileUpload style={{ fontSize: "40px" }} /> */}
-
-                  {/* <Button
-                      variant="contained"
-                      component="label"
-                      style={{
-                        backgroundColor: "#232b58",
-                        textTransform: "capitalize",
-                        color: "white",
-                        borderRadius: "25px",
-                        width: "156px",
-                        padding: "8px",
-                      }}
-                    >
-                      Browse File
-                    </Button> */}
-
-                  {/* </div> */}
+                  {/* {formik.touched.logo &&
+                        formik.errors.logo && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.logo}
+                        </FormHelperText>
+                      )} */}
                 </Grid>
                 <Grid item sm={12} md={4}>
                   <InputLabel
@@ -626,47 +619,48 @@ const Addnew = () => {
                   >
                     Supporting Documents:
                   </InputLabel>
-                  {/* <div
+                  <div
                     style={{
                       height: "100px",
                       padding: "45px",
                       border: "1px solid ",
                       borderStyle: "dotted",
                       textAlign: "center",
+                      backgroundColor: "#E8F0FE",
                     }}
-                  > */}
-                  {/* <MdFileUpload style={{ fontSize: "40px" }} /> */}
-                  <DropzoneArea
-                    acceptedFiles={["/*"]}
-                    filesLimit={3}
-                    maxFileSize={5048576} //5 MB
-                    showFileNames={true}
-                    onChange={(e) => handleDocuments(e)}
-                    dropzoneText={"Upload Documents"}
                   >
-                  </DropzoneArea>
-                    <em>(Only *.pdf and *.docx, *.ods images will be accepted)</em>
+                    <div className="profile-Documents"  >
+                      <label htmlFor="fileDocs">
+                        {/* {fileViewUrl ? (
+                          <img src={fileViewUrl ? fileViewUrl : ""} />
+                          ) : (
+                            
+                          )} */}
+                        <AttachFileIcon className="profile-dummy-ico" />
+                        <button type="button"  className="chooseFileButton2 " style={{cursor : "pointer"}}>
+                          <CameraAlt />
+                          <input
+                            type="file"
+                            id="fileDocs"
+                            name="fileDocs"
+                            // multiple=""
+                            accept="file_extension/*"
+                            onChange={onFileListChange}
+                          ></input>
+                        </button>
+                      </label>
+                    </div>
+                  </div>
 
-                  {/* <Button
-                    variant="contained"
-                    component="label"
-                    style={{
-                      backgroundColor: "#232b58",
-                      textTransform: "capitalize",
-                      color: "#fff",
-                      borderRadius: "25px",
-                      width: "156px",
-                      padding: "8px",
-                    }}
-                  >
-                    Browse File
-                    <input type="file" hidden />
-                  </Button> */}
-                  {/* </div> */}
-                  {/* <p style={{ marginTop: "5px" }}>
-                      Supporting Documents
-                    </p> */}
+                  <em>(Only *.pdf and *.docx, *.ods files will be accepted)</em>
+                  {/* {formik.touched.document &&
+                        formik.errors.document && (
+                        <FormHelperText className="Mui-error">
+                          {formik.errors.document}
+                        </FormHelperText>
+                      )} */}
                 </Grid>
+
                 <Grid item sm={12} md={12}>
                   <div style={{ textAlign: "center", marginTop: "100px" }}>
                     <Button
@@ -682,6 +676,7 @@ const Addnew = () => {
                         fontSize: "17px",
                       }}
                       // onClick={(e) => onSubmit(e)}
+                      className="btn-submit"
                     >
                       {isLoading === true ? <CircularProgress Shrink /> : ""}
                       Submit
@@ -697,3 +692,88 @@ const Addnew = () => {
   );
 };
 export default Addnew;
+
+{
+  /* <p style={{ marginTop: "5px" }}>Upload Sports Logo</p> */
+}
+{
+  /* <DropzoneArea
+acceptedFiles={["image/*"]}
+filesLimit={3}
+maxFileSize={1048576} //1 MB
+  showFileNames={true}
+  onChange={(e) => handleImage(e)}
+  dropzoneText={"Upload Sports Logo"}
+  style={{
+    color: "rgba(12,11,69,255)",
+    display: "flex",
+    fontSize: "15px",
+    fontWeight: "bold",
+    paddingBottom: "15px",
+  }}
+></DropzoneArea> */
+}
+{
+  /* <MdFileUpload style={{ fontSize: "40px" }} /> */
+}
+
+{
+  /* <Button
+variant="contained"
+component="label"
+style={{
+  backgroundColor: "#232b58",
+  textTransform: "capitalize",
+  color: "white",
+  borderRadius: "25px",
+  width: "156px",
+  padding: "8px",
+}}
+>
+Browse File
+</Button> */
+}
+
+{
+  /* </div> */
+}
+
+{
+  /* <Button
+                    variant="contained"
+                    component="label"
+                    style={{
+                      backgroundColor: "#232b58",
+                      textTransform: "capitalize",
+                      color: "#fff",
+                      borderRadius: "25px",
+                      width: "156px",
+                      padding: "8px",
+                    }}
+                  >
+                    Browse File
+                    <input type="file" hidden />
+                  </Button> */
+}
+{
+  /* </div> */
+}
+{
+  /* <p style={{ marginTop: "5px" }}>
+                      Supporting Documents
+                    </p> */
+}
+
+{
+  /* <MdFileUpload style={{ fontSize: "40px" }} /> */
+}
+{
+  /* <DropzoneArea
+                    acceptedFiles={["/*"]}
+                    filesLimit={3}
+                    maxFileSize={5048576} //5 MB
+                    showFileNames={true}
+                    onChange={(e) => handleDocuments(e)}
+                    dropzoneText={"Upload Documents"}
+                  ></DropzoneArea> */
+}

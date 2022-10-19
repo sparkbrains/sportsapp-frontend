@@ -25,7 +25,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from '@mui/material/Paper';
-
+import Pagination from "../../Pagination";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -110,7 +110,7 @@ export default function WidgetLg() {
 
   const loadUsers = async () => {
     const result = await axios.get(baseURL + "sports/categories/");
-    setData(result.data.reverse());
+    setData(result.data);
   };
   const deleteUser = async (id) => {
     await axios
@@ -234,8 +234,7 @@ export default function WidgetLg() {
               </TableHead>
 
               <TableBody>
-                {data
-                  .filter((val) => {
+                {data?.results?.filter((val) => {
                     if (searchTerm === "") {
                       return val;
                     } else if (
@@ -310,6 +309,7 @@ export default function WidgetLg() {
                 </DialogActions>
               </Dialog>
             </Table>
+          <Pagination data= {data} />
           </TableContainer>
         </Paper>
       </div>

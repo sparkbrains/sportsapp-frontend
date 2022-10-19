@@ -316,6 +316,8 @@ export default function SignInSide() {
                         padding: "11px",
                         fontSize: "17px",
                       }}
+                  className="btn-submit"
+
                     >
                       ADD CATEGORY
                     </Button>

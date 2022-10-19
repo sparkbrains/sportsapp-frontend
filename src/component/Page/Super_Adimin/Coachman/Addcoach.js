@@ -144,7 +144,7 @@ const AddCoach = () => {
           speciallsation: speciallsation,
           sports_center: sportsCenter,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        // { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((f) => {
     setIsLoading(false);
@@ -522,6 +522,8 @@ const AddCoach = () => {
                         padding: "13px",
                         fontSize: "17px",
                       }}
+                  className="btn-submit"
+
                     >
                   {isLoading === true ? <CircularProgress Shrink /> : ""}
 

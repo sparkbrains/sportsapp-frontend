@@ -306,6 +306,8 @@ export default function WidgetLg() {
                     background: "none",
                     minWidth: "0px",
                   }}
+                  className="btn-submit"
+
                 >
                   <RemoveRedEye style={{ color: "#17a248" }} />
                 </Button>

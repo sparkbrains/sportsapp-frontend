@@ -288,6 +288,8 @@ const Addsportscenter = () => {
                             padding: "13px",
                             fontSize:"17px"
                           }}
+                  className="btn-submit"
+
                         >
                           ADD SPORT CENTER
                         </Button>

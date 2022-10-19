@@ -308,6 +308,8 @@ export default function CenteredGrid() {
                         width: "192Px",
                         padding: "11px",
                       }}
+                  className="btn-submit"
+
                     >
                       Save
                     </Button>

@@ -83,8 +83,8 @@ export default function Editcoach() {
 
   const onSubmit = async (e) => {
     // e.preventDefault();
-  console.log(editcoach,"user====");
-  console.log(formik,"user====");
+  // console.log(editcoach,"user====");
+  // console.log(formik,"user====");
     
     if (formik.isValid) {
     setIsLoading(true);
@@ -439,6 +439,8 @@ export default function Editcoach() {
                         padding: "11px",
                       }}
                       onClick={(e) => onSubmit(e)}
+                  className="btn-submit"
+
                     >
                   {isLoading === true ? <CircularProgress Shrink /> : ""}
 
