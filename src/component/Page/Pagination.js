@@ -51,6 +51,7 @@
 // }
 
 import React, { useState, useEffect } from "react";
+import WidgetLg from '../Page/Super_Adimin/Categoryman/Data';
 
 const Pagination = ({ data }) => {
   const [totalPages, setTotalPages] = useState(0);
@@ -62,38 +63,39 @@ const Pagination = ({ data }) => {
   const [nextPageData, setNextPageData] = useState();
   const [prevPageData, setPrevPageData] = useState();
 
-  const [isPrevDisable, setIsPrevdisable] = useState(false);
-  const [isNextDisable, setIsNextdisable] = useState(false);
+  const [isPrevDisable, setIsPrevDisable] = useState(false);
+  const [isNextDisable, setIsNextDisable] = useState(false);
 
   const getPrevPage = () => {
-    setIsNextdisable(false);
+    setIsNextDisable(false);
     if (currentPage > 1) {
-      setIsPrevdisable(false);
+      setIsPrevDisable(false);
       setCurrentPage(currentPage - 1);
       setPrevPageData(data?.previous);
     }
     else if(currentPage === 1){
-      setIsPrevdisable(true);
-      setIsNextdisable(false);
+      setIsPrevDisable(true);
+      setIsNextDisable(false);
     }
     else{
-      setIsPrevdisable(false);
-      setIsNextdisable(false);
+      setIsPrevDisable(false);
+      setIsNextDisable(false);
     }
   };
 
   const getNextPage = () => {
-    setIsPrevdisable(false);
+    setIsPrevDisable(false);
     if (currentPage < totalPages) {
-      setIsNextdisable(false);
+      setIsNextDisable(false);
       setCurrentPage(currentPage + 1);
       setNextPageData(data?.next);
+
     } else if(currentPage === totalPages){
-      setIsNextdisable(true);
+      setIsNextDisable(true);
     }
     else{
-      setIsPrevdisable(false);
-      setIsNextdisable(false);
+      setIsPrevDisable(false);
+      setIsNextDisable(false);
     }
   };
 
