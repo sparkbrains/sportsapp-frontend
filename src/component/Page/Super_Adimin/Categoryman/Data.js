@@ -309,7 +309,7 @@ export default function WidgetLg() {
                 </DialogActions>
               </Dialog>
             </Table>
-          <Pagination data= {data} />
+          {/* <Pagination data= {data} /> */}
           </TableContainer>
         </Paper>
       </div>
