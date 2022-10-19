@@ -34,25 +34,25 @@ const Pagination = ({ data,sendPageNumber }) => {
   return (
     <>
       <div className="pagination-btn">
-        {isPrevDisable ? "" : <button
+        <button disabled={isPrevDisable} className="page-btn"
           onClick={(e) => {
             getPrevPage(e);
           }}
         >
           Prev
-        </button>}
-        <ul>
+        </button>
+        <ul className="ul-page">
         {
-          [...Array(totalPages)].map((d,key)=> <li onClick={()=>{setCurrentPage(key + 1);sendPageNumber(key + 1)}}>{key+1}</li>)
+          [...Array(totalPages)].map((d,key)=> <li className="li-btn" onClick={()=>{setCurrentPage(key + 1);sendPageNumber(key + 1)}}>{key+1}</li>)
         }
         </ul>
-        {isNextDisable ? "" : <button
-          onClick={(e) => {
+        <button disabled={isNextDisable}
+          className="page-btn next" onClick={(e) => {
             getNextPage(e);
           }}
         >
           Next
-        </button>}
+        </button>
       </div>
     </>
   );

@@ -147,8 +147,8 @@ export default function WidgetLg() {
     loadUsers();
   };
 
-  const loadUsers = async () => {
-    const result = await axios.get(baseURL + "sports/coach/");
+  const loadUsers = async (page) => {
+    const result = await axios.get(baseURL + `sports/coach/${page?'?page='+page:''}`);
     setData(result.data);
     // console.log(());
   };
@@ -305,7 +305,7 @@ export default function WidgetLg() {
               </Dialog>
             </Table>
           </TableContainer>
-          <Pagination data ={data} />
+          <Pagination data={data} sendPageNumber={loadUsers}/>
         </Paper>
       </div>
     </>

@@ -350,7 +350,7 @@ export default function Sportscenterowner() {
             </Table>
           </TableContainer>
         </div>
-        {/* <Pagination data={data}/> */}
+        <Pagination data={data} sendPageNumber={loadUsers}/>
       </Container>
     </AppLayout>
   );

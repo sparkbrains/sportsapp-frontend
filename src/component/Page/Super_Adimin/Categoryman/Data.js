@@ -309,8 +309,8 @@ export default function WidgetLg() {
                 </DialogActions>
               </Dialog>
             </Table>
-          <Pagination data={data} sendPageNumber={loadUsers}/>
           </TableContainer>
+          <Pagination data={data} sendPageNumber={loadUsers}/>
         </Paper>
       </div>
     </>
